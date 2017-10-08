@@ -20,16 +20,16 @@ export default {
         }
     },
     mounted() {
-        EventHub.listen('new_locale_added', () => {
-            this.getFileContent()
-        })
-
         EventHub.listen('ls-file', (data) => {
             if (data.tab == this.getTabName()) {
                 setTimeout(() => {
                     this.selectedFile = data.val
                 }, 50)
             }
+        })
+
+        EventHub.listen('new_locale_added', () => {
+            this.getFileContent()
         })
 
         EventHub.listen('new_file_added', (data) => {
@@ -47,20 +47,11 @@ export default {
         this.tableColumnResize()
     },
     activated() {
-        EventHub.fire('locales_fetched', {
-            tab: this.getTabName(),
-            val: this.locales
-        })
-        EventHub.fire('files_fetched', {
-            tab: this.getTabName(),
-            val: this.files
-        })
-        EventHub.fire('dirs_fetched', this.dirs)
-        EventHub.fire('dir_got_selected', this.selectedDir)
-        EventHub.fire('file_got_selected', {
-            tab: this.getTabName(),
-            val: this.selectedFile
-        })
+        this.$parent.dirsList = this.dirs
+        this.$parent.selectedDirName = this.selectedDir
+        this.$parent.localesList = this.locales
+        this.$parent.selectedFileName = this.selectedFile
+        this.$parent.filesList = this.files
     },
     methods: {
         // table ops
@@ -326,6 +317,9 @@ export default {
         },
         getTabName() {
             return this.$options.name
+        },
+        trans(key) {
+            return this.$parent.trans(key) || ''
         }
     },
     watch: {
@@ -337,26 +331,17 @@ export default {
             })
         },
         locales(val) {
-            EventHub.fire('locales_fetched', {
-                tab: this.getTabName(),
-                val: val
-            })
+            this.$parent.localesList = val
         },
         selectedFile(val) {
-            EventHub.fire('file_got_selected', {
-                tab: this.getTabName(),
-                val: val
-            })
+            this.$parent.selectedFileName = val
 
             if (val) {
                 this.getFileContent()
             }
         },
         files(val) {
-            EventHub.fire('files_fetched', {
-                tab: this.getTabName(),
-                val: val
-            })
+            this.$parent.filesList = val
         }
     }
 }

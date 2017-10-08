@@ -44,10 +44,11 @@ export default {
             return this.dirsList && this.dirsList.includes(this.new_vendor)
         }
     },
+    beforeMount() {
+        this.getLingoTrans()
+    },
     mounted() {
         this.preVisited()
-        this.getLingoTrans()
-        this.updateDataEvents()
     },
     updated() {
         this.reflowTable()
@@ -85,33 +86,6 @@ export default {
                 }
             }).fail(() => {
                 this.failedAjax()
-            })
-        },
-        updateDataEvents() {
-            EventHub.listen('locales_fetched', (data) => {
-                if (data.tab == this.activeTab) {
-                    this.localesList = data.val
-                }
-            })
-
-            EventHub.listen('files_fetched', (data) => {
-                if (data.tab == this.activeTab) {
-                    this.filesList = data.val
-                }
-            })
-
-            EventHub.listen('dirs_fetched', (val) => {
-                this.dirsList = val
-            })
-
-            EventHub.listen('dir_got_selected', (val) => {
-                this.selectedDirName = val
-            })
-
-            EventHub.listen('file_got_selected', (data) => {
-                if (data.tab == this.activeTab) {
-                    this.selectedFileName = data.val
-                }
             })
         },
 
@@ -159,6 +133,9 @@ export default {
                 $('table').trigger('reflow')
             }, 10)
         },
+        trans(key) {
+            return this.lingoTrans[key][this.currentLocale]
+        },
 
         // notifs
         showNotif(msg, s = 'success') {
@@ -188,11 +165,10 @@ export default {
             })
         },
         failedAjax() {
-            let msg = this.lingoTrans.ajax_fail[this.currentLocale] || 'Ajax Call Failed'
-            this.showNotif(msg, 'black')
+            this.showNotif(this.trans('ajax_fail') || 'Ajax Call Failed', 'black')
         },
         missingVal(msg = null) {
-            this.showNotif(msg || this.lingoTrans.no_val[this.currentLocale] || 'Missing Value', 'warning')
+            this.showNotif(msg || this.trans('no_val') || 'Missing Value', 'warning')
         }
     },
     watch: {
