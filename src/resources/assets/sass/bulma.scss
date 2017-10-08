@@ -1,0 +1,15 @@
+@import './style';
+
+.tags {
+    display: inline-flex;
+    margin-bottom: 0 !important;
+}
+
+.tag {
+    margin-bottom: 0 !important;
+}
+
+.tag.is-warning,
+.tag.is-danger {
+    cursor: pointer;
+}
