@@ -21,4 +21,5 @@ return [
   'save' => 'Save Changes',
   'reset' => 'Reset Changes',
   'select_dir' => 'Select a Package',
+  'key' => 'Key',
 ];

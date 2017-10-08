@@ -5,7 +5,7 @@
             <div class="control has-icons-left">
                 <div class="select">
                     <select v-model="selectedDir">
-                        <option value="" disabled>{{ $parent.lingoTrans.select_dir[$parent.currentLocale] }}</option>
+                        <option value="" disabled>{{ $parent.lingoTrans.select_dir[$parent.currentLocale] || '' }}</option>
                         <option v-for="(d, i) in dirs" :key="i">{{ d }}</option>
                     </select>
                 </div>
@@ -27,7 +27,7 @@
                 <div class="control has-icons-left">
                     <div class="select">
                         <select v-model="selectedFile">
-                            <option value="" disabled>{{ $parent.lingoTrans.select_file[$parent.currentLocale] }}</option>
+                            <option value="" disabled>{{ $parent.lingoTrans.select_file[$parent.currentLocale] || '' }}</option>
                             <option v-for="(f, i) in files" :key="i">{{ f }}</option>
                         </select>
                     </div>
@@ -46,17 +46,17 @@
                 <!-- warning -->
                 <article class="message is-warning" v-if="hasNesting">
                     <div class="message-header">
-                        <p>{{ $parent.lingoTrans.warn[$parent.currentLocale] }}</p>
+                        <p>{{ $parent.lingoTrans.warn[$parent.currentLocale] || '' }}</p>
                         <button class="delete" aria-label="delete" @click="hasNesting = false"></button>
                     </div>
-                    <div class="message-body">{{ $parent.lingoTrans.warn_msg[$parent.currentLocale] }}</div>
+                    <div class="message-body">{{ $parent.lingoTrans.warn_msg[$parent.currentLocale] || '' }}</div>
                 </article>
 
                 <!-- data -->
                 <table class="table is-fullwidth is-bordered">
                     <thead>
                         <tr class="is-unselectable">
-                            <th width="1%">key</th>
+                            <th width="1%">{{ $parent.lingoTrans.key[$parent.currentLocale] || '' }}</th>
                             <th v-for="(l, i) in locales" :key="i">
                                 <div class="tags has-addons">
                                     <span class="tag is-dark is-medium">{{ l }}</span>
@@ -65,7 +65,7 @@
                                     </span>
                                 </div>
                             </th>
-                            <th>{{ $parent.lingoTrans.ops[$parent.currentLocale] }}</th>
+                            <th>{{ $parent.lingoTrans.ops[$parent.currentLocale] || '' }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -98,7 +98,7 @@
                         <!-- nothing found -->
                         <tr v-if="dontHaveData()">
                             <td :colspan="locales.length + 2">
-                                {{ $parent.lingoTrans.no_data[$parent.currentLocale] }}
+                                {{ $parent.lingoTrans.no_data[$parent.currentLocale] || '' }}
                             </td>
                         </tr>
                     </tbody>
@@ -109,19 +109,19 @@
                     <div class="level-right">
                         <div class="level-item">
                             <button class="button is-info" @click.prevent="addNewItem()">
-                                {{ $parent.lingoTrans.add_new[$parent.currentLocale] }}
+                                {{ $parent.lingoTrans.add_new[$parent.currentLocale] || '' }}
                             </button>
                         </div>
                     </div>
                     <div class="level-left">
                         <div class="level-item">
                             <button class="button is-success" :disabled="!dataChanged" @click="submitNewData()">
-                                {{ $parent.lingoTrans.save[$parent.currentLocale] }}
+                                {{ $parent.lingoTrans.save[$parent.currentLocale] || '' }}
                             </button>
                         </div>
                         <div class="level-item">
                             <button class="button" :disabled="!dataChanged" @click="resetData()">
-                                {{ $parent.lingoTrans.reset[$parent.currentLocale] }}
+                                {{ $parent.lingoTrans.reset[$parent.currentLocale] || '' }}
                             </button>
                         </div>
                     </div>

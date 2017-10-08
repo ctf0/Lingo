@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/7388088/31319438-bcfac926-ac63-11e7-8acc-60ac45aa465b.png">
+</p>
+
 # Intro
 
 The currently available Lang managers are based on parsing translation files into the database then save back to files again, which am not a fan of.
@@ -38,11 +42,11 @@ npm install vue vuemit vue-notif --save
 
 ## Features
 
-- add/remove "vendor/locale/file"
-- show/hide different elements to avoid noise & keep the user focused
-- use localeStorage to remember opened "tab/folder/files"
-- validate for "vendor/locale/file" existence on the fly
+- add/remove "vendor/locale/file/item"
 - show guiding steps while adding new vendor for better UX.
+- validate for "vendor/locale/file" existence on the fly
+- use localeStorage to remember opened "tab/folder/files"
+- show/hide different elements to avoid noise & keep the user focused
 
 # Usage
 
