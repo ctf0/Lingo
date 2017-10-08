@@ -12,4 +12,13 @@ return [
   'v_tab' => 'Vendor',
   'ajax_fail' => 'Ajax Call Failed',
   'no_val' => 'Maybe You Should Add Something First',
+  'select_file' => 'Select a File',
+  'warn' => 'Warning',
+  'warn_msg' => 'Nested Arrays Detected',
+  'ops' => 'Operations',
+  'no_data' => 'No Data To Display',
+  'add_new' => 'Add New Key',
+  'save' => 'Save Changes',
+  'reset' => 'Reset Changes',
+  'select_dir' => 'Select a Package',
 ];

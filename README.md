@@ -2,7 +2,7 @@
 
 The currently available Lang managers are based on parsing translation files into the database then save back to files again, which am not a fan of.
 
-So i decided to make **Lingo** which is file based only which works as
+So i decided to make **Lingo** which is file based only and the work flow is
 > + get all the folders in `resources/lang`
 > + divide them into `default` & `vendor`
 > + show the **folder, files, locales** based on active tab `default` or `vendor`
@@ -36,6 +36,14 @@ npm install vue vuemit vue-notif --save
     + package assets compiling to `webpack.mix.js`
     + `MIX_LINGO_FRAMEWORK=bulma` to `.env`
 
+## Features
+
+- add/remove "vendor/locale/file"
+- show/hide different elements to avoid noise & keep the user focused
+- use localeStorage to remember opened "tab/folder/files"
+- validate for "vendor/locale/file" existence on the fly
+- show guiding steps while adding new vendor for better UX.
+
 # Usage
 
 - for styling we use ***bulma***
@@ -53,6 +61,10 @@ npm install vue vuemit vue-notif --save
 
 ```js
 require('./../vendor/Lingo/js/lingo')
+
+new Vue({
+    el: '#app'
+})
 ```
 
 - now visit `localhost:8000/lingo`
