@@ -2,16 +2,11 @@
     <img src="https://user-images.githubusercontent.com/7388088/31319438-bcfac926-ac63-11e7-8acc-60ac45aa465b.png">
 </p>
 
-# Intro
+# Lingo
 
-The currently available Lang managers are based on parsing translation files into the database then save back to files again, which am not a fan of.
+is a file based translation manager, which unlike other Lang managers dont need a database connection to handle the translation.
 
-So i decided to make **Lingo** which is file based only and the work flow is
-> + get all the folders in `resources/lang`
-> + divide them into `default` & `vendor`
-> + show the **folder, files, locales** based on active tab `default` or `vendor`
-
-# Installation
+## Installation
 
 - `composer require ctf0/lingo`
 
@@ -45,10 +40,10 @@ npm install vue vuemit vue-notif --save
 - add/remove "vendor/locale/file/item"
 - show guiding steps while adding new vendor for better UX.
 - validate for "vendor/locale/file" existence on the fly
-- use localeStorage to remember opened "tab/folder/files"
+- use localeStorage to remember opened "tab/vendor/files"
 - show/hide different elements to avoid noise & keep the user focused
 
-# Usage
+## Usage
 
 - for styling we use ***bulma***
 
@@ -73,7 +68,7 @@ new Vue({
 
 - now visit `localhost:8000/lingo`
 
-# Notes
+## Notes
 
 - we use [Laravel Langman](https://github.com/themsaid/laravel-langman) for scanning for missing translation keys, but if you have better alternative plz open a ticket.
 

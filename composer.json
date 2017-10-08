@@ -31,9 +31,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ctf0\\Lingo\\LingoServiceProvider",
-                "Themsaid\\Langman\\LangmanServiceProvider",
-                "ctf0\\PackageChangeLog\\PackageChangeLogServiceProvider"
+                "ctf0\\Lingo\\LingoServiceProvider"
             ]
         },
         "changeLog": "logs"
