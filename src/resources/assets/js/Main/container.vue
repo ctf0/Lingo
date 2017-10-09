@@ -1,12 +1,12 @@
 <script>
-import Ops from './../mixins/main-forms'
-import DefaultTab from './default'
-import VendorTab from './vendor'
+import Forms from './forms'
+import DefaultTab from './../Tabs/default'
+import VendorTab from './../Tabs/vendor'
 
 export default {
     components: {DefaultTab, VendorTab},
     name: 'lingo',
-    mixins: [Ops],
+    mixins: [Forms],
     props: [
         'currentLocale',
         'scanForMissingRoute',
@@ -44,7 +44,7 @@ export default {
             return this.dirsList && this.dirsList.includes(this.new_vendor)
         }
     },
-    beforeMount() {
+    created() {
         this.getLingoTrans()
     },
     mounted() {
@@ -118,9 +118,7 @@ export default {
         // utils
         updateLs(obj) {
             let oldLs = JSON.parse(localStorage.getItem('lingo')) || {}
-
-            oldLs[Object.keys(obj)[0]] = Object.values(obj)[0]
-
+            Object.assign(oldLs, obj)
             localStorage.setItem('lingo', JSON.stringify(oldLs))
         },
         resetAll(items) {

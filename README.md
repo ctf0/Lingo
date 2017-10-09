@@ -50,8 +50,8 @@ npm install vue vuemit vue-notif --save
 > ***Or Use another Framework***
 >
 > - duplicate `resources/views/vendor/Lingo/lingo-bulma` and rename it to the framework you want ex.`lingo-bootstrap`
-> - duplicate `assets/vendor/Lingo/js/bulma` and rename it to the framework you want ex.`bootstrap`
 > - duplicate `assets/vendor/Lingo/sass/bulma.scss` and rename it to the framework you want ex.`bootstrap.scss`
+> - edit `assets/vendor/Lingo/js/shared/content.vue` & `assets/vendor/Lingo/js/Tabs/vendor.vue`
 > - set `MIX_LINGO_FRAMEWORK` to the framework name ex.`MIX_LINGO_FRAMEWORK=bootstrap`
 > - start editing the new files.
 
