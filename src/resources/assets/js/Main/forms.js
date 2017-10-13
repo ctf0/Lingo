@@ -3,6 +3,7 @@ export default {
         scanForMissing() {
             $.get(this.scanForMissingRoute, (data) => {
                 this.showNotif(data.message)
+                EventHub.fire('scan_complete', {tab: this.activeTab})
             }).fail(() => {
                 this.failedAjax()
             })
@@ -17,13 +18,13 @@ export default {
                 'dir_name' : this.selectedDirName || null
             }, (data) => {
 
-                if (data.success) {
-                    this.showNotif(data.message)
-                    this.resetAll(['new_locale'])
-                    EventHub.fire('new_locale_added')
-                } else {
-                    this.showNotif(data.message, 'danger')
+                if (!data.success) {
+                    return this.showNotif(data.message, 'danger')
                 }
+
+                this.showNotif(data.message)
+                this.resetAll(['new_locale'])
+                EventHub.fire('new_locale_added', {tab: this.activeTab})
 
             }).fail(() => {
                 this.failedAjax()
@@ -41,17 +42,17 @@ export default {
                 'dir_name' : this.selectedDirName || null
             }, (data) => {
 
-                if (data.success) {
-                    this.showNotif(data.message)
-                    this.resetAll(['new_file', 'filesList'])
-
-                    EventHub.fire('new_file_added', {
-                        tab: this.activeTab,
-                        val: file_name
-                    })
-                } else {
-                    this.showNotif(data.message, 'danger')
+                if (!data.success) {
+                    return this.showNotif(data.message, 'danger')
                 }
+
+                this.showNotif(data.message)
+                this.resetAll(['new_file', 'filesList'])
+
+                EventHub.fire('new_file_added', {
+                    tab: this.activeTab,
+                    val: file_name
+                })
 
             }).fail(() => {
                 this.failedAjax()
@@ -68,13 +69,13 @@ export default {
                 'dir_name' : vendor_name
             }, (data) => {
 
-                if (data.success) {
-                    this.showNotif(data.message)
-                    this.resetAll(['new_vendor'])
-                    EventHub.fire('new_vendor_added', vendor_name)
-                } else {
-                    this.showNotif(data.message, 'danger')
+                if (!data.success) {
+                    return this.showNotif(data.message, 'danger')
                 }
+
+                this.showNotif(data.message)
+                this.resetAll(['new_vendor'])
+                EventHub.fire('new_vendor_added', vendor_name)
 
             }).fail(() => {
                 this.failedAjax()

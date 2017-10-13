@@ -13,25 +13,25 @@ export default {
                     'dir_name': currentDir || null
                 }, (data) => {
 
-                    if (data.success) {
-                        this.parentMethod('showNotif', data.message)
-                        this.parentMethod('resetAll', ['selectedFile', 'selectedDir'])
-                        this.resetData()
-
-                        if (lastItem) {
-                            this.selectedDir = currentDir
-
-                            // remove locales as they are useless
-                            return this.locales.forEach((e) => {
-                                this.removeLocale(e, 'y')
-                            })
-                        }
-
-                        this.selectedDir = currentDir
-                        this.parentMethod('getFiles')
-                    } else {
-                        this.parentMethod('showNotif', (data.message, 'danger'))
+                    if (!data.success) {
+                        return this.parentMethod('showNotif', (data.message, 'danger'))
                     }
+
+                    this.parentMethod('showNotif', data.message)
+                    this.parentMethod('resetAll', ['selectedFile', 'selectedDir'])
+                    this.resetData()
+
+                    if (lastItem) {
+                        this.selectedDir = currentDir
+
+                        // remove locales as they are useless
+                        return this.locales.forEach((e) => {
+                            this.removeLocale(e, 'y')
+                        })
+                    }
+
+                    this.selectedDir = currentDir
+                    this.parentMethod('getFiles')
 
                 }).fail(() => {
                     this.parentMethod('failedAjax')
@@ -45,16 +45,16 @@ export default {
                     'dir_name': this.selectedDir || null
                 }, (data) => {
 
-                    if (data.success) {
-                        if (!override) {
-                            this.parentMethod('showNotif', data.message)
-                        }
-
-                        this.locales.splice(locale, 1)
-                        this.parentMethod('getFileContent')
-                    } else {
-                        this.parentMethod('showNotif', (data.message, 'danger'))
+                    if (!data.success) {
+                        return this.parentMethod('showNotif', (data.message, 'danger'))
                     }
+
+                    if (!override) {
+                        this.parentMethod('showNotif', data.message)
+                    }
+
+                    this.locales.splice(locale, 1)
+                    this.parentMethod('getFileContent')
 
                 }).fail(() => {
                     this.parentMethod('failedAjax')
@@ -72,13 +72,13 @@ export default {
                 data: this.formatData()
             }, (data) => {
 
-                if (data.success) {
-                    this.parentMethod('showNotif', data.message)
-                    this.dataChanged = false
-                    this.selectedFileData = Object.assign({}, this.selectedFileDataClone)
-                } else {
-                    this.parentMethod('showNotif', (data.message, 'danger'))
+                if (!data.success) {
+                    return this.parentMethod('showNotif', (data.message, 'danger'))
                 }
+
+                this.parentMethod('showNotif', data.message)
+                this.dataChanged = false
+                this.selectedFileData = Object.assign({}, this.selectedFileDataClone)
 
             }).fail(() => {
                 this.parentMethod('failedAjax')

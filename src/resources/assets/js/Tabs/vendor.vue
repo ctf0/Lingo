@@ -98,22 +98,22 @@ export default {
                     'dir_name' : this.selectedDir
                 }, (data) => {
 
-                    if (data.success) {
-                        this.showNotif(data.message)
-
-                        this.resetAll([
-                            'selectedDir',
-                            'selectedFile',
-                            'locales',
-                            'files',
-                            'selectedFileData',
-                            'selectedFileDataClone'
-                        ])
-
-                        this.getDirs()
-                    } else {
-                        this.showNotif(data.message, 'danger')
+                    if (!data.success) {
+                        return this.showNotif(data.message, 'danger')
                     }
+
+                    this.showNotif(data.message)
+
+                    this.resetAll([
+                        'selectedDir',
+                        'selectedFile',
+                        'locales',
+                        'files',
+                        'selectedFileData',
+                        'selectedFileDataClone'
+                    ])
+
+                    this.getDirs()
 
                 }).fail(() => {
                     this.failedAjax()

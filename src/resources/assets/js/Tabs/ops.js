@@ -28,8 +28,10 @@ export default {
             }
         })
 
-        EventHub.listen('new_locale_added', () => {
-            this.getFileContent()
+        EventHub.listen(['scan_complete', 'new_locale_added'], (data) => {
+            if (data.tab == this.getTabName() && this.selectedFile !== '') {
+                this.getFileContent()
+            }
         })
 
         EventHub.listen('new_file_added', (data) => {
@@ -57,14 +59,14 @@ export default {
                 'dir_name': this.selectedDir || null
             }, (data) => {
 
-                if (data.success) {
-                    this.locales = data.message.locales
-                    this.selectedFileData = data.message.all
-                    this.selectedFileDataClone = Object.assign({}, this.selectedFileData)
-                    this.hasNesting = data.message.nesting
-                } else {
-                    this.resetAll(['selectedFile', 'files'])
+                if (!data.success) {
+                    return this.resetAll(['selectedFile', 'files'])
                 }
+
+                this.locales = data.message.locales
+                this.selectedFileData = data.message.all
+                this.selectedFileDataClone = Object.assign({}, this.selectedFileData)
+                this.hasNesting = data.message.nesting
 
             }).fail(() => {
                 this.$parent.failedAjax()
