@@ -87,7 +87,7 @@
             <div class="level">
                 <div class="level-right">
                     <div class="level-item">
-                        <button class="button is-info" @click.prevent="addNewItem()">
+                        <button class="button is-link" @click.prevent="addNewItem()">
                             {{ trans('add_new') }}
                         </button>
                     </div>

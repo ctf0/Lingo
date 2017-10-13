@@ -5,7 +5,7 @@
     {{-- FW --}}
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     {{-- bulma --}}
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.5.3/css/bulma.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
     {{-- Main styles --}}
     <link rel="stylesheet" href="{{ mix('assets/vendor/Lingo/style.css') }}"/>
 </head>
@@ -45,7 +45,7 @@
                                     </h3>
                                 </div>
                                 <div class="column">
-                                    <button @click="scanForMissing()" class="button is-info">{{ trans('Lingo::messages.scan_btn') }}</button>
+                                    <button @click="scanForMissing()" class="button is-link">{{ trans('Lingo::messages.scan_btn') }}</button>
                                 </div>
                             </div>
 
