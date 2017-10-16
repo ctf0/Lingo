@@ -15,7 +15,6 @@ export default {
             selectedFileDataClone: '',
             newKeys: '',
             dataChanged: false,
-            hasNesting: false,
             newItemCounter: 0
         }
     },
@@ -24,20 +23,30 @@ export default {
             if (data.tab == this.getTabName()) {
                 setTimeout(() => {
                     this.selectedFile = data.val
+
+                    if (data.val == '' && this.getTabName().includes('vendor')) {
+                        this.$parent.filesList = []
+                    }
                 }, 50)
             }
         })
 
-        EventHub.listen(['scan_complete', 'new_locale_added'], (data) => {
+        EventHub.listen('scan_complete', (data) => {
             if (data.tab == this.getTabName() && this.selectedFile !== '') {
                 this.getFileContent()
             }
         })
 
-        EventHub.listen('new_file_added', (data) => {
-            this.getFiles()
-
+        EventHub.listen('new_locale_added', (data) => {
             if (data.tab == this.getTabName()) {
+                this.getFileContent()
+            }
+        })
+
+        EventHub.listen('new_file_added', (data) => {
+            if (data.tab == this.getTabName()) {
+                this.getFiles()
+
                 setTimeout(() => {
                     this.selectedFile = data.val
                 }, 50)
@@ -45,11 +54,13 @@ export default {
         })
     },
     activated() {
-        this.$parent.dirsList = this.dirs
-        this.$parent.selectedDirName = this.selectedDir
-        this.$parent.localesList = this.locales
-        this.$parent.selectedFileName = this.selectedFile
-        this.$parent.filesList = this.files
+        if (this.$parent.activeTab == this.getTabName()) {
+            this.$parent.dirsList = this.dirs
+            this.$parent.selectedDirName = this.selectedDir
+            this.$parent.localesList = this.locales
+            this.$parent.selectedFileName = this.selectedFile
+            this.$parent.filesList = this.files
+        }
     },
     methods: {
         // data
@@ -66,7 +77,6 @@ export default {
                 this.locales = data.message.locales
                 this.selectedFileData = data.message.all
                 this.selectedFileDataClone = Object.assign({}, this.selectedFileData)
-                this.hasNesting = data.message.nesting
 
             }).fail(() => {
                 this.$parent.failedAjax()

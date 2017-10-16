@@ -117,50 +117,50 @@ class LingoController extends Controller
         $def_file      = include "$dir_name/$def_locale/$file_name";
         $def_file_keys = array_keys($def_file);
         $res           = [];
-        $nesting       = false;
 
         // no files to extract keys
         // fuck javascript
         if (empty($def_file_keys)) {
             return $this->goodResponse([
                 'locales'=> $locales,
-                'nesting'=> $nesting,
                 'all'    => (object) $res,
             ]);
         }
 
         foreach ($locales as $code) {
             foreach ($def_file_keys as $key) {
+                // so we dont re-include the same file again
                 if ($def_locale == $code) {
                     $data = array_get($def_file, $key);
-
-                    // disable nesting arrays
-                    if (!is_array($data)) {
-                        $res[$key][$code] = $data;
-                    } else {
-                        $nesting = true;
-                    }
-
+                    $res  = $this->rec($res, $key, $code, $data);
                     continue;
                 }
 
                 $inc  = include "$dir_name/$code/$file_name";
                 $data = array_get($inc, $key);
-
-                // disable nesting arrays
-                if (!is_array($data)) {
-                    $res[$key][$code] = $data;
-                } else {
-                    $nesting = true;
-                }
+                $res  = $this->rec($res, $key, $code, $data);
             }
         }
 
         return $this->goodResponse([
             'locales'=> $locales,
-            'nesting'=> $nesting,
             'all'    => $res,
         ]);
+    }
+
+    protected function rec($res, $key, $code, $data)
+    {
+        if (is_array($data)) {
+            $assoc[$key] = $data;
+
+            foreach (array_dot($assoc) as $k => $v) {
+                $res[$k][$code] = $v;
+            }
+        } else {
+            $res[$key][$code] = $data;
+        }
+
+        return $res;
     }
 
     /**

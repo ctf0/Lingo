@@ -35,13 +35,13 @@ export default {
     },
     computed: {
         localeExist() {
-            return this.localesList && this.localesList.includes(this.new_locale)
+            return this.localesList && this.localesList.includes(this.new_locale) || false
         },
         fileExist() {
-            return this.filesList && this.filesList.includes(this.new_file)
+            return this.filesList && this.filesList.includes(this.new_file) || false
         },
         dirExist() {
-            return this.dirsList && this.dirsList.includes(this.new_vendor)
+            return this.dirsList && this.dirsList.includes(this.new_vendor) || false
         }
     },
     created() {
@@ -57,6 +57,7 @@ export default {
         // main
         preVisited() {
             let ls = JSON.parse(localStorage.getItem('lingo'))
+
             if (ls) {
                 this.activeTab = ls.tab
 

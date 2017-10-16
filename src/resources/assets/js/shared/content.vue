@@ -1,36 +1,44 @@
 <template>
     <div>
-        <!-- select file -->
-        <div class="field is-grouped is-grouped-right" v-if="files.length">
-            <div class="control has-icons-left">
-                <div class="select">
-                    <select v-model="selectedFile">
-                        <option value="" disabled>{{ trans('select_file') }}</option>
-                        <option v-for="(f, i) in files" :key="i">{{ f }}</option>
-                    </select>
+        <div class="level">
+            <!-- items count -->
+            <div class="level-left">
+                <div class="level-item">
+                    <div class="field is-grouped is-grouped-left">
+                        <div class="control" v-if="selectedFile">
+                            <h4 class="title is-4">"{{ itemsCount }}" Items/s</h4>
+                        </div>
+                    </div>
                 </div>
-                <div class="icon is-small is-left"><i class="fa fa-file"></i></div>
             </div>
-            <div class="control" v-if="selectedFile">
-                <button class="button is-danger" @click="removeSelectedFile()">
-                    <span class="icon">
-                        <i class="fa fa-trash"></i>
-                    </span>
-                </button>
+
+            <!-- select file -->
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="field is-grouped is-grouped-right" v-if="files.length">
+                        <div class="control has-icons-left">
+                            <div class="select">
+                                <select v-model="selectedFile">
+                                    <option value="" disabled>{{ trans('select_file') }}</option>
+                                    <option v-for="(f, i) in files" :key="i">{{ f }}</option>
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left"><i class="fa fa-file"></i></div>
+                        </div>
+                        <div class="control" v-if="selectedFile">
+                            <button class="button is-danger" @click="removeSelectedFile()">
+                                <span class="icon">
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- data -->
         <section v-if="selectedFile" class="m-t-50">
-            <!-- warning -->
-            <article class="message is-warning" v-if="hasNesting">
-                <div class="message-header">
-                    <p>{{ trans('warn') }}</p>
-                    <button class="delete" aria-label="delete" @click="hasNesting = false"></button>
-                </div>
-                <div class="message-body">{{ trans('warn_msg') }}</div>
-            </article>
-
             <!-- table -->
             <table class="table is-fullwidth is-bordered">
                 <thead>
@@ -49,21 +57,26 @@
                 </thead>
                 <tbody>
                     <tr v-for="(mainV, mainK, mainI) in selectedFileDataClone" :key="mainI">
-                        <td nowrap contenteditable
-                            dir="auto"
-                            v-text="mainK"
-                            :data-main-key="mainK"
-                            @keydown.enter.prevent
-                            @input="saveNewKey($event)">
+                        <td nowrap width="1%" :class="nestCheck(mainK)">
+                            <div style="visibility: hidden; height: 1px;">{{ mainK }}</div>
+                            <textarea rows="1"
+                                dir="auto"
+                                :class="nestCheck(mainK)"
+                                :data-main-key="mainK"
+                                v-html="mainK"
+                                @keydown.enter.prevent
+                                @input="saveNewKey($event)">
+                            </textarea>
                         </td>
-                        <td v-for="(nestV, nestK, nestI) in mainV" :key="nestI"
-                            contenteditable
-                            dir="auto"
-                            v-text="nestV"
-                            :data-code="nestK"
-                            :data-main-key="mainK"
-                            @keydown.enter.prevent
-                            @input="saveNewValue($event)">
+                        <td v-for="(nestV, nestK, nestI) in mainV" :key="nestI">
+                            <textarea rows="1"
+                                dir="auto"
+                                :data-code="nestK"
+                                :data-main-key="mainK"
+                                v-html="nestV"
+                                @keydown.enter.prevent
+                                @input="saveNewValue($event)">
+                            </textarea>
                         </td>
                         <td width="1%">
                             <button class="button is-danger" @click="removeItem(mainK)">
@@ -124,8 +137,13 @@ export default{
     data() {
         return this.$parent.$data
     },
+    computed: {
+        itemsCount() {
+            return Object.keys(this.selectedFileDataClone).length
+        }
+    },
     updated() {
-        this.tableFloatHead($('table'), 0)
+        this.tableFloatHead($('table'), $('#menu').outerHeight(true))
         this.tableColumnResize()
     },
     methods: {
@@ -229,7 +247,7 @@ export default{
             this.parentMethod('reflowTable')
 
             let old_key = e.target.dataset.mainKey
-            let new_key = e.target.innerText
+            let new_key = e.target.value
 
             this.dataChanged = true
 
@@ -244,7 +262,7 @@ export default{
 
             let code = e.target.dataset.code
             let key = e.target.dataset.mainKey
-            let value = e.target.innerText
+            let value = e.target.value
 
             this.dataChanged = true
             this.$set(this.selectedFileDataClone[key], code, value)
@@ -277,6 +295,9 @@ export default{
         },
 
         // other
+        nestCheck(item) {
+            return item.includes('.') ? 'nestedKey' : ''
+        },
         dontHaveData() {
             return Object.keys(this.selectedFileDataClone).length == 0
         },

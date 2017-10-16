@@ -72,6 +72,4 @@ new Vue({
 
 - we use [Laravel Langman](https://github.com/themsaid/laravel-langman) for scanning for missing translation keys, but if you have better alternative plz open a ticket.
 
-- Atm the package doesn't support multi level/nested arrays so any PRs / ideas are welcomed.
-
-    however, if a file with nested arrays is detected a warning will show up so you don't accidentally save the file as we overwrite files on save.
+- we only support up to 3 level deep on nesting, anymore than that wont work.

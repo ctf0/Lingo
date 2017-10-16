@@ -59,7 +59,7 @@ trait Ops
 
         foreach ($data as $key => $locales) {
             foreach ($locales as $code => $v) {
-                $pre_format[$code][$key] = $v;
+                $pre_format = $this->recSave($pre_format, $key, $code, $v);
             }
         }
 
@@ -82,6 +82,44 @@ trait Ops
         }
 
         return true;
+    }
+
+    protected function recSave($pre_format, $key, $code, $v)
+    {
+        if (strpos($key, '.')) {
+            $assoc = [];
+            $exp   = explode('.', $key);
+
+            // convert array dot to associative
+            while (!empty($exp)) {
+                $assoc = [array_pop($exp) => $assoc];
+            }
+
+            // set value to last key
+            array_set($assoc, $key, $v);
+
+            // get root key
+            $first_key = strtok($key, '.');
+
+            // hacky fix to avoid indexed nesting
+            $final = array_pop($assoc);
+            $a     = key($final);
+            $b     = current($final);
+
+            // 3rd level deep
+            if (is_array($b)) {
+                $c = key($b);
+                $d = current($b);
+
+                $pre_format[$code][$first_key][$a][$c] = $d;
+            } else {
+                $pre_format[$code][$first_key][$a] = $b;
+            }
+        } else {
+            $pre_format[$code][$key] = $v;
+        }
+
+        return $pre_format;
     }
 
     /**

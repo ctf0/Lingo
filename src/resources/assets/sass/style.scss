@@ -18,3 +18,20 @@ th {
     transform: translateX(10px);
     opacity: 0;
 }
+
+.nestedKey {
+    color: white;
+    background-color: #363636;
+}
+
+textarea {
+    font-size: 1rem;
+    line-height: 1.5;
+    box-sizing: border-box;
+    width: 100%;
+    resize: none;
+    text-align: center;
+    vertical-align: middle;
+    color: #363636;
+    border: none;
+}

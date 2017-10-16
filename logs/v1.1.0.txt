@@ -1,0 +1,11 @@
+- update file content on scan complete
+- removed nesting warning as its not needed
+- add support for nested keys “up to 3 level deep”
+- add class for nested keys “you can change it from the included style file”
+- changed value cell “contenteditable” to “textarea” to avoid issues with vue for good
+- fix form submitting even when buttons are disabled when using “enter”.
+- fix filelist not updating correctly when after refresh because of localeStorage
+- fix buttons being disabled because of wrong reports caused by localeStorage
+- show selected file keys count
+- update resources
+- update readme
