@@ -1,4 +1,4 @@
-@import './style';
+@import "./style";
 
 .tags {
     display: inline-flex;
@@ -12,4 +12,8 @@
 .tag.is-warning,
 .tag.is-danger {
     cursor: pointer;
+}
+
+.level.is-mobile .level-item {
+    margin-right: 0;
 }

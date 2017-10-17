@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="level">
+        <div class="level is-mobile">
             <!-- items count -->
             <div class="level-left">
                 <div class="level-item">
                     <div class="field is-grouped is-grouped-left">
                         <div class="control" v-if="selectedFile">
-                            <h4 class="title is-4">"{{ itemsCount }}" Items/s</h4>
+                            <h4 class="title is-4">"{{ itemsCount }}" Item/s</h4>
                         </div>
                     </div>
                 </div>
