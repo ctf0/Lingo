@@ -42,6 +42,7 @@ npm install vue vuemit vue-notif --save
 - validate for "vendor/locale/file" existence on the fly
 - use localeStorage to remember opened "tab/vendor/files"
 - show/hide different elements to avoid noise & keep the user focused
+- support up to 3 levels deep on nested keys
 
 ## Usage
 
@@ -70,6 +71,4 @@ new Vue({
 
 ## Notes
 
-- we use [Laravel Langman](https://github.com/themsaid/laravel-langman) for scanning for missing translation keys, but if you have better alternative plz open a ticket.
-
-- we only support up to 3 level deep on nesting, anymore than that wont work.
+- we use [Laravel Langman](https://github.com/themsaid/laravel-langman) for scanning for missing translation keys, if you have better alternative you can open a ticket.

@@ -2,7 +2,6 @@
 
 namespace ctf0\Lingo;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 
 class LingoServiceProvider extends ServiceProvider
@@ -12,9 +11,9 @@ class LingoServiceProvider extends ServiceProvider
     /**
      * Perform post-registration booting of services.
      */
-    public function boot(Filesystem $file)
+    public function boot()
     {
-        $this->file = $file;
+        $this->file = app('files');
 
         $this->packagePublish();
 
