@@ -59,7 +59,7 @@ npm install vue vuemit vue-notif --save
 > - start editing the new files.
 
 - add this one liner to your main js file and run `npm run watch` to compile your `js/css` files.
-    + if you are having issues with `npm run production`, [Check](https://ctf0.wordpress.com/2017/09/12/laravel-mix-es6/)
+    + if you are having issues [Check](https://ctf0.wordpress.com/2017/09/12/laravel-mix-es6/)
 
 ```js
 require('./../vendor/Lingo/js/lingo')
