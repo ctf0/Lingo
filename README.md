@@ -8,6 +8,8 @@ is a file based translation manager, which unlike other Lang managers dont need 
 
 ## Installation
 
+- package requires Laravel v5.4+
+
 - `composer require ctf0/lingo`
 
 - (Laravel < 5.5) add the service provider

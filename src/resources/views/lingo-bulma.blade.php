@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Lingo</title>
-    {{-- FW --}}
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    {{-- bulma --}}
+
+    {{-- Styles --}}
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
-    {{-- Main styles --}}
     <link rel="stylesheet" href="{{ asset('assets/vendor/Lingo/style.css') }}"/>
 </head>
 
@@ -176,9 +178,11 @@
         </div>
     </div>
 
-    {{-- footer --}}
+    {{-- Footer --}}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    {{-- Scripts --}}
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/floatthead/2.0.3/jquery.floatThead.min.js"></script>
-    <script src="{{ mix("path/to/app.js") }}"></script>
+    <script src="{{ asset("path/to/app.js") }}"></script>
 </body>
 </html>
