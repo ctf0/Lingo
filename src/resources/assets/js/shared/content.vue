@@ -143,15 +143,15 @@ export default{
         }
     },
     updated() {
-        this.tableFloatHead($('table'), $('#menu').outerHeight(true))
+        this.tableFloatHead($('table'), 0)
         this.tableColumnResize()
     },
     methods: {
         // table ops
-        tableFloatHead(table, top) {
+        tableFloatHead(table, offset) {
             setTimeout(() => {
                 table.floatThead({
-                    top: top,
+                    top: offset,
                     autoReflow: true,
                     responsiveContainer(table) {
                         return table.closest('section')

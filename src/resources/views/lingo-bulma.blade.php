@@ -2,8 +2,6 @@
 <html>
 <head>
     <title>Lingo</title>
-    {{-- FW --}}
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     {{-- bulma --}}
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
     {{-- Main styles --}}
@@ -177,8 +175,11 @@
     </div>
 
     {{-- footer --}}
+    {{-- FW --}}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    {{-- Scripts --}}
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/floatthead/2.0.3/jquery.floatThead.min.js"></script>
-    <script src="{{ mix("path/to/app.js") }}"></script>
+    <script src="{{ asset("path/to/app.js") }}"></script>
 </body>
 </html>
