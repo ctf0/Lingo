@@ -54,7 +54,7 @@
                             {{-- add new vendor --}}
                             <div class="columns" v-if="activeTabIs('vendor-tab')">
                                 <div class="column is-2">
-                                    <p class="title is-3">
+                                    <p class="title">
                                         {{-- steps --}}
                                         <transition name="slide-fade">
                                             <span v-if="newVendor() && !selectedDirName" class="title has-text-success">1.</span>
@@ -63,7 +63,7 @@
                                         <span class="icon"><i class="fa fa-archive"></i></span>
                                         <span>{{ trans('Lingo::messages.new_vendor') }}</span>
                                     </p>
-                                    <p class="subtitle is-5">@{{ vendorPH(new_vendor || 'Abc') }}</p>
+                                    <p class="subtitle">@{{ vendorPH(new_vendor || 'Abc') }}</p>
                                 </div>
 
                                 <div class="column">
@@ -85,7 +85,7 @@
                             {{-- add new lang --}}
                             <div class="columns" v-if="localesList.length || newVendor()">
                                 <div class="column is-2">
-                                    <p class="title is-3">
+                                    <p class="title">
                                         {{-- steps --}}
                                         <transition name="slide-fade">
                                             <span v-if="newVendor() && localesList.length == 0" class="title has-text-success">2.</span>
@@ -94,7 +94,7 @@
                                         <span class="icon"><i class="fa fa-globe"></i></span>
                                         <span>{{ trans('Lingo::messages.new_locale') }}</span>
                                     </p>
-                                    <p class="subtitle is-5">@{{ placeHolder(new_locale || 'fr') }}</p>
+                                    <p class="subtitle">@{{ placeHolder(new_locale || 'fr') }}</p>
                                 </div>
 
                                 <div class="column">
@@ -116,7 +116,7 @@
                             {{-- add new file --}}
                             <div class="columns" v-if="filesList.length || newVendor()">
                                 <div class="column is-2">
-                                    <p class="title is-3">
+                                    <p class="title">
                                         {{-- steps --}}
                                         <transition name="slide-fade">
                                             <span v-if="newVendor()" class="title has-text-success">3.</span>
@@ -125,7 +125,7 @@
                                         <span class="icon"><i class="fa fa-file-o"></i></span>
                                         <span>{{ trans('Lingo::messages.new_file') }}</span>
                                     </p>
-                                    <p class="subtitle is-5">@{{ placeHolder(new_file || 'messages.php', '*/') }}</p>
+                                    <p class="subtitle">@{{ placeHolder(new_file || 'messages.php', '*/') }}</p>
                                 </div>
 
                                 <div class="column">

@@ -76,7 +76,7 @@ export default {
 
                 this.locales = data.message.locales
                 this.selectedFileData = data.message.all
-                this.selectedFileDataClone = Object.assign({}, this.selectedFileData)
+                this.selectedFileDataClone = JSON.parse(JSON.stringify(data.message.all))
 
             }).fail(() => {
                 this.$parent.failedAjax()
@@ -103,6 +103,9 @@ export default {
         },
         failedAjax() {
             this.showNotif(this.trans('ajax_fail'), 'black')
+        },
+        hack() {
+            location.reload()
         }
     },
     watch: {
@@ -118,10 +121,18 @@ export default {
         },
         selectedFile(val) {
             this.$parent.selectedFileName = val
+            this.dataChanged = false
+            this.resetAll(['newKeys'])
 
             if (val) {
                 this.getFileContent()
             }
+
+            // a fucken hack for the key not reseting
+            if (this.newKeys) {
+                this.hack()
+            }
+
         },
         files(val) {
             this.$parent.filesList = val

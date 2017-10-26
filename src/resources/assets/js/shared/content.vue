@@ -57,7 +57,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(mainV, mainK, mainI) in selectedFileDataClone" :key="mainI">
-                        <td nowrap width="1%" :class="nestCheck(mainK)">
+                        <td nowrap :class="nestCheck(mainK)">
                             <div style="visibility: hidden; height: 1px;">{{ mainK }}</div>
                             <textarea rows="1"
                                 dir="auto"
@@ -68,12 +68,14 @@
                                 @input="saveNewKey($event)">
                             </textarea>
                         </td>
+
                         <td v-for="(nestV, nestK, nestI) in mainV" :key="nestI">
                             <textarea rows="1"
                                 dir="auto"
                                 :data-code="nestK"
                                 :data-main-key="mainK"
                                 v-html="nestV"
+                                :value="nestV"
                                 @keydown.enter.prevent
                                 @input="saveNewValue($event)">
                             </textarea>
@@ -226,26 +228,13 @@ export default{
         resetData() {
             this.dataChanged = false
             this.newItemCounter = 0
-
-            // because for some reason the original "selectedFileData" gets updated as well
-            // which makes it impossible to reset from with changed "keys & values"
-            if (Object.keys(this.selectedFileDataClone).length == Object.keys(this.selectedFileData).length) {
-                let old = this.selectedFile
-
-                setTimeout(() => {
-                    this.selectedFile = old
-                }, 50)
-
-                return this.parentMethod('resetAll', ['newKeys', 'selectedFile'])
-            }
-
-            this.selectedFileDataClone = Object.assign({}, this.selectedFileData)
+            this.selectedFileDataClone = JSON.parse(JSON.stringify(this.selectedFileData))
+            this.parentMethod('resetAll', ['newKeys'])
+            this.parentMethod('hack')
         },
 
         // util
         saveNewKey(e) {
-            this.parentMethod('reflowTable')
-
             let old_key = e.target.dataset.mainKey
             let new_key = e.target.value
 
@@ -258,8 +247,6 @@ export default{
             this.newKeys = {[old_key] : new_key}
         },
         saveNewValue(e) {
-            this.parentMethod('reflowTable')
-
             let code = e.target.dataset.code
             let key = e.target.dataset.mainKey
             let value = e.target.value
