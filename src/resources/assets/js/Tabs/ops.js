@@ -103,9 +103,6 @@ export default {
         },
         failedAjax() {
             this.showNotif(this.trans('ajax_fail'), 'black')
-        },
-        hack() {
-            location.reload()
         }
     },
     watch: {
@@ -127,12 +124,6 @@ export default {
             if (val) {
                 this.getFileContent()
             }
-
-            // a fucken hack for the key not reseting
-            if (this.newKeys) {
-                this.hack()
-            }
-
         },
         files(val) {
             this.$parent.filesList = val

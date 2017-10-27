@@ -57,28 +57,23 @@
                 </thead>
                 <tbody>
                     <tr v-for="(mainV, mainK, mainI) in selectedFileDataClone" :key="mainI">
-                        <td nowrap :class="nestCheck(mainK)">
-                            <div style="visibility: hidden; height: 1px;">{{ mainK }}</div>
-                            <textarea rows="1"
-                                dir="auto"
-                                :class="nestCheck(mainK)"
-                                :data-main-key="mainK"
-                                v-html="mainK"
-                                @keydown.enter.prevent
-                                @input="saveNewKey($event)">
-                            </textarea>
+                        <td nowrap contenteditable dir="auto"
+                            :class="nestCheck(mainK)"
+                            :data-main-key="mainK"
+                            v-html="mainK"
+                            @keydown.enter.prevent
+                            @mouseleave="updateText($event)"
+                            @blur="saveNewKey($event)">
                         </td>
 
-                        <td v-for="(nestV, nestK, nestI) in mainV" :key="nestI">
-                            <textarea rows="1"
-                                dir="auto"
-                                :data-code="nestK"
-                                :data-main-key="mainK"
-                                v-html="nestV"
-                                :value="nestV"
-                                @keydown.enter.prevent
-                                @input="saveNewValue($event)">
-                            </textarea>
+                        <td v-for="(nestV, nestK, nestI) in mainV" :key="nestI"
+                            contenteditable dir="auto"
+                            :data-main-key="mainK"
+                            :data-code="nestK"
+                            v-html="nestV"
+                            @keydown.enter.prevent
+                            @mouseleave="updateText($event)"
+                            @blur="saveNewValue($event)">
                         </td>
                         <td width="1%">
                             <button class="button is-danger" @click="removeItem(mainK)">
@@ -145,10 +140,13 @@ export default{
         }
     },
     updated() {
-        this.tableFloatHead($('table'), 0)
+        this.tableFloatHead($('table'), $('#menu').outerHeight(true))
         this.tableColumnResize()
     },
     methods: {
+        updateText(e) {
+            e.target.blur()
+        },
         // table ops
         tableFloatHead(table, offset) {
             setTimeout(() => {
@@ -230,29 +228,34 @@ export default{
             this.newItemCounter = 0
             this.selectedFileDataClone = JSON.parse(JSON.stringify(this.selectedFileData))
             this.parentMethod('resetAll', ['newKeys'])
-            this.parentMethod('hack')
         },
 
         // util
         saveNewKey(e) {
+            this.parentMethod('reflowTable')
             let old_key = e.target.dataset.mainKey
-            let new_key = e.target.value
+            let new_key = e.target.innerHTML
 
-            this.dataChanged = true
+            if (old_key !== new_key) {
+                this.dataChanged = true
 
-            if (this.newKeys) {
-                return this.newKeys[old_key] = new_key
+                if (this.newKeys) {
+                    return this.newKeys[old_key] = new_key
+                }
+
+                this.newKeys = {[old_key] : new_key}
             }
-
-            this.newKeys = {[old_key] : new_key}
         },
         saveNewValue(e) {
+            this.parentMethod('reflowTable')
             let code = e.target.dataset.code
             let key = e.target.dataset.mainKey
-            let value = e.target.value
+            let value = e.target.innerHTML
 
-            this.dataChanged = true
-            this.$set(this.selectedFileDataClone[key], code, value)
+            if (this.selectedFileDataClone[key][code] !== value) {
+                this.dataChanged = true
+                this.$set(this.selectedFileDataClone[key], code, value)
+            }
         },
         formatData() {
             let main = this.selectedFileDataClone
