@@ -127,6 +127,13 @@ export default {
         },
         files(val) {
             this.$parent.filesList = val
+        },
+        dataChanged(val) {
+            if (val == true) {
+                window.onbeforeunload = () => {
+                    return confirm('Confirm refresh')
+                }
+            }
         }
     }
 }
