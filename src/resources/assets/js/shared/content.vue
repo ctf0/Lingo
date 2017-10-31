@@ -62,8 +62,11 @@
                             :data-main-key="mainK"
                             v-html="mainK"
                             @keydown.enter.prevent
-                            @mouseleave="updateText($event)"
-                            @blur="saveNewKey($event)">
+                            @keyup.tab="getPos($event)"
+                            @input="getPos($event)"
+                            @click="getPos($event)"
+                            @blur="saveNewKey($event)"
+                            @mouseleave="updateText($event)">
                         </td>
 
                         <td v-for="(nestV, nestK, nestI) in mainV" :key="nestI"
@@ -72,8 +75,11 @@
                             :data-code="nestK"
                             v-html="nestV"
                             @keydown.enter.prevent
-                            @mouseleave="updateText($event)"
-                            @blur="saveNewValue($event)">
+                            @keyup.tab="getPos($event)"
+                            @input="getPos($event)"
+                            @click="getPos($event)"
+                            @blur="saveNewValue($event)"
+                            @mouseleave="updateText($event)">
                         </td>
                         <td width="1%">
                             <button class="button is-danger" @click="removeItem(mainK)">
@@ -144,9 +150,6 @@ export default{
         this.tableColumnResize()
     },
     methods: {
-        updateText(e) {
-            e.target.blur()
-        },
         // table ops
         tableFloatHead(table, offset) {
             setTimeout(() => {
@@ -227,7 +230,31 @@ export default{
             this.dataChanged = false
             this.newItemCounter = 0
             this.selectedFileDataClone = JSON.parse(JSON.stringify(this.selectedFileData))
-            this.parentMethod('resetAll', ['newKeys'])
+
+            if (this.newKeys) {
+                let old = this.selectedFile
+                setTimeout(() => {
+                    this.selectedFile = old
+                }, 10)
+            }
+
+            this.parentMethod('resetAll', ['newKeys', 'currentInputRef', 'selectedFile'])
+        },
+
+        // contenteditable
+        getPos(e) {
+            // save a reference of current item
+            this.currentInputRef = e
+        },
+        updateText(e) {
+            let old = this.currentInputRef
+            if (old) {
+                // save changes on mouse move
+                e.target.blur()
+
+                // set focus back
+                old.target.focus()
+            }
         },
 
         // util

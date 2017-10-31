@@ -14,6 +14,7 @@ export default {
             selectedFileData: '',
             selectedFileDataClone: '',
             newKeys: '',
+            currentInputRef: '',
             dataChanged: false,
             newItemCounter: 0
         }
@@ -52,6 +53,13 @@ export default {
                 }, 50)
             }
         })
+
+        // before refresh
+        window.onbeforeunload = () => {
+            if (this.dataChanged === true) {
+                return confirm('Confirm refresh')
+            }
+        }
     },
     activated() {
         if (this.$parent.activeTab == this.getTabName()) {
@@ -119,7 +127,7 @@ export default {
         selectedFile(val) {
             this.$parent.selectedFileName = val
             this.dataChanged = false
-            this.resetAll(['newKeys'])
+            this.resetAll(['newKeys', 'currentInputRef'])
 
             if (val) {
                 this.getFileContent()
@@ -127,13 +135,6 @@ export default {
         },
         files(val) {
             this.$parent.filesList = val
-        },
-        dataChanged(val) {
-            if (val == true) {
-                window.onbeforeunload = () => {
-                    return confirm('Confirm refresh')
-                }
-            }
         }
     }
 }
