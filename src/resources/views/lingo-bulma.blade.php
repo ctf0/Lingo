@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/Lingo/style.css') }}"/>
 </head>
 
-@section('sub')
-    <div id="app" v-cloak>
+<body>
+    <section id="app" v-cloak>
 
         {{-- notifications --}}
         <div class="notif-container">
@@ -176,7 +176,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     {{-- Footer --}}
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
