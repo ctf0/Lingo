@@ -62,11 +62,8 @@
                             :data-main-key="mainK"
                             v-html="mainK"
                             @keydown.enter.prevent
-                            @keyup.tab="getPos($event)"
-                            @input="getPos($event)"
-                            @click="getPos($event)"
-                            @blur="saveNewKey($event)"
-                            @mouseleave="updateText($event)">
+                            @input="newEntry()"
+                            @blur="saveNewKey($event)">
                         </td>
 
                         <td v-for="(nestV, nestK, nestI) in mainV" :key="nestI"
@@ -75,11 +72,8 @@
                             :data-code="nestK"
                             v-html="nestV"
                             @keydown.enter.prevent
-                            @keyup.tab="getPos($event)"
-                            @input="getPos($event)"
-                            @click="getPos($event)"
-                            @blur="saveNewValue($event)"
-                            @mouseleave="updateText($event)">
+                            @input="newEntry()"
+                            @blur="saveNewValue($event)">
                         </td>
                         <td width="1%">
                             <button class="button is-danger" @click="removeItem(mainK)">
@@ -146,7 +140,7 @@ export default{
         }
     },
     updated() {
-        this.tableFloatHead($('table'), $('#menu').outerHeight(true))
+        this.tableFloatHead($('table'), 0)
         this.tableColumnResize()
     },
     methods: {
@@ -236,28 +230,18 @@ export default{
                 setTimeout(() => {
                     this.selectedFile = old
                 }, 10)
+
+                this.parentMethod('resetAll', ['newKeys', 'selectedFile'])
             }
 
-            this.parentMethod('resetAll', ['newKeys', 'currentInputRef', 'selectedFile'])
-        },
-
-        // contenteditable
-        getPos(e) {
-            // save a reference of current item
-            this.currentInputRef = e
-        },
-        updateText(e) {
-            let old = this.currentInputRef
-            if (old) {
-                // save changes on mouse move
-                e.target.blur()
-
-                // set focus back
-                old.target.focus()
-            }
+            this.parentMethod('resetAll', ['newKeys'])
         },
 
         // util
+        newEntry() {
+            this.dataChanged = true
+            this.parentMethod('reflowTable')
+        },
         saveNewKey(e) {
             this.parentMethod('reflowTable')
             let old_key = e.target.dataset.mainKey

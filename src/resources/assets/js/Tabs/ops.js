@@ -14,7 +14,6 @@ export default {
             selectedFileData: '',
             selectedFileDataClone: '',
             newKeys: '',
-            currentInputRef: '',
             dataChanged: false,
             newItemCounter: 0
         }
@@ -127,7 +126,7 @@ export default {
         selectedFile(val) {
             this.$parent.selectedFileName = val
             this.dataChanged = false
-            this.resetAll(['newKeys', 'currentInputRef'])
+            this.resetAll(['newKeys'])
 
             if (val) {
                 this.getFileContent()

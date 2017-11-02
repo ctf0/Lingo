@@ -127,7 +127,7 @@ export default {
         },
         selectedDir(val) {
             this.$parent.selectedDirName = val
-            this.resetAll(['newKeys', 'currentInputRef'])
+            this.resetAll(['newKeys'])
 
             if (val) {
                 this.newItemCounter = 0
