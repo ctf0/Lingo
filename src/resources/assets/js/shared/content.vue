@@ -245,7 +245,7 @@ export default{
         saveNewKey(e) {
             this.parentMethod('reflowTable')
             let old_key = e.target.dataset.mainKey
-            let new_key = e.target.innerHTML
+            let new_key = e.target.innerText
 
             if (old_key !== new_key) {
                 this.dataChanged = true
@@ -261,7 +261,7 @@ export default{
             this.parentMethod('reflowTable')
             let code = e.target.dataset.code
             let key = e.target.dataset.mainKey
-            let value = e.target.innerHTML
+            let value = e.target.innerText
 
             if (this.selectedFileDataClone[key][code] !== value) {
                 this.dataChanged = true
