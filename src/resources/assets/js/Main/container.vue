@@ -47,7 +47,7 @@ export default {
     created() {
         this.getLingoTrans()
     },
-    mounted() {
+    beforeMount() {
         this.preVisited()
     },
     updated() {
@@ -68,13 +68,15 @@ export default {
                         val: ls.file
                     })
                 }, 50)
-
             } else {
-                localStorage.setItem('lingo', JSON.stringify({
-                    tab: this.activeTab,
-                    dir: this.selectedDirName,
-                    file: this.selectedFileName
-                }))
+                localStorage.setItem(
+                    'lingo',
+                    JSON.stringify({
+                        tab: this.activeTab,
+                        dir: this.selectedDirName,
+                        file: this.selectedFileName
+                    })
+                )
             }
         },
         getLingoTrans() {
@@ -119,6 +121,7 @@ export default {
         // utils
         updateLs(obj) {
             let oldLs = JSON.parse(localStorage.getItem('lingo')) || {}
+
             Object.assign(oldLs, obj)
             localStorage.setItem('lingo', JSON.stringify(oldLs))
         },

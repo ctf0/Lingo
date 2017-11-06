@@ -129,6 +129,10 @@ export default {
             this.resetAll(['newKeys'])
 
             if (val) {
+                if (this.getTabName().includes('vendor') && !this.selectedDirName) {
+                    return
+                }
+
                 this.getFileContent()
             }
         },
