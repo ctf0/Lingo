@@ -58,6 +58,11 @@
                 <tbody>
                     <tr v-for="(mainV, mainK, mainI) in selectedFileDataClone" :key="mainI">
                         <td nowrap contenteditable dir="auto"
+                            v-clipboard:copy="getKey(mainK)"
+                            v-clipboard:success="onCopy"
+                            :title="getKey(mainK)"
+                            v-tippy="{ position : 'right',  arrow: true, interactive: true }"
+
                             :class="nestCheck(mainK)"
                             :data-main-key="mainK"
                             v-html="mainK"
@@ -293,6 +298,21 @@ export default{
             }
 
             return main
+        },
+
+        // copy key
+        getFileName() {
+            return this.selectedFile.replace(/(.[^.]*)$/, '')
+        },
+        getKey(key) {
+            if (this.$parent.getTabName().includes('vendor')) {
+                return `{{ trans('${this.selectedDir}::${this.getFileName()}.${key}') }}`
+            }
+
+            return `{{ trans('${this.getFileName()}.${key}') }}`
+        },
+        onCopy(e) {
+            e.trigger.focus()
         },
 
         // other

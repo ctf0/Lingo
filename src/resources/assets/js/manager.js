@@ -8,6 +8,8 @@ $.ajaxSetup({
 /*                Libs                */
 window.Vue = require('vue')
 window.EventHub = require('vuemit')
+Vue.use(require('vue-tippy'))
+Vue.use(require('vue-clipboard2'))
 
 /*                Components                */
 Vue.component('Lingo', require('./Main/container'))

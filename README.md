@@ -23,9 +23,9 @@ is a file based translation manager, which unlike other Lang managers dont need 
 - install dependencies
 
 ```bash
-yarn add vue vuemit vue-notif
+yarn add vue vuemit vue-notif vue-clipboard2 vue-tippy
 # or
-npm install vue vuemit vue-notif --save
+npm install vue vuemit vue-notif vue-clipboard2 vue-tippy --save
 ```
 
 - publish the package assets with
@@ -39,12 +39,13 @@ npm install vue vuemit vue-notif --save
 
 ## Features
 
-- add/remove "vendor/locale/file/item"
+- add/remove "vendor/locale/file/item".
 - show guiding steps while adding new vendor for better UX.
-- validate for "vendor/locale/file" existence on the fly
-- use localeStorage to remember opened "tab/vendor/files"
-- show/hide different elements to avoid noise & keep the user focused
-- support up to 3 levels deep on nested keys
+- validate for "vendor/locale/file" existence on the fly.
+- use localeStorage to remember opened "tab/vendor/files".
+- show/hide different elements to avoid noise & keep the user focused.
+- support up to 3 levels deep on nested keys.
+- copy translation key by clicking on it.
 
 ## Usage
 
