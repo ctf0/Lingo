@@ -45,7 +45,7 @@ npm install vue vuemit vue-notif vue-clipboard2 vue-tippy --save
 - use localeStorage to remember opened "tab/vendor/files".
 - show/hide different elements to avoid noise & keep the user focused.
 - support up to 3 levels deep on nested keys.
-- copy translation key by clicking on it.
+- directly copy translation key by clicking on the tooltip.
 
 ## Usage
 

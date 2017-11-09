@@ -1,0 +1,6 @@
+- change html to text so the saved value is always plain
+- fix not updating selected dir by local-storage val
+- support for direct key copy
+ + add vue-tippy
+ + add vue-clipboard
+- update readme
