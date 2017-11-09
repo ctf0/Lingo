@@ -58,8 +58,7 @@
                 <tbody>
                     <tr v-for="(mainV, mainK, mainI) in selectedFileDataClone" :key="mainI">
                         <td nowrap contenteditable dir="auto"
-                            v-clipboard:copy="getKey(mainK)"
-                            v-clipboard:success="onCopy"
+                            @click="copyKey($event, mainK)"
                             :title="getKey(mainK)"
                             v-tippy="{ position : 'right',  arrow: true, interactive: true }"
 
@@ -164,7 +163,7 @@ export default{
             this.parentMethod('reflowTable')
         },
         tableColumnResize() {
-            let thElm
+            let el
             let startOffset
 
             document.querySelectorAll('table th').forEach((th) => {
@@ -179,7 +178,7 @@ export default{
                 grip.style.position = 'absolute'
                 grip.style.cursor = 'col-resize'
                 grip.addEventListener('mousedown', (e) => {
-                    thElm = th
+                    el = th
                     startOffset = th.offsetWidth - e.pageX
                 })
 
@@ -187,14 +186,14 @@ export default{
             })
 
             document.addEventListener('mousemove', (e) => {
-                if (thElm) {
+                if (el) {
                     this.parentMethod('reflowTable')
-                    thElm.style.width = startOffset + e.pageX + 'px'
+                    el.style.width = startOffset + e.pageX + 'px'
                 }
             })
 
             document.addEventListener('mouseup', () => {
-                thElm = undefined
+                el = undefined
             })
         },
 
@@ -305,14 +304,13 @@ export default{
             return this.selectedFile.replace(/(.[^.]*)$/, '')
         },
         getKey(key) {
-            if (this.$parent.getTabName().includes('vendor')) {
-                return `{{ trans('${this.selectedDir}::${this.getFileName()}.${key}') }}`
-            }
-
-            return `{{ trans('${this.getFileName()}.${key}') }}`
+            return this.$parent.getTabName().includes('vendor')
+                ? `{{ trans('${this.selectedDir}::${this.getFileName()}.${key}') }}`
+                : `{{ trans('${this.getFileName()}.${key}') }}`
         },
-        onCopy(e) {
-            e.trigger.focus()
+        copyKey(e, key) {
+            this.$copyText(this.getKey(key))
+            e.target.focus()
         },
 
         // other
