@@ -58,9 +58,10 @@
                 <tbody>
                     <tr v-for="(mainV, mainK, mainI) in selectedFileDataClone" :key="mainI">
                         <td nowrap contenteditable dir="auto"
-                            @click="copyKey($event, mainK)"
                             :title="getKey(mainK)"
-                            v-tippy="{ position : 'right',  arrow: true, interactive: true }"
+                            v-tippy="{ position : 'right',  arrow: true, interactive: true}"
+                            data-html="#tippyTemplate"
+                            @mouseover="keyToCopy = getKey(mainK)"
 
                             :class="nestCheck(mainK)"
                             :data-main-key="mainK"
@@ -119,6 +120,11 @@
                     </div>
                 </div>
             </div>
+
+            <!-- tippy template -->
+            <div id="tippyTemplate">
+                <span class="click-me">{{ keyToCopy }}</span>
+            </div>
         </section>
     </div>
 </template>
@@ -126,6 +132,15 @@
 <style scoped>
     .tag {
         border-radius: 3px;
+    }
+
+    #tippyTemplate {
+        height: 1px;
+        visibility: hidden;
+    }
+
+    .click-me {
+        cursor: pointer;
     }
 </style>
 
@@ -304,13 +319,11 @@ export default{
             return this.selectedFile.replace(/(.[^.]*)$/, '')
         },
         getKey(key) {
-            return this.$parent.getTabName().includes('vendor')
+            let str = this.$parent.getTabName().includes('vendor')
                 ? `{{ trans('${this.selectedDir}::${this.getFileName()}.${key}') }}`
                 : `{{ trans('${this.getFileName()}.${key}') }}`
-        },
-        copyKey(e, key) {
-            this.$copyText(this.getKey(key))
-            e.target.focus()
+
+            return str
         },
 
         // other

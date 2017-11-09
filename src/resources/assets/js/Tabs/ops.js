@@ -15,7 +15,8 @@ export default {
             selectedFileDataClone: '',
             newKeys: '',
             dataChanged: false,
-            newItemCounter: 0
+            newItemCounter: 0,
+            keyToCopy : ''
         }
     },
     mounted() {
@@ -59,6 +60,11 @@ export default {
                 return confirm('Confirm refresh')
             }
         }
+
+        // copy to clipboard
+        $(document).on('click', '.click-me', () => {
+            this.$copyText(this.keyToCopy)
+        })
     },
     activated() {
         if (this.$parent.activeTab == this.getTabName()) {
