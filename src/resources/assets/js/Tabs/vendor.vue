@@ -30,7 +30,7 @@
 
 <script>
 import Ops from './ops'
-import SharedContent from './../shared/content'
+import SharedContent from './shared/content'
 
 export default {
     components: {SharedContent},

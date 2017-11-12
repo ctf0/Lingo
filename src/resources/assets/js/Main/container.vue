@@ -30,7 +30,17 @@ export default {
             filesList: [],
             dirsList: [],
             selectedDirName: '',
-            selectedFileName: ''
+            selectedFileName: '',
+            selectedKeyFormat: '',
+            copyKeyFormat: [
+                'trans(\'value\')',
+                '__(\'value\')',
+                '{!! trans(\'value\') !!}',
+                '{!! __(\'value\') !!}',
+                '{{ trans(\'value\') }}',
+                '{{ __(\'value\') }}',
+                '@lang(\'value\')'
+            ]
         }
     },
     computed: {
@@ -60,6 +70,7 @@ export default {
 
             if (ls) {
                 this.activeTab = ls.tab
+                this.selectedKeyFormat = ls.format
 
                 setTimeout(() => {
                     EventHub.fire('ls-dir', ls.dir)
@@ -74,7 +85,8 @@ export default {
                     JSON.stringify({
                         tab: this.activeTab,
                         dir: this.selectedDirName,
-                        file: this.selectedFileName
+                        file: this.selectedFileName,
+                        format: this.selectedKeyFormat
                     })
                 )
             }
@@ -182,6 +194,9 @@ export default {
         },
         selectedFileName(val) {
             this.updateLs({file : val})
+        },
+        selectedKeyFormat(val) {
+            this.updateLs({format : val})
         }
     },
     render() {}

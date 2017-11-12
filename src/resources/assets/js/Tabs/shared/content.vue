@@ -123,7 +123,7 @@
 
             <!-- tippy template -->
             <div id="tippyTemplate">
-                <span class="click-me">{{ keyToCopy }}</span>
+                <span class="c2c">{{ keyToCopy }}</span>
             </div>
         </section>
     </div>
@@ -139,7 +139,7 @@
         visibility: hidden;
     }
 
-    .click-me {
+    .c2c {
         cursor: pointer;
     }
 </style>
@@ -314,18 +314,6 @@ export default{
             return main
         },
 
-        // copy key
-        getFileName() {
-            return this.selectedFile.replace(/(.[^.]*)$/, '')
-        },
-        getKey(key) {
-            let str = this.$parent.getTabName().includes('vendor')
-                ? `{{ trans('${this.selectedDir}::${this.getFileName()}.${key}') }}`
-                : `{{ trans('${this.getFileName()}.${key}') }}`
-
-            return str
-        },
-
         // other
         nestCheck(item) {
             return item.includes('.') ? 'nestedKey' : ''
@@ -335,6 +323,9 @@ export default{
         },
         trans(key) {
             return this.parentMethod('trans', key)
+        },
+        getKey(key) {
+            return this.parentMethod('getKey', key)
         },
         parentMethod(method_name, args = null) {
             return this.$parent[method_name](args)

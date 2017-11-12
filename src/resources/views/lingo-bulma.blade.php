@@ -38,22 +38,50 @@
                         save-file-route="{{ route('lingo.save_file_data') }}">
                         <div>
 
-                            {{-- scan for missing trans --}}
                             <div class="columns">
-                                <div class="column is-2">
-                                    <h3 class="title is-4">
-                                        <span class="icon"><i class="fa fa-qrcode"></i></span>
-                                        <span>{{ trans('Lingo::messages.scan') }}</span>
-                                    </h3>
+                                {{-- scan for missing trans --}}
+                                <div class="column is-half is-paddingless">
+                                    <div class="columns">
+                                        <div class="column is-6">
+                                            <h3 class="title is-4">
+                                                <span class="icon"><i class="fa fa-qrcode"></i></span>
+                                                <span>{{ trans('Lingo::messages.scan') }}</span>
+                                            </h3>
+                                        </div>
+                                        <div class="column">
+                                            <button @click="scanForMissing()" class="button is-link">{{ trans('Lingo::messages.scan_btn') }}</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="column">
-                                    <button @click="scanForMissing()" class="button is-link">{{ trans('Lingo::messages.scan_btn') }}</button>
+
+                                {{-- copied key format --}}
+                                <div class="column is-half is-paddingless">
+                                    <div class="columns">
+                                        <div class="column is-5">
+                                            <h3 class="title is-4">
+                                                <span class="icon"><i class="fa fa-keyboard-o"></i></span>
+                                                <span>{{ trans('Lingo::messages.key_format') }}</span>
+                                            </h3>
+                                        </div>
+                                        <div class="column">
+                                            <div class="control">
+                                                <div class="select" :class="{'is-loading' : !selectedKeyFormat}">
+                                                  <select v-model="selectedKeyFormat">
+                                                    <option value="" disabled>{{ trans('Lingo::messages.select_format') }}</option>
+                                                    <option v-for="(item,index) in copyKeyFormat" :key="index">
+                                                        @{{ item }}
+                                                    </option>
+                                                  </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             {{-- add new vendor --}}
                             <div class="columns" v-if="activeTabIs('vendor-tab')">
-                                <div class="column is-2">
+                                <div class="column is-3">
                                     <p class="title">
                                         {{-- steps --}}
                                         <transition name="slide-fade">
@@ -84,7 +112,7 @@
 
                             {{-- add new lang --}}
                             <div class="columns" v-if="localesList.length || newVendor()">
-                                <div class="column is-2">
+                                <div class="column is-3">
                                     <p class="title">
                                         {{-- steps --}}
                                         <transition name="slide-fade">
@@ -115,7 +143,7 @@
 
                             {{-- add new file --}}
                             <div class="columns" v-if="filesList.length || newVendor()">
-                                <div class="column is-2">
+                                <div class="column is-3">
                                     <p class="title">
                                         {{-- steps --}}
                                         <transition name="slide-fade">

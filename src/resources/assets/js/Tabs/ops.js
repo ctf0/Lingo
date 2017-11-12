@@ -62,7 +62,7 @@ export default {
         }
 
         // copy to clipboard
-        $(document).on('click', '.click-me', () => {
+        $(document).on('click', '.c2c', () => {
             this.$copyText(this.keyToCopy)
         })
     },
@@ -116,6 +116,22 @@ export default {
         },
         failedAjax() {
             this.showNotif(this.trans('ajax_fail'), 'black')
+        },
+
+        // copy key
+        getFileName() {
+            return this.selectedFile.replace(/(.[^.]*)$/, '')
+        },
+        getKey(key) {
+            let str = this.getTabName().includes('vendor')
+                ? `${this.selectedDir}::${this.getFileName()}.${key}`
+                : `${this.getFileName()}.${key}`
+
+            let rep = this.$parent.selectedKeyFormat !== ''
+                ? this.$parent.selectedKeyFormat.replace('value', str)
+                : `'${str}'`
+
+            return rep
         }
     },
     watch: {
