@@ -196,6 +196,10 @@ export default {
             this.updateLs({file : val})
         },
         selectedKeyFormat(val) {
+            if (val == 'clear') {
+                this.selectedKeyFormat = ''
+            }
+
             this.updateLs({format : val})
         }
     },

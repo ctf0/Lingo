@@ -244,16 +244,17 @@ export default{
             this.newItemCounter = 0
             this.selectedFileDataClone = JSON.parse(JSON.stringify(this.selectedFileData))
 
+            // hacky fix as newkeys dont reset
             if (this.newKeys) {
                 let old = this.selectedFile
+
                 setTimeout(() => {
                     this.selectedFile = old
+                    this.parentMethod('reflowTable')
                 }, 10)
 
-                this.parentMethod('resetAll', ['newKeys', 'selectedFile'])
+                this.parentMethod('resetAll', ['selectedFile'])
             }
-
-            this.parentMethod('resetAll', ['newKeys'])
         },
 
         // util

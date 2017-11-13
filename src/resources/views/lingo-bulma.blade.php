@@ -68,6 +68,7 @@
                                                 <div class="select" :class="{'is-loading' : !selectedKeyFormat}">
                                                   <select v-model="selectedKeyFormat">
                                                     <option value="" disabled>{{ trans('Lingo::messages.select_format') }}</option>
+                                                    <option value="clear">Non</option>
                                                     <option v-for="(item,index) in copyKeyFormat" :key="index">
                                                         @{{ item }}
                                                     </option>
