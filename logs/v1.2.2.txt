@@ -1,0 +1,5 @@
+- sort items b4 rendering
+- remove array conversion on save as it was causing issues
+- automatically lowerCase the keys, and replace spaces with underscore
+- allow newline in value
+- fix item losing focus because of tippy

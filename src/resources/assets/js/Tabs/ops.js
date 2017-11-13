@@ -16,7 +16,8 @@ export default {
             newKeys: '',
             dataChanged: false,
             newItemCounter: 0,
-            keyToCopy : ''
+            keyToCopy : '',
+            currentInputRef: ''
         }
     },
     mounted() {
@@ -64,6 +65,7 @@ export default {
         // copy to clipboard
         $(document).on('click', '.c2c', () => {
             this.$copyText(this.keyToCopy)
+            this.refocus()
         })
     },
     activated() {
@@ -132,6 +134,9 @@ export default {
                 : `'${str}'`
 
             return rep
+        },
+        refocus() {
+            return this.currentInputRef.target.focus()
         }
     },
     watch: {

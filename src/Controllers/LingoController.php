@@ -142,6 +142,9 @@ class LingoController extends Controller
             }
         }
 
+        // sort keys
+        ksort($res);
+
         return $this->goodResponse([
             'locales'=> $locales,
             'all'    => $res,

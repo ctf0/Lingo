@@ -71,11 +71,6 @@ trait Ops
             $dir = "$dir_name/$locale";
             $str = "<?php\n\nreturn " . var_export($value, true) . ';';
 
-            // array(...) to [...]
-            $str = str_replace('array (', '[', $str);
-            $str = str_replace(')', ']', $str);
-            $str = preg_replace('/=>\s+\[/', '=> [', $str);
-
             if (!$this->file->put("$dir/$file", $str)) {
                 return false;
             }

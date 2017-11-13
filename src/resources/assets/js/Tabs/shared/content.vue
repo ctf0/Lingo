@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="level is-mobile">
+        <div class="level is-mobile is-marginless">
             <!-- items count -->
             <div class="level-left">
                 <div class="level-item">
@@ -59,27 +59,30 @@
                     <tr v-for="(mainV, mainK, mainI) in selectedFileDataClone" :key="mainI">
                         <td nowrap contenteditable dir="auto"
                             :title="getKey(mainK)"
-                            v-tippy="{ position : 'right',  arrow: true, interactive: true}"
+                            v-tippy="{ position : 'right',  arrow: true, interactive: true, trigger: 'mouseenter'}"
+                            @shown="refocus()"
                             data-html="#tippyTemplate"
-                            @mouseover="keyToCopy = getKey(mainK)"
+                            @mouseenter="keyToCopy = getKey(mainK)"
 
                             :class="nestCheck(mainK)"
                             :data-main-key="mainK"
-                            v-html="mainK"
                             @keydown.enter.prevent
                             @input="newEntry()"
+                            @focus="getPos($event)"
                             @blur="saveNewKey($event)">
+                            {{ mainK }}
                         </td>
 
                         <td v-for="(nestV, nestK, nestI) in mainV" :key="nestI"
                             contenteditable dir="auto"
                             :data-main-key="mainK"
                             :data-code="nestK"
-                            v-html="nestV"
-                            @keydown.enter.prevent
                             @input="newEntry()"
+                            @focus="getPos($event)"
                             @blur="saveNewValue($event)">
+                            {{ nestV }}
                         </td>
+
                         <td width="1%">
                             <button class="button is-danger" @click="removeItem(mainK)">
                                 <span class="icon">
@@ -107,6 +110,7 @@
                         </button>
                     </div>
                 </div>
+
                 <div class="level-left">
                     <div class="level-item">
                         <button class="button is-success" :disabled="!dataChanged" @click="submitNewData()">
@@ -135,8 +139,7 @@
     }
 
     #tippyTemplate {
-        height: 1px;
-        visibility: hidden;
+        display: none;
     }
 
     .c2c {
@@ -255,6 +258,8 @@ export default{
 
                 this.parentMethod('resetAll', ['selectedFile'])
             }
+
+            this.parentMethod('resetAll', ['keyToCopy', 'currentInputRef'])
         },
 
         // util
@@ -263,9 +268,9 @@ export default{
             this.parentMethod('reflowTable')
         },
         saveNewKey(e) {
-            this.parentMethod('reflowTable')
             let old_key = e.target.dataset.mainKey
-            let new_key = e.target.innerText
+            let text = e.target.innerText = e.target.innerText.toLowerCase().replace(/\s/g, '_')
+            let new_key = text
 
             if (old_key !== new_key) {
                 this.dataChanged = true
@@ -278,10 +283,10 @@ export default{
             }
         },
         saveNewValue(e) {
-            this.parentMethod('reflowTable')
             let code = e.target.dataset.code
             let key = e.target.dataset.mainKey
-            let value = e.target.innerText
+            let text = e.target.innerText = e.target.innerText.replace(/\n/g, '<br>')
+            let value = text
 
             if (this.selectedFileDataClone[key][code] !== value) {
                 this.dataChanged = true
@@ -315,6 +320,17 @@ export default{
             return main
         },
 
+        // tippy & ctcp
+        getPos(e) {
+            this.currentInputRef = e
+        },
+        refocus() {
+            return this.parentMethod('refocus')
+        },
+        getKey(key) {
+            return this.parentMethod('getKey', key)
+        },
+
         // other
         nestCheck(item) {
             return item.includes('.') ? 'nestedKey' : ''
@@ -324,9 +340,6 @@ export default{
         },
         trans(key) {
             return this.parentMethod('trans', key)
-        },
-        getKey(key) {
-            return this.parentMethod('getKey', key)
         },
         parentMethod(method_name, args = null) {
             return this.$parent[method_name](args)
