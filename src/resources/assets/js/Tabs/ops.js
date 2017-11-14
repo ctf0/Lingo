@@ -136,7 +136,9 @@ export default {
             return rep
         },
         refocus() {
-            return this.currentInputRef.target.focus()
+            if (this.currentInputRef) {
+                return this.currentInputRef.target.focus()
+            }
         }
     },
     watch: {
@@ -153,7 +155,7 @@ export default {
         selectedFile(val) {
             this.$parent.selectedFileName = val
             this.dataChanged = false
-            this.resetAll(['newKeys'])
+            this.resetAll(['newKeys', 'currentInputRef', 'keyToCopy'])
 
             if (val) {
                 if (this.getTabName().includes('vendor') && !this.selectedDirName) {
