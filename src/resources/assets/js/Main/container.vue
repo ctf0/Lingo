@@ -8,7 +8,6 @@ export default {
     name: 'lingo',
     mixins: [Forms],
     props: [
-        'currentLocale',
         'scanForMissingRoute',
         'addNewLocaleRoute',
         'addNewFileRoute',
@@ -17,12 +16,12 @@ export default {
         'selectedFileDataRoute',
         'deleteFileRoute',
         'deleteLocaleRoute',
-        'saveFileRoute'
+        'saveFileRoute',
+        'lingoTrans'
     ],
     data() {
         return {
             activeTab: 'default-tab',
-            lingoTrans: '',
             new_locale: null,
             new_file: null,
             new_vendor: null,
@@ -54,9 +53,6 @@ export default {
             return this.dirsList && this.dirsList.includes(this.new_vendor) || false
         }
     },
-    created() {
-        this.getLingoTrans()
-    },
     beforeMount() {
         this.preVisited()
     },
@@ -64,7 +60,7 @@ export default {
         this.reflowTable()
     },
     methods: {
-        // main
+        // local-storage
         preVisited() {
             let ls = JSON.parse(localStorage.getItem('lingo'))
 
@@ -90,18 +86,6 @@ export default {
                     })
                 )
             }
-        },
-        getLingoTrans() {
-            $.post(this.selectedFileDataRoute, {
-                'file_name': 'messages.php',
-                'dir_name': 'Lingo'
-            }, (data) => {
-                if (data.success) {
-                    this.lingoTrans = data.message.all
-                }
-            }).fail(() => {
-                this.failedAjax()
-            })
         },
 
         // tabs
@@ -148,7 +132,7 @@ export default {
             }, 10)
         },
         trans(key) {
-            return this.lingoTrans[key][this.currentLocale]
+            return this.lingoTrans[key]
         },
 
         // notifs
@@ -179,10 +163,10 @@ export default {
             })
         },
         failedAjax() {
-            this.showNotif(this.trans('ajax_fail') || 'Ajax Call Failed', 'black')
+            this.showNotif(this.trans('ajax_fail'), 'black')
         },
         missingVal(msg = null) {
-            this.showNotif(msg || this.trans('no_val') || 'Missing Value', 'warning')
+            this.showNotif(msg || this.trans('no_val'), 'warning')
         }
     },
     watch: {

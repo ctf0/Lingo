@@ -18,7 +18,7 @@ class LingoController extends Controller
 
     public function __construct(Filesystem $file)
     {
-        $this->lang_path = resource_path() . '/lang';
+        $this->lang_path = resource_path('lang');
         $this->langDirs  = $file->directories($this->lang_path);
         $this->file      = $file;
     }

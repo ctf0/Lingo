@@ -26,7 +26,6 @@
                 <div class="column">
 
                     <lingo inline-template
-                        current-locale="{{ app()->getLocale() }}"
                         scan-for-missing-route="{{ route('lingo.scan_for_missing') }}"
                         add-new-locale-route="{{ route('lingo.add_new_locale') }}"
                         add-new-file-route="{{ route('lingo.add_new_file') }}"
@@ -35,7 +34,8 @@
                         selected-file-data-route="{{ route('lingo.get_file_data') }}"
                         delete-file-route="{{ route('lingo.delete_file') }}"
                         delete-locale-route="{{ route('lingo.delete_locale') }}"
-                        save-file-route="{{ route('lingo.save_file_data') }}">
+                        save-file-route="{{ route('lingo.save_file_data') }}"
+                        :lingo-trans="{{ $lingo_trans }}">
                         <div>
 
                             <div class="columns">
