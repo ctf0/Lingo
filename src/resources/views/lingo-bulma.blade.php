@@ -38,52 +38,46 @@
                         :lingo-trans="{{ $lingo_trans }}">
                         <div>
 
-                            <div class="columns">
-                                {{-- scan for missing trans --}}
-                                <div class="column is-half is-paddingless">
-                                    <div class="columns">
-                                        <div class="column is-narrow">
-                                            <h3 class="title">
-                                                <span class="icon" style="vertical-align: middle"><i class="fa fa-qrcode"></i></span>
-                                                <span>{{ trans('Lingo::messages.scan') }}</span>
-                                            </h3>
-                                        </div>
-
-                                        <div class="column">
-                                            <button @click="scanForMissing()" class="button is-link">{{ trans('Lingo::messages.scan_btn') }}</button>
+                            {{-- utils --}}
+                            <div class="level">
+                                <div class="level-right"></div>
+                                <div class="level-left">
+                                    {{-- copied key format --}}
+                                    <div class="level-item">
+                                        <div class="field">
+                                            <div class="control has-icons-left">
+                                                <div class="select">
+                                                    <select v-model="selectedKeyFormat">
+                                                        <option value="" disabled><span>{{ trans('Lingo::messages.key_format') }}</span></option>
+                                                        <option value="clear">Non</option>
+                                                        <option v-for="(item,index) in copyKeyFormat" :key="index">
+                                                            @{{ item }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="icon is-medium is-left has-text-black-ter">
+                                                    <i class="fa fa-keyboard-o"></i>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                {{-- copied key format --}}
-                                <div class="column is-half is-paddingless">
-                                    <div class="columns">
-                                        <div class="column is-narrow">
-                                            <h3 class="title">
-                                                <span class="icon" style="margin-right: 5px"><i class="fa fa-keyboard-o"></i></span>
-                                                <span>{{ trans('Lingo::messages.key_format') }}</span>
-                                            </h3>
-                                        </div>
-
-                                        <div class="column">
+                                    {{-- scan for missing trans --}}
+                                    <div class="level-item">
+                                        <div class="field">
                                             <div class="control">
-                                                <div class="select" :class="{'is-loading' : !selectedKeyFormat}">
-                                                  <select v-model="selectedKeyFormat">
-                                                    <option value="" disabled>{{ trans('Lingo::messages.select_format') }}</option>
-                                                    <option value="clear">Non</option>
-                                                    <option v-for="(item,index) in copyKeyFormat" :key="index">
-                                                        @{{ item }}
-                                                    </option>
-                                                  </select>
-                                                </div>
+                                                <button @click="scanForMissing()" class="button is-link">
+                                                    <span class="icon" style="vertical-align: middle"><i class="fa fa-qrcode"></i></span>
+                                                    <span>{{ trans('Lingo::messages.scan') }}</span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {{-- add new vendor --}}
                             <transition-group tag="ul" name="comp-fade" mode="out-in">
+                                {{-- add new vendor --}}
                                 <li :key="1" class="columns" v-if="activeTabIs('vendor-tab')">
                                     <div class="column is-3">
                                         <p class="title">
@@ -101,10 +95,19 @@
                                     <div class="column">
                                         <div class="field has-addons">
                                             <p class="control">
-                                                <input class="input" type="text" @keyup.enter="addNewVendor()" v-model="new_vendor" placeholder="ex.'Abc'">
+                                                <input class="input"
+                                                    type="text"
+                                                    @keyup.enter="addNewVendor()"
+                                                    v-model="new_vendor"
+                                                    placeholder="ex.'Abc'">
                                             </p>
                                             <p class="control">
-                                                <button @click="addNewVendor()" ref="vendor" class="button is-primary" :disabled="dirExist">{{ trans('Lingo::messages.add_btn') }}</button>
+                                                <button @click="addNewVendor()"
+                                                    ref="vendor"
+                                                    class="button is-primary"
+                                                    :disabled="dirExist">
+                                                    {{ trans('Lingo::messages.add_btn') }}
+                                                </button>
                                             </p>
                                         </div>
 
@@ -132,10 +135,19 @@
                                     <div class="column">
                                         <div class="field has-addons">
                                             <p class="control">
-                                                <input class="input" type="text" @keyup.enter="addNewLocale()" v-model="new_locale" placeholder="ex.'fr'">
+                                                <input class="input"
+                                                    type="text"
+                                                    @keyup.enter="addNewLocale()"
+                                                    v-model="new_locale"
+                                                    placeholder="ex.'fr'">
                                             </p>
                                             <p class="control">
-                                                <button @click="addNewLocale()" ref="locale" class="button is-primary" :disabled="localeExist">{{ trans('Lingo::messages.add_btn') }}</button>
+                                                <button @click="addNewLocale()"
+                                                    ref="locale"
+                                                    class="button is-primary"
+                                                    :disabled="localeExist">
+                                                    {{ trans('Lingo::messages.add_btn') }}
+                                                </button>
                                             </p>
                                         </div>
 
@@ -163,10 +175,19 @@
                                     <div class="column">
                                         <div class="field has-addons">
                                             <p class="control">
-                                                <input class="input" type="text" @keyup.enter="addNewFile()" v-model="new_file" placeholder="ex.'messages.php'">
+                                                <input class="input"
+                                                    type="text"
+                                                    @keyup.enter="addNewFile()"
+                                                    v-model="new_file"
+                                                    placeholder="ex.'messages.php'">
                                             </p>
                                             <p class="control">
-                                                <button @click="addNewFile()" ref="file" class="button is-primary" :disabled="fileExist">{{ trans('Lingo::messages.add_btn') }}</button>
+                                                <button @click="addNewFile()"
+                                                    ref="file"
+                                                    class="button is-primary"
+                                                    :disabled="fileExist">
+                                                    {{ trans('Lingo::messages.add_btn') }}
+                                                </button>
                                             </p>
                                         </div>
 

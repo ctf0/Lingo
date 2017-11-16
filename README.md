@@ -45,6 +45,7 @@ npm install vue vuemit vue-notif vue-clipboard2 vue-tippy --save
 - use localeStorage to remember opened "tab/vendor/files".
 - show/hide different elements to avoid noise & keep the user focused.
 - support up to 3 levels deep on nested keys.
+- support all laravel different translation key formats.
 - directly copy translation key by clicking on the tooltip.
 
 ## Usage
@@ -55,7 +56,9 @@ npm install vue vuemit vue-notif vue-clipboard2 vue-tippy --save
 >
 > - duplicate `resources/views/vendor/Lingo/lingo-bulma` and rename it to the framework you want ex.`lingo-bootstrap`
 > - duplicate `assets/vendor/Lingo/sass/bulma.scss` and rename it to the framework you want ex.`bootstrap.scss`
-> - edit `assets/vendor/Lingo/js/shared/content.vue` & `assets/vendor/Lingo/js/Tabs/vendor.vue`
+> - edit both
+>     + `assets/vendor/Lingo/js/Tabs/vendor.vue`
+>     + `assets/vendor/Lingo/js/Tabs/shared/content.vue`
 > - set `MIX_LINGO_FRAMEWORK` to the framework name ex.`MIX_LINGO_FRAMEWORK=bootstrap`
 > - start editing the new files.
 
@@ -63,7 +66,7 @@ npm install vue vuemit vue-notif vue-clipboard2 vue-tippy --save
     + if you are having issues [Check](https://ctf0.wordpress.com/2017/09/12/laravel-mix-es6/)
 
 ```js
-require('./../vendor/Lingo/js/lingo')
+require('./../vendor/Lingo/js/manager')
 
 new Vue({
     el: '#app'
