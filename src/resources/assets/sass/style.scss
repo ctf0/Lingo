@@ -19,6 +19,17 @@ th {
     opacity: 0;
 }
 
+.comp-fade-enter-active,
+.comp-fade-leave-active {
+    transition: all 0.4s;
+}
+
+.comp-fade-enter,
+.comp-fade-leave-to {
+    transform: translateX(-30px);
+    opacity: 0;
+}
+
 .nestedKey {
     color: white;
     background-color: #363636;

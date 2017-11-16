@@ -57,6 +57,7 @@ export default {
         this.preVisited()
     },
     updated() {
+        this.tableFloatHead($('table'), 0)
         this.reflowTable()
     },
     methods: {
@@ -86,6 +87,19 @@ export default {
                     })
                 )
             }
+        },
+
+        // table
+        tableFloatHead(table, offset) {
+            setTimeout(() => {
+                table.floatThead({
+                    top: offset,
+                    autoReflow: true,
+                    responsiveContainer(table) {
+                        return table.closest('section')
+                    }
+                })
+            }, 600)
         },
 
         // tabs
@@ -167,6 +181,11 @@ export default {
         },
         missingVal(msg = null) {
             this.showNotif(msg || this.trans('no_val'), 'warning')
+        },
+
+        // animation
+        afterEnter() {
+            this.reflowTable()
         }
     },
     watch: {

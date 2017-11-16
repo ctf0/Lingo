@@ -21,6 +21,8 @@ export default {
         }
     },
     mounted() {
+        this.$tippy.forceUpdateHtml()
+
         EventHub.listen('ls-file', (data) => {
             if (data.tab == this.getTabName()) {
                 setTimeout(() => {

@@ -60,9 +60,9 @@
                         <td nowrap contenteditable dir="auto"
                             :title="getKey(mainK)"
                             v-tippy="{ position : 'right',  arrow: true, interactive: true, trigger: 'mouseenter'}"
-                            @shown="refocus()"
                             data-html="#tippyTemplate"
                             @mouseenter="keyToCopy = getKey(mainK)"
+                            @shown="refocus()"
 
                             :class="nestCheck(mainK)"
                             :data-main-key="mainK"
@@ -162,24 +162,11 @@ export default{
         }
     },
     updated() {
-        this.tableFloatHead($('table'), 0)
+        this.parentMethod('reflowTable')
         this.tableColumnResize()
     },
     methods: {
         // table ops
-        tableFloatHead(table, offset) {
-            setTimeout(() => {
-                table.floatThead({
-                    top: offset,
-                    autoReflow: true,
-                    responsiveContainer(table) {
-                        return table.closest('section')
-                    }
-                })
-            }, 600)
-
-            this.parentMethod('reflowTable')
-        },
         tableColumnResize() {
             let el
             let startOffset
