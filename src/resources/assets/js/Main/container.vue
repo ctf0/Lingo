@@ -152,12 +152,12 @@ export default {
         // notifs
         showNotif(msg, s = 'success') {
 
-            let title = ''
+            let title
             let duration = null
 
             switch (s) {
-            case 'danger':
             case 'black':
+            case 'danger':
                 title = 'Error'
                 break
             case 'warning':
