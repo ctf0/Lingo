@@ -1,17 +1,17 @@
 export default {
     methods: {
         removeSelectedFile() {
-            if (confirm('Are You Sure You Want to Remove This File ?!!')) {
+            if (confirm(this.trans('you_sure_file'))) {
 
                 let removedFile = this.selectedFile
                 let currentDir = this.selectedDir
                 let currentFiles = Object.values(this.files)
                 let lastItem = currentFiles.length == 1 && currentFiles[0] == removedFile
 
-                $.post(this.routes.deleteFileRoute, {
+                axios.post(this.routes.deleteFileRoute, {
                     'file_name': removedFile,
                     'dir_name': currentDir || null
-                }, (data) => {
+                }).then(({data}) => {
 
                     if (!data.success) {
                         return this.parentMethod('showNotif', (data.message, 'danger'))
@@ -30,20 +30,21 @@ export default {
                         })
                     }
 
+                    this.locales = []
                     this.selectedDir = currentDir
                     this.parentMethod('getFiles')
 
-                }).fail(() => {
+                }).catch(() => {
                     this.parentMethod('failedAjax')
                 })
             }
         },
         removeLocale(locale, override = null) {
-            if (override || confirm('Are You Sure You Want to Remove This Localized Version ?!!')) {
-                $.post(this.routes.deleteLocaleRoute, {
+            if (override || confirm(this.trans('you_sure_locale'))) {
+                axios.post(this.routes.deleteLocaleRoute, {
                     'locale': locale,
                     'dir_name': this.selectedDir || null
-                }, (data) => {
+                }).then(({data}) => {
 
                     if (!data.success) {
                         return this.parentMethod('showNotif', (data.message, 'danger'))
@@ -56,21 +57,21 @@ export default {
                     this.locales.splice(locale, 1)
                     this.parentMethod('getFileContent')
 
-                }).fail(() => {
+                }).catch(() => {
                     this.parentMethod('failedAjax')
                 })
             }
         },
         submitNewData() {
             if (this.dontHaveData()) {
-                this.parentMethod('showNotif', ('Maybe You Want To Delete the File Instead ?!!', 'warning', 'danger'))
+                this.parentMethod('showNotif', (this.trans('empty_file'), 'warning'))
             }
 
-            $.post(this.routes.saveFileRoute, {
+            axios.post(this.routes.saveFileRoute, {
                 'file_name': this.selectedFile,
                 'dir_name': this.selectedDir || null,
                 data: this.formatData()
-            }, (data) => {
+            }).then(({data}) => {
 
                 if (!data.success) {
                     return this.parentMethod('showNotif', (data.message, 'danger'))
@@ -80,7 +81,7 @@ export default {
                 this.dataChanged = false
                 this.selectedFileData = Object.assign({}, this.selectedFileDataClone)
 
-            }).fail(() => {
+            }).catch(() => {
                 this.parentMethod('failedAjax')
             })
         }

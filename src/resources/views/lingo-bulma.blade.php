@@ -8,7 +8,7 @@
     <title>Lingo</title>
 
     {{-- Styles --}}
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css">
     <link rel="stylesheet" href="{{ asset('assets/vendor/Lingo/style.css') }}"/>
 </head>
 
@@ -37,44 +37,6 @@
                         save-file-route="{{ route('lingo.save_file_data') }}"
                         :lingo-trans="{{ $lingo_trans }}">
                         <div>
-
-                            {{-- utils --}}
-                            <div class="level">
-                                <div class="level-right"></div>
-                                <div class="level-left">
-                                    {{-- copied key format --}}
-                                    <div class="level-item">
-                                        <div class="field">
-                                            <div class="control has-icons-left">
-                                                <div class="select">
-                                                    <select v-model="selectedKeyFormat">
-                                                        <option value="" disabled><span>{{ trans('Lingo::messages.key_format') }}</span></option>
-                                                        <option value="clear">Non</option>
-                                                        <option v-for="(item,index) in copyKeyFormat" :key="index">
-                                                            @{{ item }}
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <div class="icon is-medium is-left has-text-black-ter">
-                                                    <i class="fa fa-keyboard-o"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {{-- scan for missing trans --}}
-                                    <div class="level-item">
-                                        <div class="field">
-                                            <div class="control">
-                                                <button @click="scanForMissing()" class="button is-link">
-                                                    <span class="icon" style="vertical-align: middle"><i class="fa fa-qrcode"></i></span>
-                                                    <span>{{ trans('Lingo::messages.scan') }}</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <transition-group tag="ul" name="comp-fade" mode="out-in">
                                 {{-- add new vendor --}}
@@ -198,6 +160,44 @@
                                 </li>
                             </transition-group>
 
+                            {{-- utils --}}
+                            <div class="level">
+                                <div class="level-right"></div>
+                                <div class="level-left">
+                                    {{-- copied key format --}}
+                                    <div class="level-item">
+                                        <div class="field">
+                                            <div class="control has-icons-left">
+                                                <div class="select">
+                                                    <select v-model="selectedKeyFormat">
+                                                        <option value="" disabled><span>{{ trans('Lingo::messages.key_format') }}</span></option>
+                                                        <option value="clear">Non</option>
+                                                        <option v-for="(item,index) in copyKeyFormat" :key="index">
+                                                            @{{ item }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="icon is-medium is-left has-text-black-ter">
+                                                    <i class="fa fa-keyboard-o"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- scan for missing trans --}}
+                                    <div class="level-item">
+                                        <div class="field">
+                                            <div class="control">
+                                                <button @click="scanForMissing()" class="button is-link">
+                                                    <span class="icon" style="vertical-align: middle"><i class="fa fa-qrcode"></i></span>
+                                                    <span>{{ trans('Lingo::messages.scan') }}</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             {{-- Tabs --}}
                             <div class="tabs is-medium is-centered m-t-50">
                                 <ul>
@@ -237,7 +237,7 @@
     {{-- Footer --}}
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     {{-- Scripts --}}
-    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="//code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/floatthead/2.0.3/jquery.floatThead.min.js"></script>
     <script src="{{ asset("path/to/app.js") }}"></script>
 </body>

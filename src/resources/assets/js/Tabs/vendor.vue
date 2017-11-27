@@ -9,21 +9,21 @@
                         <option v-for="(d, i) in dirs" :key="i">{{ d }}</option>
                     </select>
                 </div>
-                <div class="icon is-small is-left"><i class="fa fa-folder"></i></div>
+                <div class="icon is-small is-left"><i class="fa fa-folder"/></div>
             </div>
             <!-- remove -->
             <div class="control" v-if="selectedDir">
                 <button class="button is-danger" @click="removeSelectedDir()">
                     <span class="icon">
-                        <i class="fa fa-trash"></i>
+                        <i class="fa fa-trash"/>
                     </span>
                 </button>
             </div>
         </div>
 
-        <template v-if="this.selectedDir">
+        <template v-if="selectedDir">
             <!-- select file -->
-            <shared-content></shared-content>
+            <shared-content/>
         </template>
     </div>
 </template>
@@ -65,16 +65,16 @@ export default {
     },
     methods: {
         getDirs() {
-            $.get(this.dirsRoute, (data) => {
+            axios.get(this.dirsRoute).then(({data}) => {
                 this.dirs = data
-            }).fail(() => {
+            }).catch(() => {
                 this.failedAjax()
             })
         },
         getFiles() {
-            $.post(this.routes.filesRoute, {
+            axios.post(this.routes.filesRoute, {
                 'dir_name' : this.selectedDir
-            }, (data) => {
+            }).then(({data}) => {
 
                 if (data.success) {
                     this.files = data.message
@@ -93,15 +93,15 @@ export default {
                 // get file data or avail locales
                 this.getFileContent()
 
-            }).fail(() => {
+            }).catch(() => {
                 this.failedAjax()
             })
         },
         removeSelectedDir() {
-            if (confirm('Are You Sure You Want to Remove This Package Translations ?!!')) {
-                $.post(this.deleteVendorRoute, {
+            if (confirm(this.trans('you_sure_package'))) {
+                axios.post(this.deleteVendorRoute, {
                     'dir_name' : this.selectedDir
-                }, (data) => {
+                }).then(({data}) => {
 
                     if (!data.success) {
                         return this.showNotif(data.message, 'danger')
@@ -120,7 +120,7 @@ export default {
 
                     this.getDirs()
 
-                }).fail(() => {
+                }).catch(() => {
                     this.failedAjax()
                 })
             }

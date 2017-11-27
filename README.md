@@ -23,9 +23,9 @@ is a file based translation manager, which unlike other Lang managers dont need 
 - install dependencies
 
 ```bash
-yarn add vue vuemit vue-notif vue-clipboard2 vue-tippy
+yarn add vue axios vuemit vue-notif vue-clipboard2 vue-tippy
 # or
-npm install vue vuemit vue-notif vue-clipboard2 vue-tippy --save
+npm install vue axios vuemit vue-notif vue-clipboard2 vue-tippy --save
 ```
 
 - publish the package assets with

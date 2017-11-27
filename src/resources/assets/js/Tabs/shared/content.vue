@@ -23,12 +23,12 @@
                                     <option v-for="(f, i) in files" :key="i">{{ f }}</option>
                                 </select>
                             </div>
-                            <div class="icon is-small is-left"><i class="fa fa-file"></i></div>
+                            <div class="icon is-small is-left"><i class="fa fa-file"/></div>
                         </div>
                         <div class="control" v-if="selectedFile">
                             <button class="button is-danger" @click="removeSelectedFile()">
                                 <span class="icon">
-                                    <i class="fa fa-trash"></i>
+                                    <i class="fa fa-trash"/>
                                 </span>
                             </button>
                         </div>
@@ -48,7 +48,7 @@
                             <div class="tags has-addons">
                                 <span class="tag is-dark is-medium">{{ l }}</span>
                                 <span class="tag is-warning is-medium" @click="removeLocale(l)">
-                                    <i class="fa fa-trash"></i>
+                                    <i class="fa fa-trash"/>
                                 </span>
                             </div>
                         </th>
@@ -59,7 +59,7 @@
                     <tr v-for="(mainV, mainK, mainI) in selectedFileDataClone" :key="mainI">
                         <td nowrap contenteditable dir="auto"
                             :title="getKey(mainK)"
-                            v-tippy="{ position : 'right',  arrow: true, interactive: true, trigger: 'mouseenter'}"
+                            v-tippy="{ position : 'right', arrow: true, interactive: true, trigger: 'mouseenter'}"
                             data-html="#tippyTemplate"
                             @mouseenter="keyToCopy = getKey(mainK)"
                             @shown="refocus()"
@@ -86,7 +86,7 @@
                         <td width="1%">
                             <button class="button is-danger" @click="removeItem(mainK)">
                                 <span class="icon">
-                                    <i class="fa fa-trash"></i>
+                                    <i class="fa fa-trash"/>
                                 </span>
                             </button>
                         </td>

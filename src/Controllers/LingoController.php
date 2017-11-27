@@ -195,16 +195,16 @@ class LingoController extends Controller
         $new_dir = "$dir_name/$code";
 
         if ($this->file->exists($new_dir)) {
-            return $this->badResponse("'$new_dir' Directory Already Exists");
+            return $this->badResponse("'$new_dir'" . trans('Lingo::messages.already_exist'));
         }
 
         if (!$def_dir) {
             if ($this->file->makeDirectory($new_dir)) {
-                return $this->goodResponse("'{$request->dir_name}/$code' Was Successfully Created");
+                return $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'{$request->dir_name}/$code'", 'state'=>'Created']));
             }
         } else {
             if ($this->file->copyDirectory($def_dir, $new_dir)) {
-                return $this->goodResponse("'{$request->dir_name}/$code' Was Successfully Created");
+                return $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'{$request->dir_name}/$code'", 'state'=>'Created']));
             }
         }
 
@@ -231,15 +231,15 @@ class LingoController extends Controller
             }
 
             if ($this->file->exists("$locale/$file_name")) {
-                return $this->badResponse("'$file_name' Already Exists At '$locale'");
+                return $this->badResponse("'$locale/$file_name'" . trans('Lingo::messages.already_exist'));
             }
 
             $this->file->put("$locale/$file_name", "<?php\n\nreturn [];");
         }
 
         return $dir_name
-            ? $this->goodResponse("'$dir_name/../$file_name' Was Successfully Created")
-            : $this->goodResponse("'lang/../$file_name' Was Successfully Created");
+            ? $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$dir_name/../$file_name'", 'state'=>'Created']))
+            : $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'lang/../$file_name'", 'state'=>'Created']));
     }
 
     /**
@@ -254,11 +254,11 @@ class LingoController extends Controller
         $def_locale = config('app.locale');
 
         if ($this->file->exists($path)) {
-            return $this->badResponse("'vendor/$dir_name' Already Exists");
+            return $this->badResponse("'vendor/$dir_name'" . trans('Lingo::messages.already_exist'));
         }
 
         if ($this->file->makeDirectory($path)) {
-            return $this->goodResponse("'vendor/$dir_name' Was Successfully Created");
+            return $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'vendor/$dir_name'", 'state'=>'Created']));
         }
 
         return $this->badResponse();
@@ -291,7 +291,7 @@ class LingoController extends Controller
         }
 
         return true == $success
-            ? $this->goodResponse("'$file_name' Was Successfully Deleted")
+            ? $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$file_name'", 'state'=>'Deleted']))
             : $this->badResponse();
     }
 
@@ -312,7 +312,7 @@ class LingoController extends Controller
             : $this->lang_path;
 
         return $this->file->deleteDirectory("$path/$locale")
-            ? $this->goodResponse("'$locale' Was Successfully Deleted")
+            ? $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$locale'", 'state'=>'Deleted']))
             : $this->badResponse();
     }
 
@@ -329,7 +329,7 @@ class LingoController extends Controller
         $path     = "{$this->lang_path}/vendor/$dir_name";
 
         return $this->file->deleteDirectory($path)
-            ? $this->goodResponse("'vendor/$dir_name' Was Successfully Deleted")
+            ? $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'vendor/$dir_name'", 'state'=>'Deleted']))
             : $this->badResponse();
     }
 
@@ -348,8 +348,8 @@ class LingoController extends Controller
 
         if ($this->saveToFile($file_name, $data, $dir_name)) {
             return $dir_name
-                ? $this->goodResponse("'$dir_name/$file_name' Was Successfully Saved")
-                : $this->goodResponse("'$file_name' Was Successfully Saved");
+                ? $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$dir_name/$file_name'", 'state'=>'Saved']))
+                : $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$file_name'", 'state'=>'Saved']));
         }
 
         return $this->badResponse();

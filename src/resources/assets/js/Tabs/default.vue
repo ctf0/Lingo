@@ -1,8 +1,8 @@
 <template>
-   <div>
+    <div>
         <!-- select file -->
-       <shared-content></shared-content>
-   </div>
+        <shared-content/>
+    </div>
 </template>
 
 <script>
@@ -18,14 +18,15 @@ export default {
     },
     methods: {
         getFiles() {
-            $.post(this.routes.filesRoute, {}, (data) => {
-                if (data.success) {
-                    this.files = data.message
-                }
+            axios.post(this.routes.filesRoute, {})
+                .then(({data}) => {
+                    if (data.success) {
+                        this.files = data.message
+                    }
 
-            }).fail(() => {
-                this.$parent.failedAjax()
-            })
+                }).catch(() => {
+                    this.$parent.failedAjax()
+                })
         }
     }
 }

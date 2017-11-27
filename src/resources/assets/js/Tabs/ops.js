@@ -82,20 +82,23 @@ export default {
     methods: {
         // data
         getFileContent() {
-            $.post(this.routes.selectedFileDataRoute, {
+            axios.post(this.routes.selectedFileDataRoute, {
                 'file_name': this.selectedFile || null,
                 'dir_name': this.selectedDir || null
-            }, (data) => {
+            }).then(({data}) => {
 
                 if (!data.success) {
                     return this.resetAll(['selectedFile', 'files'])
                 }
 
                 this.locales = data.message.locales
-                this.selectedFileData = data.message.all
-                this.selectedFileDataClone = JSON.parse(JSON.stringify(data.message.all))
+                let all = data.message.all
+                if (all) {
+                    this.selectedFileData = all
+                    this.selectedFileDataClone = JSON.parse(JSON.stringify(all))
+                }
 
-            }).fail(() => {
+            }).catch(() => {
                 this.$parent.failedAjax()
             })
         },
@@ -119,7 +122,7 @@ export default {
             this.$parent.showNotif(msg, s)
         },
         failedAjax() {
-            this.showNotif(this.trans('ajax_fail'), 'black')
+            this.showNotif(this.trans('ajax_error'), 'black')
         },
 
         // copy key

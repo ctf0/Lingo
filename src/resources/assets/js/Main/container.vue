@@ -177,7 +177,7 @@ export default {
             })
         },
         failedAjax() {
-            this.showNotif(this.trans('ajax_fail'), 'black')
+            this.showNotif(this.trans('ajax_error'), 'black')
         },
         missingVal(msg = null) {
             this.showNotif(msg || this.trans('no_val'), 'warning')
