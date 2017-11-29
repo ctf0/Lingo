@@ -63,7 +63,7 @@ export default {
     methods: {
         // local-storage
         preVisited() {
-            let ls = JSON.parse(localStorage.getItem('lingo'))
+            let ls = this.$ls.get('lingo')
 
             if (ls) {
                 this.activeTab = ls.tab
@@ -77,14 +77,14 @@ export default {
                     })
                 }, 50)
             } else {
-                localStorage.setItem(
+                this.$ls.set(
                     'lingo',
-                    JSON.stringify({
+                    {
                         tab: this.activeTab,
                         dir: this.selectedDirName,
                         file: this.selectedFileName,
                         format: this.selectedKeyFormat
-                    })
+                    }
                 )
             }
         },
@@ -130,10 +130,10 @@ export default {
 
         // utils
         updateLs(obj) {
-            let oldLs = JSON.parse(localStorage.getItem('lingo')) || {}
+            let oldLs = this.$ls.get('lingo', {})
 
             Object.assign(oldLs, obj)
-            localStorage.setItem('lingo', JSON.stringify(oldLs))
+            this.$ls.set('lingo', oldLs)
         },
         resetAll(items) {
             items.forEach((e) => {
