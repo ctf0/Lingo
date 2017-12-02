@@ -25,7 +25,7 @@ export default {
                     }
 
                 }).catch(() => {
-                    this.$parent.failedAjax()
+                    this.parentMethod('failedAjax')
                 })
         }
     }

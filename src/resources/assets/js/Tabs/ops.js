@@ -105,10 +105,10 @@ export default {
 
         // shared-content
         trans(key) {
-            return this.$parent.trans(key) || ''
+            return this.parentMethod('trans', key) || ''
         },
         reflowTable() {
-            this.$parent.reflowTable()
+            this.parentMethod('reflowTable')
         },
         getTabName() {
             return this.$options.name
@@ -119,10 +119,13 @@ export default {
             })
         },
         showNotif(msg, s = 'success') {
-            this.$parent.showNotif(msg, s)
+            this.parentMethod('showNotif', (msg, s))
         },
         failedAjax() {
             this.showNotif(this.trans('ajax_error'), 'black')
+        },
+        parentMethod(method_name, args = null) {
+            return this.$parent[method_name](args)
         },
 
         // copy key
