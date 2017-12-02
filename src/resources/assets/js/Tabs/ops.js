@@ -98,7 +98,8 @@ export default {
                     this.selectedFileDataClone = JSON.parse(JSON.stringify(all))
                 }
 
-            }).catch(() => {
+            }).catch((err) => {
+                console.error(err)
                 this.$parent.failedAjax()
             })
         },

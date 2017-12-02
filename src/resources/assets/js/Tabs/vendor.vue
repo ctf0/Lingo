@@ -67,7 +67,8 @@ export default {
         getDirs() {
             axios.get(this.dirsRoute).then(({data}) => {
                 this.dirs = data
-            }).catch(() => {
+            }).catch((err) => {
+                console.error(err)
                 this.failedAjax()
             })
         },
@@ -93,7 +94,8 @@ export default {
                 // get file data or avail locales
                 this.getFileContent()
 
-            }).catch(() => {
+            }).catch((err) => {
+                console.error(err)
                 this.failedAjax()
             })
         },
@@ -120,7 +122,8 @@ export default {
 
                     this.getDirs()
 
-                }).catch(() => {
+                }).catch((err) => {
+                    console.error(err)
                     this.failedAjax()
                 })
             }

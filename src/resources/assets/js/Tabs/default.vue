@@ -24,7 +24,8 @@ export default {
                         this.files = data.message
                     }
 
-                }).catch(() => {
+                }).catch((err) => {
+                    console.error(err)
                     this.parentMethod('failedAjax')
                 })
         }

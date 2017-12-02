@@ -34,7 +34,8 @@ export default {
                     this.selectedDir = currentDir
                     this.parentMethod('getFiles')
 
-                }).catch(() => {
+                }).catch((err) => {
+                    console.error(err)
                     this.parentMethod('failedAjax')
                 })
             }
@@ -57,7 +58,8 @@ export default {
                     this.locales.splice(locale, 1)
                     this.parentMethod('getFileContent')
 
-                }).catch(() => {
+                }).catch((err) => {
+                    console.error(err)
                     this.parentMethod('failedAjax')
                 })
             }
@@ -81,7 +83,8 @@ export default {
                 this.dataChanged = false
                 this.selectedFileData = Object.assign({}, this.selectedFileDataClone)
 
-            }).catch(() => {
+            }).catch((err) => {
+                console.error(err)
                 this.parentMethod('failedAjax')
             })
         }

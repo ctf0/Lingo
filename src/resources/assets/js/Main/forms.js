@@ -5,7 +5,8 @@ export default {
                 .then(({data}) => {
                     this.showNotif(data.message)
                     EventHub.fire('scan_complete', {tab: this.activeTab})
-                }).catch(() => {
+                }).catch((err) => {
+                    console.error(err)
                     this.failedAjax()
                 })
         },
@@ -28,7 +29,8 @@ export default {
                     this.resetAll(['new_locale'])
                     EventHub.fire('new_locale_added', {tab: this.activeTab})
 
-                }).catch(() => {
+                }).catch((err) => {
+                    console.error(err)
                     this.failedAjax()
                 })
             }
@@ -62,7 +64,8 @@ export default {
                         val: file_name
                     })
 
-                }).catch(() => {
+                }).catch((err) => {
+                    console.error(err)
                     this.failedAjax()
                 })
             }
@@ -87,7 +90,8 @@ export default {
                     this.resetAll(['new_vendor'])
                     EventHub.fire('new_vendor_added', vendor_name)
 
-                }).catch(() => {
+                }).catch((err) => {
+                    console.error(err)
                     this.failedAjax()
                 })
             }
