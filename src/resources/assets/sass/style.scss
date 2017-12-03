@@ -38,3 +38,10 @@ th {
     color: white;
     background-color: #363636;
 }
+
+thead th {
+    position: sticky;
+    z-index: 1;
+    top: 30px;
+    background-color: white;
+}

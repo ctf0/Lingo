@@ -1,5 +1,0 @@
-- finish trans all over
-- use axios instead of jquery ajax
-- jquery is now only used for (table fixed header & tooltip click event) if anyone can convert to plain js i would deeply appreciate it.
-- fixed add new locale ajax error
-- disallow adding new files without extension “.php”

@@ -161,7 +161,7 @@
                             </transition-group>
 
                             {{-- utils --}}
-                            <div class="level">
+                            <div class="level m-t-10">
                                 <div class="level-right"></div>
                                 <div class="level-left">
                                     {{-- copied key format --}}
@@ -218,7 +218,7 @@
                             </div>
 
                             {{-- Tabs Toggle --}}
-                            <transition name="comp-fade" mode="out-in" v-on:after-enter="afterEnter">
+                            <transition name="comp-fade" mode="out-in">
                                 <keep-alive>
                                     <component :is="activeTab"
                                         dirs-route="{{ route('lingo.vendor_dirs') }}"
@@ -237,8 +237,6 @@
     {{-- Footer --}}
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     {{-- Scripts --}}
-    <script src="//code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/floatthead/2.0.3/jquery.floatThead.min.js"></script>
     <script src="{{ asset("path/to/app.js") }}"></script>
 </body>
 </html>

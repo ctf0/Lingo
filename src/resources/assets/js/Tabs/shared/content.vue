@@ -134,10 +134,6 @@
 </template>
 
 <style scoped>
-    .tag {
-        border-radius: 3px;
-    }
-
     #tippyTemplate {
         display: none;
     }
@@ -162,7 +158,6 @@ export default{
         }
     },
     updated() {
-        this.parentMethod('reflowTable')
         this.tableColumnResize()
     },
     methods: {
@@ -172,7 +167,7 @@ export default{
             let startOffset
 
             document.querySelectorAll('table th').forEach((th) => {
-                th.style.position = 'relative'
+                th.style.position = 'sticky'
 
                 let grip = document.createElement('div')
                 grip.innerHTML = '&nbsp;'
@@ -192,7 +187,6 @@ export default{
 
             document.addEventListener('mousemove', (e) => {
                 if (el) {
-                    this.parentMethod('reflowTable')
                     el.style.width = startOffset + e.pageX + 'px'
                 }
             })
@@ -240,7 +234,6 @@ export default{
 
                 setTimeout(() => {
                     this.selectedFile = old
-                    this.parentMethod('reflowTable')
                 }, 10)
 
                 this.parentMethod('resetAll', ['selectedFile'])
@@ -252,7 +245,6 @@ export default{
         // util
         newEntry() {
             this.dataChanged = true
-            this.parentMethod('reflowTable')
         },
         saveNewKey(e) {
             let old_key = e.target.dataset.mainKey

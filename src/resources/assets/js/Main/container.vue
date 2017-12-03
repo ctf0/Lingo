@@ -56,10 +56,6 @@ export default {
     beforeMount() {
         this.preVisited()
     },
-    updated() {
-        this.tableFloatHead($('table'), 0)
-        this.reflowTable()
-    },
     methods: {
         // local-storage
         preVisited() {
@@ -87,19 +83,6 @@ export default {
                     }
                 )
             }
-        },
-
-        // table
-        tableFloatHead(table, offset) {
-            setTimeout(() => {
-                table.floatThead({
-                    top: offset,
-                    autoReflow: true,
-                    responsiveContainer(table) {
-                        return table.closest('section')
-                    }
-                })
-            }, 600)
         },
 
         // tabs
@@ -140,11 +123,6 @@ export default {
                 this[e] = ''
             })
         },
-        reflowTable() {
-            setTimeout(() => {
-                $('table').trigger('reflow')
-            }, 10)
-        },
         trans(key) {
             return this.lingoTrans[key]
         },
@@ -181,11 +159,6 @@ export default {
         },
         missingVal(msg = null) {
             this.showNotif(msg || this.trans('no_val'), 'warning')
-        },
-
-        // animation
-        afterEnter() {
-            this.reflowTable()
         }
     },
     watch: {

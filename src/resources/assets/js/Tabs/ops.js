@@ -65,10 +65,13 @@ export default {
         }
 
         // copy to clipboard
-        $(document).on('click', '.c2c', () => {
-            this.$copyText(this.keyToCopy)
-            this.refocus()
-        })
+        document.body.onclick = (e) => {
+            e = window.event ? event.srcElement : e.target
+            if (e.className && e.className.indexOf('c2c') != -1) {
+                this.$copyText(this.keyToCopy)
+                this.refocus()
+            }
+        }
     },
     activated() {
         if (this.$parent.activeTab == this.getTabName()) {
@@ -107,9 +110,6 @@ export default {
         // shared-content
         trans(key) {
             return this.parentMethod('trans', key) || ''
-        },
-        reflowTable() {
-            this.parentMethod('reflowTable')
         },
         getTabName() {
             return this.$options.name
