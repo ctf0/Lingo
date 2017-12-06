@@ -66,7 +66,7 @@ export default {
 
         // copy to clipboard
         document.body.onclick = (e) => {
-            e = window.event ? event.srcElement : e.target
+            e = window.event ? e.srcElement : e.target
             if (e.className && e.className.indexOf('c2c') != -1) {
                 this.$copyText(this.keyToCopy)
                 this.refocus()

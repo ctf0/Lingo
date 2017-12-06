@@ -40,19 +40,19 @@
         <!-- data -->
         <section v-if="selectedFile" class="m-t-50">
             <!-- table -->
-            <table class="table is-fullwidth is-bordered">
+            <table class="table is-fullwidth is-hoverable is-bordered">
                 <thead>
                     <tr class="is-unselectable">
-                        <th width="1%">{{ trans('key') }}</th>
-                        <th v-for="(l, i) in locales" :key="i">
+                        <th class="is-link" width="1%">{{ trans('key') }}</th>
+                        <th class="is-link" v-for="(l, i) in locales" :key="i">
                             <div class="tags has-addons">
-                                <span class="tag is-dark is-medium">{{ l }}</span>
+                                <span class="tag is-light is-medium">{{ l }}</span>
                                 <span class="tag is-warning is-medium" @click="removeLocale(l)">
                                     <i class="fa fa-trash"/>
                                 </span>
                             </div>
                         </th>
-                        <th>{{ trans('ops') }}</th>
+                        <th class="is-link">{{ trans('ops') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -211,9 +211,9 @@ export default{
 
             this.locales.forEach((item) => {
                 if (!fileData.hasOwnProperty(name)) {
-                    this.$set(fileData, name, {[item] :'some value'})
+                    this.$set(fileData, name, {[item]: ''})
                 } else {
-                    this.$set(fileData[name], item, 'some value')
+                    this.$set(fileData[name], item, '')
                 }
             })
 

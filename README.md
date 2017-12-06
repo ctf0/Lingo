@@ -1,10 +1,14 @@
+# Lingo
+
+[![Latest Stable Version](https://img.shields.io/packagist/v/ctf0/lingo.svg?style=for-the-badge)](https://packagist.org/packages/ctf0/lingo) [![Total Downloads](https://img.shields.io/packagist/dt/ctf0/lingo.svg?style=for-the-badge)](https://packagist.org/packages/ctf0/lingo)
+
+A file based translation manager, which unlike other Lang managers don't need a database connection to handle the translation.
+
 <p align="center">
     <img src="https://user-images.githubusercontent.com/7388088/32700479-b5c32ff0-c7ce-11e7-85ca-4895e802c68a.png">
 </p>
 
-# Lingo
-
-is a file based translation manager, which unlike other Lang managers dont need a database connection to handle the translation.
+<br>
 
 ## Installation
 
@@ -20,14 +24,6 @@ is a file based translation manager, which unlike other Lang managers dont need 
 ]
 ```
 
-- install dependencies
-
-```bash
-yarn add vue axios vue-ls vuemit vue-notif vue-clipboard2 vue-tippy
-# or
-npm install vue axios vue-ls vuemit vue-notif vue-clipboard2 vue-tippy --save
-```
-
 - publish the package assets with
 
 `php artisan vendor:publish --provider="ctf0\Lingo\LingoServiceProvider"`
@@ -36,6 +32,27 @@ npm install vue axios vue-ls vuemit vue-notif vue-clipboard2 vue-tippy --save
     + package routes to `routes/web.php`
     + package assets compiling to `webpack.mix.js`
     + `MIX_LINGO_FRAMEWORK=bulma` to `.env`
+
+- install dependencies
+
+```bash
+yarn add vue axios vue-ls vuemit vue-notif vue-clipboard2 vue-tippy
+# or
+npm install vue axios vue-ls vuemit vue-notif vue-clipboard2 vue-tippy --save
+```
+
+- add this one liner to your main js file and run `npm run watch` to compile your `js/css` files.
+    - if you are having issues [Check](https://ctf0.wordpress.com/2017/09/12/laravel-mix-es6/)
+
+```js
+require('./../vendor/Lingo/js/manager')
+
+new Vue({
+    el: '#app'
+})
+```
+
+<br>
 
 ## Features
 
@@ -46,7 +63,9 @@ npm install vue axios vue-ls vuemit vue-notif vue-clipboard2 vue-tippy --save
 - show/hide different elements to avoid noise & keep the user focused.
 - support up to 3 levels deep on nested keys.
 - support all laravel different translation key formats.
-- directly copy translation key by clicking on the tooltip.
+- directly copy translation key by clicking on the tool-tip.
+
+<br>
 
 ## Usage
 
@@ -62,19 +81,4 @@ npm install vue axios vue-ls vuemit vue-notif vue-clipboard2 vue-tippy --save
 > - set `MIX_LINGO_FRAMEWORK` to the framework name ex.`MIX_LINGO_FRAMEWORK=bootstrap`
 > - start editing the new files.
 
-- add this one liner to your main js file and run `npm run watch` to compile your `js/css` files.
-    + if you are having issues [Check](https://ctf0.wordpress.com/2017/09/12/laravel-mix-es6/)
-
-```js
-require('./../vendor/Lingo/js/manager')
-
-new Vue({
-    el: '#app'
-})
-```
-
-- now visit `localhost:8000/lingo`
-
-## Notes
-
-- we use [Laravel Langman](https://github.com/themsaid/laravel-langman) for scanning for missing translation keys, if you have better alternative you can open a ticket.
+- visit `localhost:8000/lingo`
