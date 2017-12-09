@@ -1,4 +1,4 @@
-@import "./style";
+@import './style';
 
 .tags {
     display: inline-flex;
@@ -20,4 +20,8 @@
 
 .level-item {
     margin-bottom: 0.75rem;
+}
+
+.icon {
+    vertical-align: sub;
 }

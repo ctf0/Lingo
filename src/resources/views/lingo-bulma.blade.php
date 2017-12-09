@@ -48,7 +48,7 @@
                                                 <span v-if="newVendor() && !selectedDirName" class="title has-text-success">1.</span>
                                             </transition>
 
-                                            <span class="icon"><i class="fa fa-archive"></i></span>
+                                            <span class="icon"><icon name="archive" scale="2"></icon></span>
                                             <span>{{ trans('Lingo::messages.new_vendor') }}</span>
                                         </p>
                                         <p class="subtitle">@{{ vendorPH(new_vendor || 'Abc') }}</p>
@@ -88,7 +88,7 @@
                                                 <span v-if="newVendor() && localesList.length == 0" class="title has-text-success">2.</span>
                                             </transition>
 
-                                            <span class="icon"><i class="fa fa-globe"></i></span>
+                                            <span class="icon"><icon name="globe" scale="2"></icon></span>
                                             <span>{{ trans('Lingo::messages.new_locale') }}</span>
                                         </p>
                                         <p class="subtitle">@{{ placeHolder(new_locale || 'fr') }}</p>
@@ -128,7 +128,7 @@
                                                 <span v-if="newVendor()" class="title has-text-success">3.</span>
                                             </transition>
 
-                                            <span class="icon"><i class="fa fa-file-o"></i></span>
+                                            <span class="icon"><icon name="file-o" scale="2"></icon></span>
                                             <span>{{ trans('Lingo::messages.new_file') }}</span>
                                         </p>
                                         <p class="subtitle">@{{ placeHolder(new_file || 'messages.php', '*/') }}</p>
@@ -178,7 +178,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="icon is-medium is-left has-text-black-ter">
-                                                    <i class="fa fa-keyboard-o"></i>
+                                                    <icon name="keyboard-o"></icon>
                                                 </div>
                                             </div>
                                         </div>
@@ -189,7 +189,7 @@
                                         <div class="field">
                                             <div class="control">
                                                 <button @click="scanForMissing()" class="button is-link">
-                                                    <span class="icon" style="vertical-align: middle"><i class="fa fa-qrcode"></i></span>
+                                                    <span class="icon"><icon name="qrcode"></icon></span>
                                                     <span>{{ trans('Lingo::messages.scan') }}</span>
                                                 </button>
                                             </div>
@@ -203,14 +203,14 @@
                                 <ul>
                                     <li :class="{'is-active' : activeTabIs('default-tab')}">
                                         <a @click="toggleTab('default-tab')">
-                                            <span class="icon is-small"><i class="fa fa-files-o"></i></span>
+                                            <span class="icon"><icon name="files-o" scale="5"></icon></span>
                                             <span>{{ trans('Lingo::messages.d_tab') }}</span>
                                         </a>
                                     </li>
 
                                     <li :class="{'is-active' : activeTabIs('vendor-tab')}">
                                         <a @click="toggleTab('vendor-tab')">
-                                            <span class="icon is-small"><i class="fa fa-archive"></i></span>
+                                            <span class="icon"><icon name="archive" scale="5"></icon></span>
                                             <span>{{ trans('Lingo::messages.v_tab') }}</span>
                                         </a>
                                     </li>
@@ -235,7 +235,6 @@
     </section>
 
     {{-- Footer --}}
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     {{-- Scripts --}}
     <script src="{{ asset("path/to/app.js") }}"></script>
 </body>

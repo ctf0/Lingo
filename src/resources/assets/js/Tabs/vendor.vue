@@ -9,13 +9,13 @@
                         <option v-for="(d, i) in dirs" :key="i">{{ d }}</option>
                     </select>
                 </div>
-                <div class="icon is-small is-left"><i class="fa fa-folder"/></div>
+                <div class="icon is-small is-left"><icon name="folder"/></div>
             </div>
             <!-- remove -->
             <div class="control" v-if="selectedDir">
                 <button class="button is-danger" @click="removeSelectedDir()">
                     <span class="icon">
-                        <i class="fa fa-trash"/>
+                        <icon name="trash"/>
                     </span>
                 </button>
             </div>
