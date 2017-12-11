@@ -25,7 +25,7 @@ class LingoController extends Controller
 
     public function index()
     {
-        return view('Lingo::lingo-' . config('lingo.theme'));
+        return view('Lingo::lingo-' . config('lingo.theme', 'bulma'));
     }
 
 
