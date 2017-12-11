@@ -39,12 +39,12 @@ class LingoServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'Lingo');
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views/vendor/Lingo'),
-        ], 'views');
+        ], 'lingo-views');
 
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'Lingo');
         $this->publishes([
             __DIR__ . '/../resources/lang' => resource_path('lang/vendor/Lingo'),
-        ], 'trans');
+        ], 'lingo-trans');
 
         $locale = app()->getLocale();
         $fall_back = config('app.fallback_locale');
