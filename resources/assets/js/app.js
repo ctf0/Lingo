@@ -11,7 +11,6 @@ axios.defaults.headers.common = {
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
     'X-Requested-With': 'XMLHttpRequest'
 }
-
 // vue-awesome
 import 'vue-awesome/icons/trash'
 import 'vue-awesome/icons/search'
@@ -23,8 +22,13 @@ import 'vue-awesome/icons/file'
 import 'vue-awesome/icons/file-o'
 import 'vue-awesome/icons/files-o'
 import 'vue-awesome/icons/folder'
+
 Vue.component('icon', require('vue-awesome/components/Icon'))
 
 /*                Components                */
 Vue.component('Lingo', require('./Main/container'))
 Vue.component('MyNotification', require('vue-notif'))
+
+new Vue({
+    el: '#app'
+});

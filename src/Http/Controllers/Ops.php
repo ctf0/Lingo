@@ -1,6 +1,6 @@
 <?php
 
-namespace ctf0\Lingo\Controllers;
+namespace ctf0\Lingo\Http\Controllers;
 
 trait Ops
 {
