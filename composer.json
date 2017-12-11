@@ -1,43 +1,41 @@
 {
-    "name": "ctf0/lingo",
-    "description": "GUI to manage laravel translation files",
-    "homepage": "https://github.com/ctf0/Lingo",
-    "license": "MIT",
-    "keywords": [
-        "ctf0",
-        "lingo",
-        "laravel",
-        "gui",
-        "translation",
-        "lang",
-        "manager"
-    ],
-    "authors": [
-        {
-            "name": "Muah",
-            "email": "muah003@gmail.com"
-        }
-    ],
-    "require": {
-        "php" : "~7.0",
-        "illuminate/support": "5.4 || 5.5",
-        "themsaid/laravel-langman": "^1.3",
-        "ctf0/package-changelog": "^1.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "ctf0\\Lingo\\": "src"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "ctf0\\Lingo\\LingoServiceProvider"
-            ]
-        },
-        "changeLog": "logs"
-    },
-    "config": {
-        "sort-packages": true
+  "name": "ctf0/lingo",
+  "description": "GUI to manage laravel translation files",
+  "homepage": "https://github.com/ctf0/Lingo",
+  "license": "MIT",
+  "keywords": [
+    "ctf0",
+    "lingo",
+    "laravel",
+    "gui",
+    "translation",
+    "lang",
+    "manager"
+  ],
+  "authors": [
+    {
+      "name": "Muah",
+      "email": "muah003@gmail.com"
     }
+  ],
+  "require": {
+    "php": "~7.0",
+    "illuminate/support": "5.4 || 5.5",
+    "themsaid/laravel-langman": "^1.3",
+    "ctf0/package-changelog": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "ctf0\\Lingo\\": "src"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": ["ctf0\\Lingo\\LingoServiceProvider"]
+    },
+    "changeLog": "logs"
+  },
+  "config": {
+    "sort-packages": true
+  }
 }

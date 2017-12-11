@@ -28,32 +28,6 @@ A file based translation manager, which unlike other Lang managers don't need a 
 
 `php artisan vendor:publish --provider="ctf0\Lingo\LingoServiceProvider"`
 
-- after installation, package will auto-add
-    + package routes to `routes/web.php`
-    + package assets compiling to `webpack.mix.js`
-    + `MIX_LINGO_FRAMEWORK=bulma` to `.env`
-
-- install dependencies
-
-```bash
-yarn add vue axios vue-ls vuemit vue-notif vue-clipboard2 vue-tippy vue-awesome
-# or
-npm install vue axios vue-ls vuemit vue-notif vue-clipboard2 vue-tippy vue-awesome --save
-```
-
-- add this one liner to your main js file and run `npm run watch` to compile your `js/css` files.
-    - if you are having issues [Check](https://ctf0.wordpress.com/2017/09/12/laravel-mix-es6/)
-
-```js
-require('./../vendor/Lingo/js/manager')
-
-new Vue({
-    el: '#app'
-})
-```
-
-<br>
-
 ## Features
 
 - add/remove "vendor/locale/file/item".
