@@ -3,6 +3,7 @@
 namespace ctf0\Lingo\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use ctf0\Lingo\Http\Middleware\Authenticate;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -18,6 +19,8 @@ class LingoController extends Controller
 
     public function __construct(Filesystem $file)
     {
+        $this->middleware(Authenticate::class);
+
         $this->lang_path = resource_path('lang');
         $this->langDirs = $file->directories($this->lang_path);
         $this->file = $file;
