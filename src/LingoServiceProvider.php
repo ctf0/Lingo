@@ -2,134 +2,109 @@
 
 namespace ctf0\Lingo;
 
+use ctf0\PackageChangeLog\PackageChangeLogServiceProvider;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Themsaid\Langman\LangmanServiceProvider;
 
 class LingoServiceProvider extends ServiceProvider
 {
-    protected $file;
-
     /**
      * Perform post-registration booting of services.
      */
     public function boot()
     {
-        $this->file = app('files');
 
-        $this->packagePublish();
+        $this->registerRoutes();
+        $this->registerResources();
+        $this->defineAssetPublishing();
 
-        // append extra data
-        if (!app('cache')->store('file')->has('ct-lingo')) {
-            $this->autoReg();
-        }
     }
 
-    /**
-     * [packagePublish description].
-     *
-     * @return [type] [description]
-     */
-    public function packagePublish()
+    protected function registerRoutes()
     {
-        // resources
-        $this->publishes([
-            __DIR__ . '/resources/assets' => resource_path('assets/vendor/Lingo'),
-        ], 'assets');
-
-        // views
-        $this->loadViewsFrom(__DIR__ . '/resources/views', 'Lingo');
-        $this->publishes([
-            __DIR__ . '/resources/views' => resource_path('views/vendor/Lingo'),
-        ], 'views');
-
-        // trans
-        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'Lingo');
-        $this->publishes([
-            __DIR__ . '/resources/lang' => resource_path('lang/vendor/Lingo'),
-        ], 'trans');
-
-        $this->viewComp();
+        Route::group([
+            'prefix'     => config('lingo.uri', 'lingo'),
+            'namespace'  => 'ctf0\Lingo\Http\Controllers',
+            'middleware' => config('lingo.middleware', 'web'),
+            'as'         => 'lingo.',
+        ], function () {
+            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        });
     }
 
-    protected function viewComp()
+    protected function registerResources()
     {
-        $path      = resource_path('lang/vendor/Lingo');
-        $current   = app()->getLocale();
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'Lingo');
+        $this->publishes([
+            __DIR__ . '/../resources/views' => resource_path('views/vendor/Lingo'),
+        ], 'lingo-views');
+
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'Lingo');
+        $this->publishes([
+            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/Lingo'),
+        ], 'lingo-trans');
+
+        $locale = app()->getLocale();
         $fall_back = config('app.fallback_locale');
         $file_name = 'messages.php';
 
-        $trans = file_exists("$path/$current/$file_name")
-           ? include "$path/$current/$file_name"
-           : include "$path/$fall_back/$file_name";
+        $path = LINGO_PATH . "/resources/lang/{$locale}/$file_name";
+        $path_fallback = LINGO_PATH . "/resources/lang/{$fall_back}/$file_name";
 
-        view()->composer('Lingo::*', function ($view) use ($trans) {
-            $view->with([
-               'lingo_trans' => json_encode($trans),
-           ]);
-        });
+        $trans = file_exists($path)
+            ? include "$path"
+            : include "$path_fallback";
+
+        if (!app('cache')->store('file')->has('ct-lingo')) {
+            view()->composer('Lingo::*', function (View $view) use ($trans) {
+                $view->with([
+                    'lingo_trans' => json_encode($trans),
+                ]);
+            });
+        }
+
     }
 
-    /**
-     * [autoReg description].
-     *
-     * @return [type] [description]
-     */
-    protected function autoReg()
+    protected function defineAssetPublishing()
     {
-        // routes
-        $route_file = base_path('routes/web.php');
-        $search     = 'Lingo';
-
-        if ($this->checkExist($route_file, $search)) {
-            $data = "\n// Lingo\nctf0\Lingo\LingoRoutes::routes();";
-
-            $this->file->append($route_file, $data);
-        }
-
-        // mix
-        $mix_file = base_path('webpack.mix.js');
-        $search   = 'Lingo';
-
-        if ($this->checkExist($mix_file, $search)) {
-            $data = "\n// Lingo\nrequire('dotenv').config()\nmix.sass('resources/assets/vendor/Lingo/sass/' + process.env.MIX_LINGO_FRAMEWORK + '.scss', 'public/assets/vendor/Lingo/style.css').version();";
-
-            $this->file->append($mix_file, $data);
-        }
-
-        // fw
-        $env_file = base_path('.env');
-        $search   = 'MIX_LINGO_FRAMEWORK';
-
-        if ($this->checkExist($env_file, $search)) {
-            $data = "\nMIX_LINGO_FRAMEWORK=bulma";
-
-            $this->file->append($env_file, $data);
-        }
-
-        // run check once
-        app('cache')->store('file')->rememberForever('ct-lingo', function () {
-            return 'added';
-        });
+        $this->publishes([
+            LINGO_PATH . '/public' => public_path('vendor/lingo'),
+        ], 'lingo-assets');
     }
 
-    /**
-     * [checkExist description].
-     *
-     * @param [type] $file   [description]
-     * @param [type] $search [description]
-     *
-     * @return [type] [description]
-     */
-    protected function checkExist($file, $search)
-    {
-        return $this->file->exists($file) && !str_contains($this->file->get($file), $search);
-    }
-
-    /**
-     * Register any package services.
-     */
     public function register()
     {
-        $this->app->register(\Themsaid\Langman\LangmanServiceProvider::class);
-        $this->app->register(\ctf0\PackageChangeLog\PackageChangeLogServiceProvider::class);
+        if (!defined('LINGO_PATH')) {
+            define('LINGO_PATH', realpath(__DIR__ . '/../'));
+        }
+
+        $this->configure();
+        $this->offerPublishing();
+        $this->registerServices();
+
+    }
+
+    protected function configure()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/lingo.php', 'Lingo'
+        );
+    }
+
+    protected function offerPublishing()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../config/lingo.php' => config_path('lingo.php'),
+            ], 'lingo-config');
+        }
+    }
+
+    protected function registerServices()
+    {
+        $this->app->register(LangmanServiceProvider::class);
+        $this->app->register(PackageChangeLogServiceProvider::class);
     }
 }
