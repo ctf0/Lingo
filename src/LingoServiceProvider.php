@@ -28,7 +28,7 @@ class LingoServiceProvider extends ServiceProvider
             'prefix'     => config('lingo.uri', 'lingo'),
             'namespace'  => 'ctf0\Lingo\Http\Controllers',
             'middleware' => config('lingo.middleware', 'web'),
-            'as'         => config('lingo.as', 'lingo.'),
+            'as'         => 'lingo.',
         ], function () {
             $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         });
