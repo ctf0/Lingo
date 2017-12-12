@@ -59,7 +59,7 @@
                     <tr v-for="(mainV, mainK, mainI) in selectedFileDataClone" :key="mainI">
                         <td nowrap contenteditable dir="auto"
                             :title="getKey(mainK)"
-                            v-tippy="{ position : 'right', arrow: true, interactive: true, trigger: 'mouseenter'}"
+                            v-tippy="{position : 'right', arrow: true, interactive: true, trigger: 'mouseenter'}"
                             data-html="#tippyTemplate"
                             @mouseenter="keyToCopy = getKey(mainK)"
                             @shown="refocus()"

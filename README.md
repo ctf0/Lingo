@@ -36,9 +36,9 @@ A file based translation manager, which unlike other Lang managers don't need a 
 - install dependencies
 
 ```bash
-yarn add vue axios vue-ls vuemit vue-notif vue-clipboard2 vue-tippy vue-awesome
+yarn add vue axios vue-ls vuemit vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome
 # or
-npm install vue axios vue-ls vuemit vue-notif vue-clipboard2 vue-tippy vue-awesome --save
+npm install vue axios vue-ls vuemit vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome --save
 ```
 
 - add this one liner to your main js file and run `npm run watch` to compile your `js/css` files.
