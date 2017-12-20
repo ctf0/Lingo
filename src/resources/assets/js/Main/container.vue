@@ -71,7 +71,7 @@ export default {
                         tab: ls.tab,
                         val: ls.file
                     })
-                }, 50)
+                }, 100)
             } else {
                 this.$ls.set(
                     'lingo',

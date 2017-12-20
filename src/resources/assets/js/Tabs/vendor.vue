@@ -51,11 +51,7 @@ export default {
     },
     mounted() {
         EventHub.listen('ls-dir', (val) => {
-            setTimeout(() => {
-                if (this.dirs.length && this.dirs.includes(val)) {
-                    return this.selectedDir = val
-                }
-            }, 100)
+            this.selectedDir = val
         })
 
         EventHub.listen('new_vendor_added', (val) => {
