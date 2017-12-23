@@ -43,20 +43,24 @@ export default {
     data() {
         return {
             dirs: [],
-            selectedDir: ''
+            selectedDir: null
         }
     },
     beforeMount() {
         this.getDirs()
     },
     mounted() {
-        EventHub.listen('ls-dir', (val) => {
-            this.selectedDir = val
-        })
-
         EventHub.listen('new_vendor_added', (val) => {
             this.getDirs()
             this.selectedDir = val
+        })
+
+        EventHub.listen('ls-dir', (val) => {
+            setTimeout(() => {
+                if (this.dirs.includes(val)) {
+                    this.selectedDir = val
+                }
+            }, 100)
         })
     },
     methods: {

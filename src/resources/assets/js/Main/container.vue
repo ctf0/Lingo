@@ -64,14 +64,6 @@ export default {
             if (ls) {
                 this.activeTab = ls.tab
                 this.selectedKeyFormat = ls.format
-
-                setTimeout(() => {
-                    EventHub.fire('ls-dir', ls.dir)
-                    EventHub.fire('ls-file', {
-                        tab: ls.tab,
-                        val: ls.file
-                    })
-                }, 100)
             } else {
                 this.$ls.set(
                     'lingo',

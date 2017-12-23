@@ -23,18 +23,6 @@ export default {
     mounted() {
         this.$tippy.forceUpdateHtml()
 
-        EventHub.listen('ls-file', (data) => {
-            if (data.tab == this.getTabName()) {
-                setTimeout(() => {
-                    this.selectedFile = data.val
-
-                    if (data.val == '' && this.getTabName().includes('vendor')) {
-                        this.$parent.filesList = []
-                    }
-                }, 50)
-            }
-        })
-
         EventHub.listen('scan_complete', (data) => {
             if (data.tab == this.getTabName() && this.selectedFile !== '') {
                 this.getFileContent()
@@ -65,24 +53,47 @@ export default {
         }
 
         // copy to clipboard
-        document.body.onclick = (e) => {
-            e = window.event ? e.srcElement : e.target
-            if (e.className && e.className.indexOf('c2c') != -1) {
-                this.$copyText(this.keyToCopy)
-                this.refocus()
+        this.$nextTick(() => {
+            document.body.onclick = (e) => {
+                e = window.event ? e.srcElement : e.target
+                if (e.className && e.className.includes('c2c')) {
+                    this.$copyText(this.keyToCopy)
+                    this.refocus()
+                }
             }
-        }
+        })
     },
     activated() {
+        this.preVisited()
+
         if (this.$parent.activeTab == this.getTabName()) {
             this.$parent.dirsList = this.dirs
-            this.$parent.selectedDirName = this.selectedDir
             this.$parent.localesList = this.locales
-            this.$parent.selectedFileName = this.selectedFile
             this.$parent.filesList = this.files
+            this.$parent.selectedFileName = this.selectedFile
         }
     },
     methods: {
+        preVisited() {
+            let ls = this.$ls.get('lingo')
+
+            if (ls) {
+                EventHub.fire('ls-dir', ls.dir)
+
+                if (ls.tab == this.getTabName()) {
+                    setTimeout(() => {
+                        if (this.files.includes(ls.file) && !this.selectedFile) {
+                            this.selectedFile = ls.file
+                        }
+                    }, 100)
+                }
+
+                if (this.getTabName().includes('vendor') && ls.file == '') {
+                    this.$parent.filesList = []
+                }
+            }
+        },
+
         // data
         getFileContent() {
             axios.post(this.routes.selectedFileDataRoute, {
@@ -145,9 +156,9 @@ export default {
             return rep
         },
         refocus() {
-            if (this.currentInputRef) {
-                return this.currentInputRef.target.focus()
-            }
+            // if (this.currentInputRef) {
+            //     return this.currentInputRef.target.focus()
+            // }
         }
     },
     watch: {

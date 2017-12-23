@@ -147,7 +147,7 @@
 import Forms from './forms'
 
 export default{
-    name: 'content',
+    name: 'shared-content',
     mixins: [Forms],
     data() {
         return this.$parent.$data
