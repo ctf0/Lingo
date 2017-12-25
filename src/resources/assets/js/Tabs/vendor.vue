@@ -43,7 +43,7 @@ export default {
     data() {
         return {
             dirs: [],
-            selectedDir: null
+            selectedDir: ''
         }
     },
     beforeMount() {
