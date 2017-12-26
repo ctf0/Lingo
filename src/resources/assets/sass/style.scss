@@ -4,6 +4,12 @@ th {
     vertical-align: middle !important;
 }
 
+.nestedKey {
+    color: white;
+    background-color: #363636;
+}
+
+// util
 .m-t-50 {
     margin-top: 50px;
 }
@@ -12,6 +18,7 @@ th {
     margin-top: 10px;
 }
 
+// animation
 .slide-fade-enter-active,
 .slide-fade-leave-active {
     transition: all 0.4s;
@@ -32,16 +39,4 @@ th {
 .comp-fade-leave-to {
     transform: translateX(-30px);
     opacity: 0;
-}
-
-.nestedKey {
-    color: white;
-    background-color: #363636;
-}
-
-thead th {
-    position: sticky;
-    z-index: 1;
-    top: 30px;
-    background-color: white;
 }

@@ -75,7 +75,7 @@ export default {
     },
     methods: {
         preVisited() {
-            let ls = this.$ls.get('lingo')
+            let ls = this.parentMethod('getLs')
 
             if (ls) {
                 EventHub.fire('ls-dir', ls.dir)
@@ -114,7 +114,7 @@ export default {
 
             }).catch((err) => {
                 console.error(err)
-                this.$parent.failedAjax()
+                this.parentMethod('failedAjax')
             })
         },
 

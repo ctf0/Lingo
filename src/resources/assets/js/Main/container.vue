@@ -58,22 +58,25 @@ export default {
     },
     methods: {
         // local-storage
+        getLs() {
+            return this.$ls.get('ctf0-lingo', {})
+        },
+        setLs(obj) {
+            return this.$ls.set('ctf0-lingo', obj)
+        },
         preVisited() {
-            let ls = this.$ls.get('lingo')
+            let ls = this.getLs()
 
             if (ls) {
                 this.activeTab = ls.tab
                 this.selectedKeyFormat = ls.format
             } else {
-                this.$ls.set(
-                    'lingo',
-                    {
-                        tab: this.activeTab,
-                        dir: this.selectedDirName,
-                        file: this.selectedFileName,
-                        format: this.selectedKeyFormat
-                    }
-                )
+                this.setLs({
+                    tab: this.activeTab,
+                    dir: this.selectedDirName,
+                    file: this.selectedFileName,
+                    format: this.selectedKeyFormat
+                })
             }
         },
 
@@ -105,10 +108,10 @@ export default {
 
         // utils
         updateLs(obj) {
-            let oldLs = this.$ls.get('lingo', {})
+            let oldLs = this.getLs()
 
             Object.assign(oldLs, obj)
-            this.$ls.set('lingo', oldLs)
+            this.setLs(oldLs)
         },
         resetAll(items) {
             items.forEach((e) => {
