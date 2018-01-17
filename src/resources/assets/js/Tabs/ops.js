@@ -16,8 +16,10 @@ export default {
             newKeys: '',
             dataChanged: false,
             newItemCounter: 0,
-            keyToCopy : '',
-            currentInputRef: ''
+            keyToCopy: '',
+            currentInputRef: '',
+
+            searchFor: ''
         }
     },
     mounted() {
@@ -39,9 +41,15 @@ export default {
             if (data.tab == this.getTabName()) {
                 this.getFiles()
 
-                setTimeout(() => {
-                    this.selectedFile = data.val
-                }, 50)
+                let t = setInterval(() => {
+                    if (this.files.length > 0) {
+                        if (this.files.includes(data.val)) {
+                            this.selectedFile = data.val
+                        }
+
+                        clearInterval(t)
+                    }
+                }, 100)
             }
         })
 
@@ -51,17 +59,6 @@ export default {
                 return confirm('Confirm refresh')
             }
         }
-
-        // copy to clipboard
-        this.$nextTick(() => {
-            document.body.onclick = (e) => {
-                e = window.event ? e.srcElement : e.target
-                if (e.className && e.className.includes('c2c')) {
-                    this.$copyText(this.keyToCopy)
-                    this.refocus()
-                }
-            }
-        })
     },
     activated() {
         this.preVisited()
@@ -81,9 +78,13 @@ export default {
                 EventHub.fire('ls-dir', ls.dir)
 
                 if (ls.tab == this.getTabName()) {
-                    setTimeout(() => {
-                        if (this.files.includes(ls.file) && !this.selectedFile) {
-                            this.selectedFile = ls.file
+                    let t = setInterval(() => {
+                        if (this.files.length > 0) {
+                            if (this.files.includes(ls.file) && !this.selectedFile) {
+                                this.selectedFile = ls.file
+                            }
+
+                            clearInterval(t)
                         }
                     }, 100)
                 }
@@ -112,6 +113,17 @@ export default {
                     this.selectedFileDataClone = JSON.parse(JSON.stringify(all))
                 }
 
+                this.$nextTick(() => {
+                    // copy to clipboard
+                    document.body.onclick = (e) => {
+                        e = window.event ? e.srcElement : e.target
+                        if (e.classList.contains('c2c')) {
+                            this.$copyText(this.keyToCopy)
+                            this.refocus()
+                        }
+                    }
+                })
+
             }).catch((err) => {
                 console.error(err)
                 this.parentMethod('failedAjax')
@@ -119,9 +131,6 @@ export default {
         },
 
         // shared-content
-        trans(key) {
-            return this.parentMethod('trans', key) || ''
-        },
         getTabName() {
             return this.$options.name
         },
@@ -130,14 +139,19 @@ export default {
                 this[e] = ''
             })
         },
+
+        // parent
+        parentMethod(method_name, args = null) {
+            return this.$parent[method_name](args)
+        },
+        trans(key) {
+            return this.parentMethod('trans', key) || ''
+        },
         showNotif(msg, s = 'success') {
             this.parentMethod('showNotif', (msg, s))
         },
         failedAjax() {
             this.showNotif(this.trans('ajax_error'), 'black')
-        },
-        parentMethod(method_name, args = null) {
-            return this.$parent[method_name](args)
         },
 
         // copy key

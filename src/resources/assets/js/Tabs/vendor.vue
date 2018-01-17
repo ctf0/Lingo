@@ -56,9 +56,13 @@ export default {
         })
 
         EventHub.listen('ls-dir', (val) => {
-            setTimeout(() => {
-                if (this.dirs.includes(val)) {
-                    this.selectedDir = val
+            let t = setInterval(() => {
+                if (this.dirs.length > 0) {
+                    if (this.dirs.includes(val)) {
+                        this.selectedDir = val
+                    }
+
+                    clearInterval(t)
                 }
             }, 100)
         })
@@ -80,7 +84,7 @@ export default {
                 if (data.success) {
                     this.files = data.message
 
-                    if (this.files.length == 1) {
+                    if (this.files.length > 0) {
                         this.selectedFile = this.files[0]
                     } else {
                         // when changing dirs with files

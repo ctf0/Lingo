@@ -65,6 +65,8 @@ export default {
             }
         },
         submitNewData() {
+            let formatData = this.formatData()
+
             if (this.dontHaveData()) {
                 this.parentMethod('showNotif', (this.trans('empty_file'), 'warning'))
             }
@@ -72,16 +74,18 @@ export default {
             axios.post(this.routes.saveFileRoute, {
                 'file_name': this.selectedFile,
                 'dir_name': this.selectedDir || null,
-                data: this.formatData()
+                data: formatData
             }).then(({data}) => {
 
                 if (!data.success) {
                     return this.parentMethod('showNotif', (data.message, 'danger'))
                 }
 
-                this.parentMethod('showNotif', data.message)
                 this.dataChanged = false
-                this.selectedFileData = Object.assign({}, this.selectedFileDataClone)
+                this.newKeys = ''
+                this.newItemCounter = 0
+                this.selectedFileData = Object.assign({}, formatData)
+                this.parentMethod('showNotif', data.message)
 
             }).catch((err) => {
                 console.error(err)

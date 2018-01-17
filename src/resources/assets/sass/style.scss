@@ -4,18 +4,22 @@ th {
     vertical-align: middle !important;
 }
 
-.nestedKey {
+.nestedKeys {
     color: white;
-    background-color: #363636;
+    background-color: #363636 !important;
 }
 
 // util
-.m-t-50 {
-    margin-top: 50px;
+.m-t-40 {
+    margin-top: 40px;
 }
 
 .m-t-10 {
     margin-top: 10px;
+}
+
+.p-10 {
+    padding: 10px;
 }
 
 // animation

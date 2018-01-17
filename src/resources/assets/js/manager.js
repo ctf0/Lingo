@@ -28,15 +28,10 @@ axios.defaults.headers.common = {
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
     'X-Requested-With': 'XMLHttpRequest'
 }
-axios.interceptors.response.use((response) => {
-    return response
-}, (error) => {
-    return Promise.reject(error.response)
-})
+axios.interceptors.response.use((response) => {return response}, (error) => {return Promise.reject(error.response)})
 
 // vue-awesome
 import 'vue-awesome/icons/trash'
-import 'vue-awesome/icons/search'
 import 'vue-awesome/icons/archive'
 import 'vue-awesome/icons/globe'
 import 'vue-awesome/icons/qrcode'
@@ -45,6 +40,9 @@ import 'vue-awesome/icons/file'
 import 'vue-awesome/icons/file-o'
 import 'vue-awesome/icons/files-o'
 import 'vue-awesome/icons/folder'
+// search
+import 'vue-awesome/icons/search'
+import 'vue-awesome/icons/times'
 Vue.component('icon', require('vue-awesome/components/Icon'))
 
 /*                Components                */

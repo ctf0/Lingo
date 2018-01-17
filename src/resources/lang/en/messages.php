@@ -6,6 +6,8 @@ return array (
   'ajax_error' => 'Something Went Wrong',
   'already_exist' => 'Already Exist',
   'd_tab' => 'Default',
+  'empty_file' => 'Maybe You Want To Delete the File Instead ?!!',
+  'find' => 'Find',
   'key' => 'Key',
   'key_format' => 'Select Copied Key Format',
   'new_file' => 'Add New File',
@@ -25,5 +27,4 @@ return array (
   'you_sure_file' => 'Are You Sure You Want to Remove This File ?!!',
   'you_sure_locale' => 'Are You Sure You Want to Remove This Localized Version ?!!',
   'you_sure_package' => 'Are You Sure You Want to Remove This Package Translations ?!!',
-  'empty_file' => 'Maybe You Want To Delete the File Instead ?!!',
 );

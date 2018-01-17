@@ -56,14 +56,15 @@ new Vue({
 
 ## Features
 
+- filter by keys.
 - add/remove "vendor/locale/file/item".
 - show guiding steps while adding new vendor for better UX.
 - validate for "vendor/locale/file" existence on the fly.
-- use localeStorage to remember opened "tab/vendor/files".
-- show/hide different elements to avoid noise & keep the user focused.
+- use localeStorage to remember opened "tab/vendor/files/copy-format".
 - support up to 3 levels deep on nested keys.
 - support all laravel different translation key formats.
 - directly copy translation key by clicking on the tool-tip.
+- show/hide different elements to avoid noise & keep the user focused.
 
 <br>
 

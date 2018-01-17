@@ -1,44 +1,61 @@
 <template>
     <div>
-        <div class="level is-mobile is-marginless">
+        <!-- select file -->
+        <div class="field is-grouped is-grouped-right" v-if="files.length">
+            <div class="control has-icons-left">
+                <div class="select">
+                    <select v-model="selectedFile">
+                        <option value="" disabled>{{ trans('select_file') }}</option>
+                        <option v-for="(f, i) in files" :key="i">{{ f }}</option>
+                    </select>
+                </div>
+                <div class="icon is-small is-left"><icon name="file"/></div>
+            </div>
+            <div class="control" v-if="selectedFile">
+                <button class="button is-danger" @click="removeSelectedFile()">
+                    <span class="icon">
+                        <icon name="trash"/>
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <div class="level is-mobile is-marginless m-t-40">
             <!-- items count -->
             <div class="level-left">
                 <div class="level-item">
-                    <div class="field is-grouped is-grouped-left">
-                        <div class="control" v-if="selectedFile">
-                            <h4 class="title is-4">"{{ itemsCount }}" Item/s</h4>
-                        </div>
+                    <div class="control" v-if="selectedFile">
+                        <h4 class="title is-4">"{{ itemsCount }}" Item/s</h4>
                     </div>
                 </div>
             </div>
 
-            <!-- select file -->
             <div class="level-right">
                 <div class="level-item">
-                    <div class="field is-grouped is-grouped-right" v-if="files.length">
-                        <div class="control has-icons-left">
-                            <div class="select">
-                                <select v-model="selectedFile">
-                                    <option value="" disabled>{{ trans('select_file') }}</option>
-                                    <option v-for="(f, i) in files" :key="i">{{ f }}</option>
-                                </select>
-                            </div>
-                            <div class="icon is-small is-left"><icon name="file"/></div>
-                        </div>
-                        <div class="control" v-if="selectedFile">
-                            <button class="button is-danger" @click="removeSelectedFile()">
-                                <span class="icon">
-                                    <icon name="trash"/>
-                                </span>
+                    <!-- search -->
+                    <div class="field has-addons">
+                        <p class="control has-icons-left">
+                            <input class="input"
+                                   type="text"
+                                   v-model="searchFor"
+                                   :placeholder="trans('find')">
+                            <span class="icon is-left">
+                                <icon name="search"/>
+                            </span>
+                        </p>
+                        <p class="control">
+                            <button class="button is-black" :disabled="!searchFor"
+                                    @click="resetSearch()">
+                                <span class="icon"><icon name="times"/></span>
                             </button>
-                        </div>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- data -->
-        <section v-if="selectedFile" class="m-t-50">
+        <section v-if="selectedFile" class="m-t-10">
             <!-- table -->
             <table class="table is-fullwidth is-hoverable is-bordered">
                 <thead>
@@ -55,8 +72,11 @@
                         <th class="is-link">{{ trans('ops') }}</th>
                     </tr>
                 </thead>
+
                 <tbody>
-                    <tr v-for="(mainV, mainK, mainI) in selectedFileDataClone" :key="mainI">
+                    <tr v-for="(mainV, mainK, mainI) in selectedFileDataClone"
+                        :key="mainI"
+                        v-if="inList(mainK)">
                         <td nowrap contenteditable dir="auto"
                             :title="getKey(mainK)"
                             v-tippy="{position : 'right', arrow: true, interactive: true, trigger: 'mouseenter'}"
@@ -103,7 +123,7 @@
 
             <!-- ops -->
             <div class="level">
-                <div class="level-right">
+                <div class="level-left">
                     <div class="level-item">
                         <button class="button is-link" @click.prevent="addNewItem()">
                             {{ trans('add_new') }}
@@ -111,7 +131,7 @@
                     </div>
                 </div>
 
-                <div class="level-left">
+                <div class="level-right">
                     <div class="level-item">
                         <button class="button is-success" :disabled="!dataChanged" @click="submitNewData()">
                             {{ trans('save') }}
@@ -154,13 +174,29 @@ export default{
     },
     computed: {
         itemsCount() {
-            return Object.keys(this.selectedFileDataClone).length
+            return this.filteredList().length
         }
     },
     updated() {
         this.tableColumnResize()
     },
     methods: {
+        // search
+        keysList() {
+            return Object.keys(this.selectedFileDataClone)
+        },
+        filteredList() {
+            return this.keysList().filter((e) => {
+                return e.includes(this.searchFor.toLowerCase())
+            })
+        },
+        inList(key) {
+            return this.filteredList().includes(key)
+        },
+        resetSearch() {
+            this.searchFor = ''
+        },
+
         // table ops
         tableColumnResize() {
             let el
@@ -227,19 +263,7 @@ export default{
             this.dataChanged = false
             this.newItemCounter = 0
             this.selectedFileDataClone = JSON.parse(JSON.stringify(this.selectedFileData))
-
-            // hacky fix as newkeys dont reset
-            if (this.newKeys) {
-                let old = this.selectedFile
-
-                setTimeout(() => {
-                    this.selectedFile = old
-                }, 10)
-
-                this.parentMethod('resetAll', ['selectedFile'])
-            }
-
-            this.parentMethod('resetAll', ['keyToCopy', 'currentInputRef'])
+            this.parentMethod('resetAll', ['keyToCopy', 'currentInputRef', 'newKeys'])
         },
 
         // util
@@ -306,16 +330,18 @@ export default{
         refocus() {
             return this.parentMethod('refocus')
         },
-        getKey(key) {
-            return this.parentMethod('getKey', key)
-        },
 
         // other
         nestCheck(item) {
-            return item.includes('.') ? 'nestedKey' : ''
+            return item.includes('.') ? 'nestedKeys' : ''
         },
         dontHaveData() {
             return Object.keys(this.selectedFileDataClone).length == 0
+        },
+
+        // parent
+        getKey(key) {
+            return this.parentMethod('getKey', key)
         },
         trans(key) {
             return this.parentMethod('trans', key)

@@ -26,7 +26,7 @@ export default {
 
                 }).catch((err) => {
                     console.error(err)
-                    this.parentMethod('failedAjax')
+                    this.failedAjax()
                 })
         }
     }
