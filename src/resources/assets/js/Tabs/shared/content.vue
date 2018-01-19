@@ -20,11 +20,11 @@
             </div>
         </div>
 
-        <div class="level is-mobile is-marginless m-t-40">
+        <div class="level is-mobile is-marginless m-t-40" v-if="selectedFile">
             <!-- items count -->
             <div class="level-left">
                 <div class="level-item">
-                    <div class="control" v-if="selectedFile">
+                    <div class="control">
                         <h4 class="title is-4">"{{ itemsCount }}" Item/s</h4>
                     </div>
                 </div>
