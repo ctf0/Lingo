@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Lingo</title>
+    <title>{{ trans('Lingo::messages.title') }}</title>
 
     {{-- Styles --}}
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css">
@@ -172,7 +172,7 @@
                                                     <select v-model="selectedKeyFormat">
                                                         <option value="" disabled><span>{{ trans('Lingo::messages.key_format') }}</span></option>
                                                         <option value="clear">Non</option>
-                                                        <option v-for="(item,index) in copyKeyFormat" :key="index">
+                                                        <option v-for="(item, index) in copyKeyFormat" :key="index">
                                                             @{{ item }}
                                                         </option>
                                                     </select>

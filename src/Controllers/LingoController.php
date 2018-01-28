@@ -290,7 +290,7 @@ class LingoController extends Controller
             $sucess = $this->file->delete("$locale/$file_name") ? true : false;
         }
 
-        return true == $success
+        return $success == true
             ? $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$file_name'", 'state'=>'Deleted']))
             : $this->badResponse();
     }

@@ -114,7 +114,7 @@
 
                     <!-- nothing found -->
                     <tr v-if="dontHaveData()">
-                        <td :colspan="locales.length + 2">
+                        <td :colspan="locales.length + 2" style="text-align: center">
                             {{ trans('no_data') }}
                         </td>
                     </tr>
