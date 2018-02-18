@@ -1,0 +1,84 @@
+$grey-lighter: #dbdbdb;
+$primary: #23d160;
+
+.cbx-checkbox {
+    &[type='checkbox'],
+    &:checked {
+        display: none;
+    }
+}
+
+.cbx {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    cursor: pointer;
+    vertical-align: sub;
+    border: 1px solid $grey-lighter;
+    border-radius: 3px;
+
+    &::before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        content: '';
+        transform: scale(0);
+        border-radius: 100%;
+        background: $primary;
+    }
+
+    &::after {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        width: 2px;
+        height: 2px;
+        content: '';
+        transform: scale(0);
+        border-radius: 2px;
+        box-shadow: 0 -18px 0 $primary, 12px -12px 0 $primary, 18px 0 0 $primary, 12px 12px 0 $primary, 0 18px 0 $primary, -12px 12px 0 $primary, -18px 0 0 $primary, -12px -12px 0 $primary;
+    }
+
+    svg {
+        position: relative;
+        top: -1px;
+        transform: scale(0);
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+
+        polyline {
+            stroke: $primary;
+            stroke-width: 2;
+        }
+    }
+}
+
+input:checked + .cbx {
+    top: 0;
+    border-color: transparent;
+
+    &::before {
+        transition: all 0.3s ease;
+        transform: scale(1);
+        opacity: 0;
+    }
+
+    &::after {
+        transition: all 0.6s ease;
+        transform: scale(1);
+        opacity: 0;
+    }
+
+    svg {
+        transition: all 0.4s ease;
+        transition-delay: 0.1s;
+        transform: scale(1);
+    }
+}

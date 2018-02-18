@@ -4,6 +4,12 @@ th {
     vertical-align: middle !important;
 }
 
+thead th {
+    position: sticky;
+    z-index: 1;
+    top: 0;
+}
+
 .nestedKeys {
     color: white;
     background-color: #363636 !important;
@@ -20,6 +26,14 @@ th {
 
 .p-10 {
     padding: 10px;
+}
+
+.link {
+    cursor: pointer;
+}
+
+.is-borderless {
+    border: none;
 }
 
 // animation

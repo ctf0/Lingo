@@ -1,9 +1,0 @@
-- make new item value = null
-- move to https://github.com/Justineo/vue-awesome instead of fw fonts
-- show sensible error for axios
-- small fix for ls not updateing selected dir
-- some cleanup
-- disable refocus
-- change ls name
-- fix laravel version
-- add search

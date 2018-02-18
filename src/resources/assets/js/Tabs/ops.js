@@ -2,29 +2,30 @@ export default {
     data() {
         return {
             routes: {
-                filesRoute : this.$parent.filesRoute,
-                selectedFileDataRoute : this.$parent.selectedFileDataRoute,
-                deleteFileRoute : this.$parent.deleteFileRoute,
-                deleteLocaleRoute : this.$parent.deleteLocaleRoute,
-                saveFileRoute : this.$parent.saveFileRoute
+                filesRoute: this.$parent.filesRoute,
+                selectedFileDataRoute: this.$parent.selectedFileDataRoute,
+                deleteFileRoute: this.$parent.deleteFileRoute,
+                deleteLocaleRoute: this.$parent.deleteLocaleRoute,
+                saveFileRoute: this.$parent.saveFileRoute
             },
+            searchFor: '',
             files: [],
             selectedFile: '',
             locales: [],
             selectedFileData: '',
             selectedFileDataClone: '',
-            newKeys: '',
             dataChanged: false,
+
+            newKeys: '',
             newItemCounter: 0,
             keyToCopy: '',
-            currentInputRef: '',
-
-            searchFor: ''
+            copiedItem: '',
+            toBeMergedKeys: [],
+            mergerName: '',
+            showModal: false
         }
     },
     mounted() {
-        this.$tippy.forceUpdateHtml()
-
         EventHub.listen('scan_complete', (data) => {
             if (data.tab == this.getTabName() && this.selectedFile !== '') {
                 this.getFileContent()
@@ -93,6 +94,11 @@ export default {
                     this.$parent.filesList = []
                 }
             }
+
+            // get copied item across tabs
+            if (this.$parent.copiedItem) {
+                this.copiedItem = this.$parent.copiedItem
+            }
         },
 
         // data
@@ -119,7 +125,6 @@ export default {
                         e = window.event ? e.srcElement : e.target
                         if (e.classList.contains('c2c')) {
                             this.$copyText(this.keyToCopy)
-                            this.refocus()
                         }
                     }
                 })
@@ -148,7 +153,7 @@ export default {
             return this.parentMethod('trans', key) || ''
         },
         showNotif(msg, s = 'success') {
-            this.parentMethod('showNotif', (msg, s))
+            this.$parent.showNotif(msg, s)
         },
         failedAjax() {
             this.showNotif(this.trans('ajax_error'), 'black')
@@ -168,11 +173,6 @@ export default {
                 : `'${str}'`
 
             return rep
-        },
-        refocus() {
-            // if (this.currentInputRef) {
-            //     return this.currentInputRef.target.focus()
-            // }
         }
     },
     watch: {
@@ -189,7 +189,7 @@ export default {
         selectedFile(val) {
             this.$parent.selectedFileName = val
             this.dataChanged = false
-            this.resetAll(['newKeys', 'currentInputRef', 'keyToCopy'])
+            this.resetAll(['newKeys', 'keyToCopy'])
 
             if (val) {
                 if (this.getTabName().includes('vendor') && !this.selectedDirName) {
@@ -201,6 +201,9 @@ export default {
         },
         files(val) {
             this.$parent.filesList = val
+        },
+        copiedItem(val) {
+            this.$parent.copiedItem = val
         }
     }
 }

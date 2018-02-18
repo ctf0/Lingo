@@ -14,10 +14,10 @@ export default {
                 }).then(({data}) => {
 
                     if (!data.success) {
-                        return this.parentMethod('showNotif', (data.message, 'danger'))
+                        return this.showNotif(data.message, 'danger')
                     }
 
-                    this.parentMethod('showNotif', data.message)
+                    this.showNotif(data.message)
                     this.parentMethod('resetAll', ['selectedFile', 'selectedDir'])
                     this.resetData()
 
@@ -48,11 +48,11 @@ export default {
                 }).then(({data}) => {
 
                     if (!data.success) {
-                        return this.parentMethod('showNotif', (data.message, 'danger'))
+                        return this.showNotif(data.message, 'danger')
                     }
 
                     if (!override) {
-                        this.parentMethod('showNotif', data.message)
+                        this.showNotif(data.message)
                     }
 
                     this.locales.splice(locale, 1)
@@ -68,7 +68,7 @@ export default {
             let formatData = this.formatData()
 
             if (this.dontHaveData()) {
-                this.parentMethod('showNotif', (this.trans('empty_file'), 'warning'))
+                this.showNotif(this.trans('empty_file'), 'warning')
             }
 
             axios.post(this.routes.saveFileRoute, {
@@ -78,14 +78,14 @@ export default {
             }).then(({data}) => {
 
                 if (!data.success) {
-                    return this.parentMethod('showNotif', (data.message, 'danger'))
+                    return this.showNotif(data.message, 'danger')
                 }
 
                 this.dataChanged = false
                 this.newKeys = ''
                 this.newItemCounter = 0
                 this.selectedFileData = Object.assign({}, formatData)
-                this.parentMethod('showNotif', data.message)
+                this.showNotif(data.message)
 
             }).catch((err) => {
                 console.error(err)

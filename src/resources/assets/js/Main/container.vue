@@ -39,7 +39,8 @@ export default {
                 '{{ trans(\'value\') }}',
                 '{{ __(\'value\') }}',
                 '@lang(\'value\')'
-            ]
+            ],
+            copiedItem: ''
         }
     },
     computed: {
@@ -158,20 +159,20 @@ export default {
     },
     watch: {
         activeTab(val) {
-            this.updateLs({tab : val})
+            this.updateLs({tab: val})
         },
         selectedDirName(val) {
-            this.updateLs({dir : val})
+            this.updateLs({dir: val})
         },
         selectedFileName(val) {
-            this.updateLs({file : val})
+            this.updateLs({file: val})
         },
         selectedKeyFormat(val) {
             if (val == 'clear') {
                 this.selectedKeyFormat = ''
             }
 
-            this.updateLs({format : val})
+            this.updateLs({format: val})
         }
     },
     render() {}

@@ -66,6 +66,8 @@ new Vue({
 - support all laravel different translation key formats.
 - directly copy translation key by clicking on the tool-tip.
 - show/hide different elements to avoid noise & keep the user focused.
+- copy/paste items.
+- merge multiple items under new key.
 
 <br>
 

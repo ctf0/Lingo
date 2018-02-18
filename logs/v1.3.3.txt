@@ -1,0 +1,3 @@
+- add support to copy/paste an item
+- add support for merging multiple items under new key
+- cleanups
