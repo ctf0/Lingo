@@ -171,16 +171,16 @@
                 </div>
 
                 <div class="level-right">
+                    <!-- reset -->
+                    <div class="level-item">
+                        <button class="button is-warning" :disabled="!dataChanged" @click="resetData()">
+                            {{ trans('reset') }}
+                        </button>
+                    </div>
                     <!-- save changes -->
                     <div class="level-item">
                         <button class="button is-success" :disabled="!dataChanged" @click="submitNewData()">
                             {{ trans('save') }}
-                        </button>
-                    </div>
-                    <!-- reset -->
-                    <div class="level-item">
-                        <button class="button" :disabled="!dataChanged" @click="resetData()">
-                            {{ trans('reset') }}
                         </button>
                     </div>
                 </div>
@@ -202,7 +202,7 @@
                     <button type="button" class="delete" @click="toggleModal()"/>
                 </header>
                 <section class="modal-card-body">
-                    <input class="input" type="text" v-model="mergerName" placeholder="..." autofocus>
+                    <input class="input" type="text" v-model="mergerName" placeholder="keyName" autofocus>
                 </section>
 
                 <footer class="modal-card-foot">

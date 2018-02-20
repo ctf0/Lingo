@@ -40,9 +40,9 @@ import 'vue-awesome/icons/file'
 import 'vue-awesome/icons/file-o'
 import 'vue-awesome/icons/files-o'
 import 'vue-awesome/icons/folder'
-// search
 import 'vue-awesome/icons/search'
 import 'vue-awesome/icons/times'
+import 'vue-awesome/icons/clone'
 Vue.component('icon', require('vue-awesome/components/Icon'))
 
 /*                Components                */
