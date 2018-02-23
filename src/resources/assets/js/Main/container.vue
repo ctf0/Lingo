@@ -17,7 +17,7 @@ export default {
         'deleteFileRoute',
         'deleteLocaleRoute',
         'saveFileRoute',
-        'lingoTrans'
+        'translations'
     ],
     data() {
         return {
@@ -120,7 +120,7 @@ export default {
             })
         },
         trans(key) {
-            return this.lingoTrans[key]
+            return this.translations[key]
         },
 
         // notifs
@@ -130,17 +130,17 @@ export default {
             let duration = null
 
             switch (s) {
-            case 'black':
-            case 'danger':
-                title = 'Error'
-                break
-            case 'warning':
-                title = 'Warning'
-                duration = 2
-                break
-            default:
-                title = 'Success'
-                duration = 3
+                case 'black':
+                case 'danger':
+                    title = 'Error'
+                    break
+                case 'warning':
+                    title = 'Warning'
+                    duration = 2
+                    break
+                default:
+                    title = 'Success'
+                    duration = 3
             }
 
             EventHub.fire('showNotif', {

@@ -35,7 +35,7 @@
                         delete-file-route="{{ route('lingo.delete_file') }}"
                         delete-locale-route="{{ route('lingo.delete_locale') }}"
                         save-file-route="{{ route('lingo.save_file_data') }}"
-                        :lingo-trans="{{ $lingo_trans }}">
+                        :translations="{{ $lingo_trans }}">
                         <div>
 
                             <transition-group tag="ul" name="comp-fade" mode="out-in">

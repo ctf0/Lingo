@@ -6,7 +6,7 @@
 A file based translation manager, which unlike other Lang managers don't need a database connection to handle the translation.
 
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/7388088/32700479-b5c32ff0-c7ce-11e7-85ca-4895e802c68a.png">
+    <img src="https://user-images.githubusercontent.com/7388088/36597526-11d85cdc-18b2-11e8-8036-38d716e9ef2c.png">
 </p>
 
 <br>
@@ -46,7 +46,7 @@ npm install vue axios vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome -
     - if you are having issues [Check](https://ctf0.wordpress.com/2017/09/12/laravel-mix-es6/)
 
 ```js
-require('./../vendor/Lingo/js/manager')
+require('../vendor/Lingo/js/manager')
 
 new Vue({
     el: '#app'

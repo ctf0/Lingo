@@ -134,6 +134,6 @@ trait Ops
 
     protected function badResponse($msg = null)
     {
-        return response()->json(['message' => $msg ?? trans('Lingo::messages.ajax_error')]);
+        return response()->json(['message' => $msg ?: trans('Lingo::messages.ajax_error')]);
     }
 }
