@@ -32,7 +32,6 @@ A file based translation manager, which unlike other Lang managers don't need a 
 - after installation, package will auto-add
     + package routes to `routes/web.php`
     + package assets compiling to `webpack.mix.js`
-    + `MIX_LINGO_FRAMEWORK=bulma` to `.env`
 
 - install dependencies
 
@@ -73,16 +72,5 @@ new Vue({
 
 ## Usage
 
-- for styling we use ***bulma***
-
-> ***Or Use another Framework***
->
-> - duplicate `resources/views/vendor/Lingo/lingo-bulma` and rename it to the framework you want ex.`lingo-bootstrap`
-> - duplicate `assets/vendor/Lingo/sass/bulma.scss` and rename it to the framework you want ex.`bootstrap.scss`
-> - edit both
->     + `assets/vendor/Lingo/js/Tabs/vendor.vue`
->     + `assets/vendor/Lingo/js/Tabs/shared/content.vue`
-> - set `MIX_LINGO_FRAMEWORK` to the framework name ex.`MIX_LINGO_FRAMEWORK=bootstrap`
-> - start editing the new files.
-
 - visit `localhost:8000/lingo`
+- for styling we use ***bulma***

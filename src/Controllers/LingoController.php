@@ -25,7 +25,7 @@ class LingoController extends Controller
 
     public function index()
     {
-        return view('Lingo::lingo-' . env('MIX_LINGO_FRAMEWORK'));
+        return view('Lingo::lingo');
     }
 
     /**

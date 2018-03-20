@@ -90,19 +90,9 @@ class LingoServiceProvider extends ServiceProvider
         $search   = 'Lingo';
 
         if ($this->checkExist($mix_file, $search)) {
-            $data = "\n// Lingo\nrequire('dotenv').config()\nmix.sass('resources/assets/vendor/Lingo/sass/' + process.env.MIX_LINGO_FRAMEWORK + '.scss', 'public/assets/vendor/Lingo/style.css').version();";
+            $data = "\n// Lingo\nrequire('dotenv').config()\nmix.sass('resources/assets/vendor/Lingo/style.scss', 'public/assets/vendor/Lingo/style.css').version();";
 
             $this->file->append($mix_file, $data);
-        }
-
-        // fw
-        $env_file = base_path('.env');
-        $search   = 'MIX_LINGO_FRAMEWORK';
-
-        if ($this->checkExist($env_file, $search)) {
-            $data = "\nMIX_LINGO_FRAMEWORK=bulma";
-
-            $this->file->append($env_file, $data);
         }
 
         // run check once
