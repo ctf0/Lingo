@@ -52,20 +52,23 @@ class LingoServiceProvider extends ServiceProvider
 
     protected function viewComp()
     {
-        $path      = resource_path('lang/vendor/Lingo');
-        $current   = app()->getLocale();
-        $fall_back = config('app.fallback_locale');
-        $file_name = 'messages.php';
+        $path = resource_path('lang/vendor/Lingo');
+        
+        if ($this->file->exists($path)) {
+            $current   = app()->getLocale();
+            $fall_back = config('app.fallback_locale');
+            $file_name = 'messages.php';
 
-        $trans = file_exists("$path/$current/$file_name")
-           ? include "$path/$current/$file_name"
-           : include "$path/$fall_back/$file_name";
+            $trans = file_exists("$path/$current/$file_name")
+               ? include "$path/$current/$file_name"
+               : include "$path/$fall_back/$file_name";
 
-        view()->composer('Lingo::*', function ($view) use ($trans) {
-            $view->with([
-               'lingo_trans' => json_encode($trans),
-           ]);
-        });
+            view()->composer('Lingo::*', function ($view) use ($trans) {
+                $view->with([
+                   'lingo_trans' => json_encode($trans),
+               ]);
+            });
+        }
     }
 
     /**
