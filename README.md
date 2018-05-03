@@ -13,21 +13,19 @@ A file based translation manager, which unlike other Lang managers don't need a 
 
 ## Installation
 
-- package requires Laravel v5.4+
-
 - `composer require ctf0/lingo`
 
 - (Laravel < 5.5) add the service provider
 
-```php
-'providers' => [
-    ctf0\Lingo\LingoServiceProvider::class,
-]
-```
+    ```php
+    'providers' => [
+        ctf0\Lingo\LingoServiceProvider::class,
+    ]
+    ```
 
 - publish the package assets with
 
-`php artisan vendor:publish --provider="ctf0\Lingo\LingoServiceProvider"`
+    `php artisan vendor:publish --provider="ctf0\Lingo\LingoServiceProvider"`
 
 - after installation, package will auto-add
     + package routes to `routes/web.php`
@@ -35,22 +33,22 @@ A file based translation manager, which unlike other Lang managers don't need a 
 
 - install dependencies
 
-```bash
-yarn add vue axios vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome
-# or
-npm install vue axios vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome --save
-```
+    ```bash
+    yarn add vue axios vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome@v2
+    # or
+    npm install vue axios vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome@v2 --save
+    ```
 
 - add this one liner to your main js file and run `npm run watch` to compile your `js/css` files.
     - if you are having issues [Check](https://ctf0.wordpress.com/2017/09/12/laravel-mix-es6/)
 
-```js
-require('../vendor/Lingo/js/manager')
+    ```js
+    require('../vendor/Lingo/js/manager')
 
-new Vue({
-    el: '#app'
-})
-```
+    new Vue({
+        el: '#app'
+    })
+    ```
 
 <br>
 
@@ -73,4 +71,3 @@ new Vue({
 ## Usage
 
 - visit `localhost:8000/lingo`
-- for styling we use ***bulma***

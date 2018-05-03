@@ -8,7 +8,7 @@
     <title>{{ trans('Lingo::messages.title') }}</title>
 
     {{-- Styles --}}
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
     <link rel="stylesheet" href="{{ asset('assets/vendor/Lingo/style.css') }}"/>
 </head>
 

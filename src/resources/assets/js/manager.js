@@ -29,8 +29,8 @@ axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest'
 }
 axios.interceptors.response.use(
-    (response) => {return response},
-    (error) => {return Promise.reject(error.response)}
+    (response) => response,
+    (error) => Promise.reject(error.response)
 )
 
 // vue-awesome

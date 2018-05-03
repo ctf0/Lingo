@@ -53,7 +53,7 @@ class LingoServiceProvider extends ServiceProvider
     protected function viewComp()
     {
         $path = resource_path('lang/vendor/Lingo');
-        
+
         if ($this->file->exists($path)) {
             $current   = app()->getLocale();
             $fall_back = config('app.fallback_locale');
@@ -63,12 +63,14 @@ class LingoServiceProvider extends ServiceProvider
                ? include "$path/$current/$file_name"
                : include "$path/$fall_back/$file_name";
 
-            view()->composer('Lingo::*', function ($view) use ($trans) {
-                $view->with([
-                   'lingo_trans' => json_encode($trans),
-               ]);
+            return view()->composer('Lingo::*', function ($view) use ($trans) {
+                $view->with(['lingo_trans' => json_encode($trans)]);
             });
         }
+
+        view()->composer('Lingo::*', function ($view) {
+            $view->with(['lingo_trans' => json_encode([])]);
+        });
     }
 
     /**
