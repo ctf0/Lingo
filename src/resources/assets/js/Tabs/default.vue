@@ -18,7 +18,7 @@ export default {
     },
     methods: {
         getFiles() {
-            axios.post(this.routes.filesRoute, {})
+            return axios.post(this.routes.filesRoute, {})
                 .then(({data}) => {
                     if (data.success) {
                         this.files = data.message

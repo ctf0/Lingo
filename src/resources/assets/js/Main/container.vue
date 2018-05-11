@@ -43,6 +43,9 @@ export default {
             copiedItem: ''
         }
     },
+    beforeMount() {
+        this.preVisited()
+    },
     computed: {
         localeExist() {
             return this.localesList && this.localesList.includes(this.new_locale) || false
@@ -53,9 +56,6 @@ export default {
         dirExist() {
             return this.dirsList && this.dirsList.includes(this.new_vendor) || false
         }
-    },
-    beforeMount() {
-        this.preVisited()
     },
     methods: {
         // local-storage
@@ -68,7 +68,7 @@ export default {
         preVisited() {
             let ls = this.getLs()
 
-            if (ls) {
+            if (Object.keys(ls).length) {
                 this.activeTab = ls.tab
                 this.selectedKeyFormat = ls.format
             } else {

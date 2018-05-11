@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- select package -->
-        <div class="field is-grouped is-grouped-right" v-if="dirs.length">
+        <div v-if="dirs.length" class="field is-grouped is-grouped-right">
             <div class="control has-icons-left">
                 <div class="select">
                     <select v-model="selectedDir">
@@ -12,7 +12,7 @@
                 <div class="icon is-small is-left"><icon name="folder"/></div>
             </div>
             <!-- remove -->
-            <div class="control" v-if="selectedDir">
+            <div v-if="selectedDir" class="control">
                 <button class="button is-danger" @click="removeSelectedDir()">
                     <span class="icon">
                         <icon name="trash"/>
@@ -61,7 +61,6 @@ export default {
                     if (this.dirs.includes(val)) {
                         this.selectedDir = val
                     }
-
                     clearInterval(t)
                 }
             }, 100)
@@ -77,8 +76,8 @@ export default {
             })
         },
         getFiles() {
-            axios.post(this.routes.filesRoute, {
-                'dir_name' : this.selectedDir
+            return axios.post(this.routes.filesRoute, {
+                'dir_name': this.selectedDir
             }).then(({data}) => {
 
                 if (data.success) {
@@ -106,7 +105,7 @@ export default {
         removeSelectedDir() {
             if (confirm(this.trans('you_sure_package'))) {
                 axios.post(this.deleteVendorRoute, {
-                    'dir_name' : this.selectedDir
+                    'dir_name': this.selectedDir
                 }).then(({data}) => {
 
                     if (!data.success) {

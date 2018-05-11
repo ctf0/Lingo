@@ -40,17 +40,14 @@ export default {
 
         EventHub.listen('new_file_added', (data) => {
             if (data.tab == this.getTabName()) {
-                this.getFiles()
 
-                let t = setInterval(() => {
+                this.getFiles().then(() => {
                     if (this.files.length > 0) {
                         if (this.files.includes(data.val)) {
                             this.selectedFile = data.val
                         }
-
-                        clearInterval(t)
                     }
-                }, 100)
+                })
             }
         })
 
@@ -62,43 +59,46 @@ export default {
         }
     },
     activated() {
-        this.preVisited()
-
-        if (this.$parent.activeTab == this.getTabName()) {
-            this.$parent.dirsList = this.dirs
-            this.$parent.localesList = this.locales
-            this.$parent.filesList = this.files
-            this.$parent.selectedFileName = this.selectedFile
-        }
+        this.preVisited().then(() => {
+            if (this.$parent.activeTab == this.getTabName()) {
+                this.$parent.dirsList = this.dirs
+                this.$parent.localesList = this.locales
+                this.$parent.filesList = this.files
+                this.$parent.selectedFileName = this.selectedFile
+            }
+        })
     },
     methods: {
         preVisited() {
-            let ls = this.parentMethod('getLs')
+            return new Promise((res, rej) => {
+                let ls = this.parentMethod('getLs')
 
-            if (ls) {
-                EventHub.fire('ls-dir', ls.dir)
+                if (ls) {
+                    EventHub.fire('ls-dir', ls.dir)
 
-                if (ls.tab == this.getTabName()) {
-                    let t = setInterval(() => {
-                        if (this.files.length > 0) {
-                            if (this.files.includes(ls.file) && !this.selectedFile) {
-                                this.selectedFile = ls.file
+                    if (ls.tab == this.getTabName()) {
+                        let t = setInterval(() => {
+                            if (this.files.length > 0) {
+                                if (this.files.includes(ls.file) && !this.selectedFile) {
+                                    this.selectedFile = ls.file
+                                }
+                                clearInterval(t)
                             }
+                        }, 100)
+                    }
 
-                            clearInterval(t)
-                        }
-                    }, 100)
+                    if (this.getTabName().includes('vendor') && ls.file == '') {
+                        this.$parent.filesList = []
+                    }
                 }
 
-                if (this.getTabName().includes('vendor') && ls.file == '') {
-                    this.$parent.filesList = []
+                // get copied item across tabs
+                if (this.$parent.copiedItem) {
+                    this.copiedItem = this.$parent.copiedItem
                 }
-            }
 
-            // get copied item across tabs
-            if (this.$parent.copiedItem) {
-                this.copiedItem = this.$parent.copiedItem
-            }
+                return res()
+            })
         },
 
         // data
