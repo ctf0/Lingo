@@ -1,13 +1,7 @@
 export default {
     data() {
         return {
-            routes: {
-                filesRoute: this.$parent.filesRoute,
-                selectedFileDataRoute: this.$parent.selectedFileDataRoute,
-                deleteFileRoute: this.$parent.deleteFileRoute,
-                deleteLocaleRoute: this.$parent.deleteLocaleRoute,
-                saveFileRoute: this.$parent.saveFileRoute
-            },
+            routes: this.$parent.routes,
             searchFor: '',
             files: [],
             selectedFile: '',
@@ -73,7 +67,7 @@ export default {
             return new Promise((res, rej) => {
                 let ls = this.parentMethod('getLs')
 
-                if (ls) {
+                if (Object.keys(ls).length) {
                     EventHub.fire('ls-dir', ls.dir)
 
                     if (ls.tab == this.getTabName()) {
@@ -131,7 +125,7 @@ export default {
 
             }).catch((err) => {
                 console.error(err)
-                this.parentMethod('failedAjax')
+                this.failedAjax()
             })
         },
 
@@ -146,17 +140,17 @@ export default {
         },
 
         // parent
-        parentMethod(method_name, args = null) {
-            return this.$parent[method_name](args)
-        },
         trans(key) {
             return this.parentMethod('trans', key) || ''
+        },
+        failedAjax() {
+            return this.parentMethod('failedAjax')
         },
         showNotif(msg, s = 'success') {
             this.$parent.showNotif(msg, s)
         },
-        failedAjax() {
-            this.showNotif(this.trans('ajax_error'), 'black')
+        parentMethod(method_name, args = null) {
+            return this.$parent[method_name](args)
         },
 
         // copy key

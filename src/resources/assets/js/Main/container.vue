@@ -8,15 +8,7 @@ export default {
     name: 'lingo',
     mixins: [Forms],
     props: [
-        'scanForMissingRoute',
-        'addNewLocaleRoute',
-        'addNewFileRoute',
-        'addNewVendorRoute',
-        'filesRoute',
-        'selectedFileDataRoute',
-        'deleteFileRoute',
-        'deleteLocaleRoute',
-        'saveFileRoute',
+        'routes',
         'translations'
     ],
     data() {
@@ -28,9 +20,10 @@ export default {
             localesList: [],
             filesList: [],
             dirsList: [],
-            selectedDirName: '',
-            selectedFileName: '',
             selectedKeyFormat: '',
+            selectedFileName: '',
+            selectedDirName: '',
+            copiedItem: '',
             copyKeyFormat: [
                 'trans(\'value\')',
                 '__(\'value\')',
@@ -39,8 +32,7 @@ export default {
                 '{{ trans(\'value\') }}',
                 '{{ __(\'value\') }}',
                 '@lang(\'value\')'
-            ],
-            copiedItem: ''
+            ]
         }
     },
     beforeMount() {

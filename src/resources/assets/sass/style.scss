@@ -11,6 +11,7 @@ thead th {
     position: sticky;
     z-index: 1;
     top: 0;
+    background-color: white;
 }
 
 .nestedKeys {
@@ -21,6 +22,10 @@ thead th {
 // util
 .m-t-40 {
     margin-top: 40px;
+}
+
+.m-t-30 {
+    margin-top: 30px;
 }
 
 .m-t-10 {
@@ -63,48 +68,24 @@ thead th {
 }
 
 // bulma
+.table {
+    word-break: break-word;
+
+    th {
+        word-break: initial;
+    }
+
+    td,
+    th {
+        vertical-align: middle;
+    }
+}
+
 .tags {
     display: inline-flex;
-    margin-bottom: 0 !important;
-}
-
-.tag {
-    margin-bottom: 0 !important;
-}
-
-.tag.is-warning,
-.tag.is-danger {
-    cursor: pointer;
-}
-
-.level.is-mobile .level-item {
-    margin-right: 0;
-}
-
-.level-item {
-    margin-bottom: 0.75rem;
+    flex-wrap: nowrap;
 }
 
 .icon {
     vertical-align: sub;
-}
-
-.modal {
-    align-items: flex-start;
-    padding-top: 3%;
-}
-
-.modal-card-head {
-    background-color: #3273dc;
-
-    * {
-        color: white;
-    }
-}
-
-.modal-card-foot {
-    justify-content: flex-end;
-    padding-top: 0;
-    border: none;
-    background-color: white;
 }

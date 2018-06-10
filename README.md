@@ -1,7 +1,6 @@
 # Lingo
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/ctf0/lingo.svg)](https://packagist.org/packages/ctf0/lingo) [![Total Downloads](https://img.shields.io/packagist/dt/ctf0/lingo.svg)](https://packagist.org/packages/ctf0/lingo)
-[![Donate with Bitcoin](https://en.cryptobadges.io/badge/micro/16ri7Hh848bw7vxbEevKHFuHXLmsV8Vc9L)](https://en.cryptobadges.io/donate/16ri7Hh848bw7vxbEevKHFuHXLmsV8Vc9L)
+[![Latest Stable Version](https://img.shields.io/packagist/v/ctf0/lingo.svg)](https://packagist.org/packages/ctf0/lingo) [![Total Downloads](https://img.shields.io/packagist/dt/ctf0/lingo.svg)](https://packagist.org/packages/ctf0/lingo) [![Donate with Bitcoin](https://en.cryptobadges.io/badge/micro/16ri7Hh848bw7vxbEevKHFuHXLmsV8Vc9L)](https://en.cryptobadges.io/donate/16ri7Hh848bw7vxbEevKHFuHXLmsV8Vc9L)
 
 A file based translation manager, which unlike other Lang managers don't need a database connection to handle the translation.
 

@@ -13,12 +13,12 @@ class LingoServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->file = app('files');
+        $this->file = $this->app['files'];
 
         $this->packagePublish();
 
         // append extra data
-        if (!app('cache')->store('file')->has('ct-lingo')) {
+        if (!$this->app['cache']->store('file')->has('ct-lingo')) {
             $this->autoReg();
         }
     }
@@ -55,8 +55,8 @@ class LingoServiceProvider extends ServiceProvider
         $path = resource_path('lang/vendor/Lingo');
 
         if ($this->file->exists($path)) {
-            $current   = app()->getLocale();
-            $fall_back = config('app.fallback_locale');
+            $current   = $this->app->getLocale();
+            $fall_back = $this->app['config']->get('app.fallback_locale');
             $file_name = 'messages.php';
 
             $trans = file_exists("$path/$current/$file_name")
@@ -95,13 +95,13 @@ class LingoServiceProvider extends ServiceProvider
         $search   = 'Lingo';
 
         if ($this->checkExist($mix_file, $search)) {
-            $data = "\n// Lingo\nrequire('dotenv').config()\nmix.sass('resources/assets/vendor/Lingo/style.scss', 'public/assets/vendor/Lingo/style.css').version();";
+            $data = "\n// Lingo\nmix.sass('resources/assets/vendor/Lingo/style.scss', 'public/assets/vendor/Lingo/style.css').version();";
 
             $this->file->append($mix_file, $data);
         }
 
         // run check once
-        app('cache')->store('file')->rememberForever('ct-lingo', function () {
+        $this->app['cache']->store('file')->rememberForever('ct-lingo', function () {
             return 'added';
         });
     }

@@ -26,23 +26,25 @@
                 <div class="column">
 
                     <lingo inline-template
-                        scan-for-missing-route="{{ route('lingo.scan_for_missing') }}"
-                        add-new-locale-route="{{ route('lingo.add_new_locale') }}"
-                        add-new-file-route="{{ route('lingo.add_new_file') }}"
-                        add-new-vendor-route="{{ route('lingo.add_new_vendor') }}"
-                        files-route="{{ route('lingo.get_files') }}"
-                        selected-file-data-route="{{ route('lingo.get_file_data') }}"
-                        delete-file-route="{{ route('lingo.delete_file') }}"
-                        delete-locale-route="{{ route('lingo.delete_locale') }}"
-                        save-file-route="{{ route('lingo.save_file_data') }}"
-                        :translations="{{ $lingo_trans }}">
+                        :translations="{{ $lingo_trans }}"
+                        :routes={{ json_encode([
+                            'scanForMissingRoute' => route('lingo.scan_for_missing'), 
+                            'addNewLocaleRoute' => route('lingo.add_new_locale'), 
+                            'addNewFileRoute' => route('lingo.add_new_file'), 
+                            'addNewVendorRoute' => route('lingo.add_new_vendor'), 
+                            'filesRoute' => route('lingo.get_files'), 
+                            'selectedFileDataRoute' => route('lingo.get_file_data'), 
+                            'deleteFileRoute' => route('lingo.delete_file'), 
+                            'deleteLocaleRoute' => route('lingo.delete_locale'), 
+                            'saveFileRoute' => route('lingo.save_file_data'), 
+                        ]) }}>
                         <div>
 
                             <transition-group tag="ul" name="comp-fade" mode="out-in">
                                 {{-- add new vendor --}}
                                 <li :key="1" class="columns" v-if="activeTabIs('vendor-tab')">
                                     <div class="column is-3">
-                                        <p class="title">
+                                        <p class="title is-marginless">
                                             {{-- steps --}}
                                             <transition name="slide-fade">
                                                 <span v-if="newVendor() && !selectedDirName" class="title has-text-success">1.</span>
@@ -51,7 +53,7 @@
                                             <span class="icon"><icon name="archive" scale="2"></icon></span>
                                             <span>{{ trans('Lingo::messages.new_vendor') }}</span>
                                         </p>
-                                        <p class="subtitle">@{{ vendorPH(new_vendor || 'Abc') }}</p>
+                                        <p class="subtitle is-marginless">@{{ vendorPH(new_vendor || 'Abc') }}</p>
                                     </div>
 
                                     <div class="column">
@@ -82,7 +84,7 @@
                                 {{-- add new lang --}}
                                 <li :key="2" class="columns" v-if="localesList.length || newVendor()">
                                     <div class="column is-3">
-                                        <p class="title">
+                                        <p class="title is-marginless">
                                             {{-- steps --}}
                                             <transition name="slide-fade">
                                                 <span v-if="newVendor() && localesList.length == 0" class="title has-text-success">2.</span>
@@ -91,7 +93,7 @@
                                             <span class="icon"><icon name="globe" scale="2"></icon></span>
                                             <span>{{ trans('Lingo::messages.new_locale') }}</span>
                                         </p>
-                                        <p class="subtitle">@{{ placeHolder(new_locale || 'fr') }}</p>
+                                        <p class="subtitle is-marginless">@{{ placeHolder(new_locale || 'fr') }}</p>
                                     </div>
 
                                     <div class="column">
@@ -122,7 +124,7 @@
                                 {{-- add new file --}}
                                 <li :key="3" class="columns" v-if="filesList.length || newVendor()">
                                     <div class="column is-3">
-                                        <p class="title">
+                                        <p class="title is-marginless">
                                             {{-- steps --}}
                                             <transition name="slide-fade">
                                                 <span v-if="newVendor()" class="title has-text-success">3.</span>
@@ -131,7 +133,7 @@
                                             <span class="icon"><icon name="file-o" scale="2"></icon></span>
                                             <span>{{ trans('Lingo::messages.new_file') }}</span>
                                         </p>
-                                        <p class="subtitle">@{{ placeHolder(new_file || 'messages.php', '*/') }}</p>
+                                        <p class="subtitle is-marginless">@{{ placeHolder(new_file || 'messages.php', '*/') }}</p>
                                     </div>
 
                                     <div class="column">

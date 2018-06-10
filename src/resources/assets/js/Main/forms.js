@@ -1,7 +1,7 @@
 export default {
     methods: {
         scanForMissing() {
-            axios.get(this.scanForMissingRoute)
+            axios.get(this.routes.scanForMissingRoute)
                 .then(({data}) => {
                     this.showNotif(data.message)
                     EventHub.fire('scan_complete', {tab: this.activeTab})
@@ -16,9 +16,9 @@ export default {
             }
 
             if (!this.$refs.locale.disabled) {
-                axios.post(this.addNewLocaleRoute, {
+                axios.post(this.routes.addNewLocaleRoute, {
                     'file_name': this.new_locale,
-                    'dir_name' : this.selectedDirName || null
+                    'dir_name': this.selectedDirName || null
                 }).then(({data}) => {
 
                     if (!data.success) {
@@ -47,9 +47,9 @@ export default {
             if (!this.$refs.file.disabled) {
                 let file_name = this.new_file
 
-                axios.post(this.addNewFileRoute, {
+                axios.post(this.routes.addNewFileRoute, {
                     'file_name': file_name,
-                    'dir_name' : this.selectedDirName || null
+                    'dir_name': this.selectedDirName || null
                 }).then(({data}) => {
 
                     if (!data.success) {
@@ -78,8 +78,8 @@ export default {
             if (!this.$refs.vendor.disabled) {
                 let vendor_name = this.new_vendor
 
-                axios.post(this.addNewVendorRoute, {
-                    'dir_name' : vendor_name
+                axios.post(this.routes.addNewVendorRoute, {
+                    'dir_name': vendor_name
                 }).then(({data}) => {
 
                     if (!data.success) {
