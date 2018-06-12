@@ -7,11 +7,16 @@ th {
     vertical-align: middle !important;
 }
 
-thead th {
+th,
+.sticky-section {
     position: sticky;
     z-index: 1;
     top: 0;
     background-color: white;
+}
+
+.sticky-section {
+    padding: 0.7rem 0 1.5rem;
 }
 
 .nestedKeys {
@@ -22,10 +27,6 @@ thead th {
 // util
 .m-t-40 {
     margin-top: 40px;
-}
-
-.m-t-30 {
-    margin-top: 30px;
 }
 
 .m-t-10 {

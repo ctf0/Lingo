@@ -1,63 +1,68 @@
 <template>
     <div>
-        <!-- select file -->
-        <div v-if="files.length" class="field is-grouped is-grouped-right">
-            <div class="control has-icons-left">
-                <div class="select">
-                    <select v-model="selectedFile">
-                        <option value="" disabled>{{ trans('select_file') }}</option>
-                        <option v-for="(f, i) in files" :key="i">{{ f }}</option>
-                    </select>
-                </div>
-                <div class="icon is-small is-left"><icon name="file"/></div>
-            </div>
-            <div v-if="selectedFile" class="control">
-                <button class="button is-danger" @click="removeSelectedFile()">
-                    <span class="icon">
-                        <icon name="trash"/>
-                    </span>
-                </button>
-            </div>
-        </div>
+        <section class="sticky-section">
+            <slot/>
 
-        <div v-if="selectedFile" class="level is-mobile is-marginless m-t-40">
-            <!-- items count -->
-            <div class="level-left">
-                <div class="level-item">
-                    <div class="control">
-                        <h4 class="title is-4">"{{ itemsCount }}" Item/s</h4>
+            <!-- select file -->
+            <div v-if="showSection()" class="field is-grouped is-grouped-right">
+                <div class="control has-icons-left">
+                    <div class="select">
+                        <select v-model="selectedFile">
+                            <option value="" disabled>{{ trans('select_file') }}</option>
+                            <option v-for="(f, i) in files" :key="i">{{ f }}</option>
+                        </select>
                     </div>
+                    <div class="icon is-small is-left"><icon name="file"/></div>
+                </div>
+                <div v-if="selectedFile" class="control">
+                    <button class="button is-danger" @click="removeSelectedFile()">
+                        <span class="icon">
+                            <icon name="trash"/>
+                        </span>
+                    </button>
                 </div>
             </div>
 
-            <div class="level-right">
-                <div class="level-item is-marginless">
-                    <!-- search -->
-                    <div class="field has-addons">
-                        <p class="control has-icons-left">
-                            <input v-model="searchFor"
-                                   :placeholder="trans('find')"
-                                   class="input"
-                                   type="text">
-                            <span class="icon is-left">
-                                <icon name="search"/>
-                            </span>
-                        </p>
-                        <p class="control">
-                            <button :disabled="!searchFor" class="button is-black"
-                                    @click="resetSearch()">
-                                <span class="icon"><icon name="times"/></span>
-                            </button>
-                        </p>
+            <div v-if="selectedFile" class="level is-mobile is-marginless m-t-40">
+                <!-- items count -->
+                <div class="level-left">
+                    <div class="level-item">
+                        <h4 class="title is-4">"{{ itemsCount }}" {{ trans('items') }}</h4>
+                    </div>
+                    <div class="level-item">
+                        <scroll/>
+                    </div>
+                </div>
+
+                <div class="level-right">
+                    <div class="level-item is-marginless">
+                        <!-- search -->
+                        <div class="field has-addons">
+                            <p class="control has-icons-left">
+                                <input v-model="searchFor"
+                                       :placeholder="trans('find')"
+                                       class="input"
+                                       type="text">
+                                <span class="icon is-left">
+                                    <icon name="search"/>
+                                </span>
+                            </p>
+                            <p class="control">
+                                <button :disabled="!searchFor" class="button is-black"
+                                        @click="resetSearch()">
+                                    <span class="icon"><icon name="times"/></span>
+                                </button>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- data -->
-        <section v-if="selectedFile" class="m-t-30">
+        <section v-if="selectedFile">
             <!-- table -->
-            <table class="table is-fullwidth is-hoverable is-bordered">
+            <table :style="THeadTop" class="table is-fullwidth is-hoverable is-bordered">
                 <thead>
                     <tr class="is-unselectable">
                         <th class="is-link" width="1%">
@@ -133,11 +138,17 @@
 
                         <td width="1%">
                             <!-- del -->
-                            <button class="button is-danger" @click="removeItem(mainK)">
+                            <button v-tippy
+                                    :title="trans('delete')"
+                                    class="button is-danger"
+                                    @click="removeItem(mainK)">
                                 <span class="icon"><icon name="trash"/></span>
                             </button>
                             <!-- clone -->
-                            <button class="button is-primary" @click="copyItem(mainK, mainV)">
+                            <button v-tippy
+                                    :title="trans('copy')"
+                                    class="button is-primary"
+                                    @click="copyItem(mainK, mainV)">
                                 <span class="icon"><icon name="clone" scale="0.8"/></span>
                             </button>
                         </td>
@@ -222,19 +233,36 @@
     .c2c {
         cursor: pointer;
     }
+
+    th {
+        top: var(--tHead);
+    }
 </style>
 
 <script>
 import Forms from './forms'
+import Scroll from './Scroll.vue'
 
 export default{
+    components: {Scroll},
     name: 'shared-content',
     mixins: [Forms],
     data() {
-        return this.$parent.$data
+        return Object.assign(this.$parent.$data, {
+            THeadTop: {'--tHead': 0}
+        })
+    },
+    mounted() {
     },
     updated() {
         this.tableColumnResize()
+        this.$nextTick(() => {
+            let sec = document.querySelector('.sticky-section')
+            let count = sec.clientHeight + parseInt(window.getComputedStyle(sec).getPropertyValue('top')) - 1
+            return this.THeadTop = {
+                '--tHead': `${count}px`
+            }
+        })
     },
     computed: {
         itemsCount() {
@@ -242,6 +270,10 @@ export default{
         }
     },
     methods: {
+        showSection() {
+            return this.dirs && this.dirs.length && this.selectedDir || this.files.length
+        },
+
         // search
         keysList() {
             return Object.keys(this.selectedFileDataClone)
@@ -263,7 +295,7 @@ export default{
             let el
             let startOffset
 
-            document.querySelectorAll('table th').forEach((th) => {
+            document.querySelectorAll('table th:not(:last-of-type)').forEach((th) => {
                 th.style.position = 'sticky'
 
                 let grip = document.createElement('div')

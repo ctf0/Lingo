@@ -46,6 +46,8 @@ import 'vue-awesome/icons/folder'
 import 'vue-awesome/icons/search'
 import 'vue-awesome/icons/times'
 import 'vue-awesome/icons/clone'
+import 'vue-awesome/icons/arrow-up'
+import 'vue-awesome/icons/arrow-down'
 Vue.component('icon', require('vue-awesome/components/Icon'))
 
 /*                Components                */

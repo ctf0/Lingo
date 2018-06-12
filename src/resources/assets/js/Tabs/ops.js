@@ -19,6 +19,10 @@ export default {
             showModal: false
         }
     },
+    props: [
+        'dirsRoute',
+        'deleteVendorRoute'
+    ],
     mounted() {
         EventHub.listen('scan_complete', (data) => {
             if (data.tab == this.getTabName() && this.selectedFile !== '') {

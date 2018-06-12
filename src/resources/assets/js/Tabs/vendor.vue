@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <shared-content>
         <!-- select package -->
         <div v-if="dirs.length" class="field is-grouped is-grouped-right">
             <div class="control has-icons-left">
@@ -20,12 +20,7 @@
                 </button>
             </div>
         </div>
-
-        <template v-if="selectedDir">
-            <!-- select file -->
-            <shared-content/>
-        </template>
-    </div>
+    </shared-content>
 </template>
 
 <script>
@@ -36,10 +31,6 @@ export default {
     components: {SharedContent},
     name: 'vendor-tab',
     mixins: [Ops],
-    props: [
-        'dirsRoute',
-        'deleteVendorRoute'
-    ],
     data() {
         return {
             dirs: [],

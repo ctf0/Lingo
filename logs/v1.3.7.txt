@@ -1,0 +1,6 @@
+- cleanup
+- now the vendor/file/search are sticky as well
+- add scroll top/bottom btns
+- add new npm dep “animateScrollTo”
+- add tooltip for the ops btns “copy/ delete”
+- update rdme

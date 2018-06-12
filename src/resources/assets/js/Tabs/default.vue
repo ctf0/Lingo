@@ -1,8 +1,5 @@
 <template>
-    <div>
-        <!-- select file -->
-        <shared-content/>
-    </div>
+    <shared-content/>
 </template>
 
 <script>

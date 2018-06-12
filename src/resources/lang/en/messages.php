@@ -34,4 +34,5 @@ return array (
   'you_sure_file' => 'Are You Sure You Want to Remove This File ?!!',
   'you_sure_locale' => 'Are You Sure You Want to Remove This Localized Version ?!!',
   'you_sure_package' => 'Are You Sure You Want to Remove This Package Translations ?!!',
+  'items' => 'Item/s',
 );
