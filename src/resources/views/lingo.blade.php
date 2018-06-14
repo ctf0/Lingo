@@ -37,6 +37,8 @@
                             'deleteFileRoute' => route('lingo.delete_file'), 
                             'deleteLocaleRoute' => route('lingo.delete_locale'), 
                             'saveFileRoute' => route('lingo.save_file_data'), 
+                            'downloadVendorRoute' => route('lingo.download_dir'), 
+                            'downloadFileRoute' => route('lingo.download_file'), 
                         ]) }}>
                         <div>
 

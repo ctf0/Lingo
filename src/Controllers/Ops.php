@@ -2,6 +2,9 @@
 
 namespace ctf0\Lingo\Controllers;
 
+use ZipStream\ZipStream;
+use ZipStream\Option\Archive;
+
 trait Ops
 {
     /**
@@ -34,14 +37,19 @@ trait Ops
         $locales = [];
 
         foreach ($this->file->directories($dir) as $dir) {
-            if (!$vendor && ends_with($dir, 'vendor')) {
+            if (!$vendor && str_contains($dir, 'vendor')) {
                 continue;
             }
 
-            $locales[] = substr($dir, strrpos($dir, '/') + 1);
+            $locales[] = $this->localeOnly($dir);
         }
 
         return $locales;
+    }
+
+    protected function localeOnly($dir)
+    {
+        return substr($dir, strrpos($dir, '/') + 1);
     }
 
     /**
@@ -115,6 +123,65 @@ trait Ops
         }
 
         return $pre_format;
+    }
+
+    /**
+     * zip & download.
+     *
+     * @param mixed $zipName
+     * @param mixed $list
+     * @param mixed $file_name
+     * @param mixed $path
+     * @param mixed $vendor
+     */
+    protected function zipAndDownload($file_name, $path, $vendor)
+    {
+        $list =  collect($this->getLocales($path, $vendor))->map(function ($locale) use ($file_name, $path) {
+            return [
+                'locale'=> $locale,
+                'name'  => "$file_name",
+                'path'  => "$path/$locale/$file_name",
+            ];
+        });
+
+        return response()->stream(function () use ($file_name, $list) {
+            $zipName = pathinfo($file_name, PATHINFO_FILENAME) . '.zip';
+            $zip = new ZipStream($zipName, $this->getZipOptions());
+
+            foreach ($list as $file) {
+                $zip->addFileFromPath("{$file['locale']}/{$file['name']}", $file['path']);
+            }
+
+            $zip->finish();
+        });
+    }
+
+    protected function zipAndDownloadDir($zipName, $list, $length)
+    {
+        return response()->stream(function () use ($zipName, $list, $length) {
+            $zip = new ZipStream("$zipName.zip", $this->getZipOptions());
+
+            foreach ($list as $file) {
+                $filePath = $file->getRealPath();
+                if (!is_dir($filePath)) {
+                    $zip->addFileFromPath(substr($filePath, $length + 1), $filePath);
+                }
+            }
+
+            $zip->finish();
+        });
+    }
+
+    protected function getZipOptions()
+    {
+        $options = new Archive();
+        // $options->setZeroHeader(true);
+        $options->setContentType('application/octet-stream');
+        $options->setSendHttpHeaders(true);
+        $options->setHttpHeaderCallback('header');
+        $options->setDeflateLevel(9);
+
+        return $options;
     }
 
     /**

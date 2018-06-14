@@ -9,9 +9,11 @@ return array (
   'cancel' => 'Cancel',
   'copied_key_exist' => 'Copied Item Key Already Exist',
   'copied_key_length' => 'Copied Item Locales Count Is Different From The Currently Available',
+  'copy' => 'Copy Item',
   'd_tab' => 'Default',
   'empty_file' => 'Maybe You Want To Delete the File Instead ?!!',
   'find' => 'Find',
+  'items' => 'Item/s',
   'key' => 'Key',
   'key_format' => 'Select Copied Key Format',
   'merge_keys' => 'Merge',
@@ -34,5 +36,5 @@ return array (
   'you_sure_file' => 'Are You Sure You Want to Remove This File ?!!',
   'you_sure_locale' => 'Are You Sure You Want to Remove This Localized Version ?!!',
   'you_sure_package' => 'Are You Sure You Want to Remove This Package Translations ?!!',
-  'items' => 'Item/s',
+  'delete' => 'Delete Item',
 );

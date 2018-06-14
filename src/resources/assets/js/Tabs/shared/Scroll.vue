@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import animateScrollTo from 'animated-scroll-to'
+const animateScrollTo = require('./animated-scroll-to')
 
 export default {
     methods: {

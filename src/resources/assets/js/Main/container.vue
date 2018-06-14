@@ -96,7 +96,9 @@ export default {
             return this.activeTabIs('vendor-tab') && this.selectedDirName
         },
         newVendor() {
-            return this.vendorCheck() && this.filesList.length == 0
+            setTimeout(() => {
+                return this.vendorCheck() && this.filesList.length == 0
+            }, 250)
         },
 
         // utils
@@ -116,10 +118,9 @@ export default {
         },
 
         // notifs
-        showNotif(msg, s = 'success') {
+        showNotif(msg, s = 'success', dur = null) {
 
             let title
-            let duration = null
 
             switch (s) {
                 case 'black':
@@ -128,18 +129,21 @@ export default {
                     break
                 case 'warning':
                     title = 'Warning'
-                    duration = 2
+                    dur = 2
+                    break
+                case 'link':
+                    title = 'Info'
                     break
                 default:
                     title = 'Success'
-                    duration = 3
+                    dur = 3
             }
 
             EventHub.fire('showNotif', {
                 title: title,
                 body: msg,
                 type: s,
-                duration: duration
+                duration: dur
             })
         },
         failedAjax() {

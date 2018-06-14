@@ -25,6 +25,10 @@ class LingoRoutes
             app('router')->post('add-new-vendor', '\ctf0\Lingo\Controllers\LingoController@addNewVendor')->name('add_new_vendor');
             app('router')->post('save-file-data', '\ctf0\Lingo\Controllers\LingoController@saveFileData')->name('save_file_data');
 
+            // download
+            app('router')->get('download-file', '\ctf0\Lingo\Controllers\LingoController@download')->name('download_file');
+            app('router')->get('download-vendor', '\ctf0\Lingo\Controllers\LingoController@download')->name('download_dir');
+
             // delete
             app('router')->post('delete-file', '\ctf0\Lingo\Controllers\LingoController@deleteFile')->name('delete_file');
             app('router')->post('delete-locale', '\ctf0\Lingo\Controllers\LingoController@deleteLocale')->name('delete_locale');
