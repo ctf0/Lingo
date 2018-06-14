@@ -37,7 +37,8 @@ class LingoController extends Controller
      */
     public function getFiles(Request $request)
     {
-        $vendor   = $request->dir_name ? true : false;
+        $vendor = (bool) $request->dir_name;
+
         $dir_name = $vendor
             ? "{$this->lang_path}/vendor/{$request->dir_name}"
             : $this->lang_path;
@@ -175,7 +176,7 @@ class LingoController extends Controller
     {
         Artisan::call('langman:sync');
 
-        return $this->goodResponse('Done');
+        return $this->goodResponse(Artisan::output());
     }
 
     /**
@@ -293,6 +294,32 @@ class LingoController extends Controller
         return $success == true
             ? $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$file_name'", 'state'=>'Deleted']))
             : $this->badResponse();
+    }
+
+    public function download(Request $request)
+    {
+        $file_name  = $request->file_name;
+        $dir_name   = $request->dir_name;
+
+        // vendor only
+        if (!$file_name && $dir_name) {
+            $path  = realpath("{$this->lang_path}/vendor/$dir_name");
+            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+
+            return $this->zipAndDownloadDir($dir_name, $files, strlen($path));
+        }
+
+        // vendor file
+        if ($file_name && $dir_name) {
+            $path   = "{$this->lang_path}/vendor/$dir_name";
+        }
+
+        // file only
+        if ($file_name && !$dir_name) {
+            $path   = $this->lang_path;
+        }
+
+        return $this->zipAndDownload($file_name, $path, (bool) $dir_name);
     }
 
     /**

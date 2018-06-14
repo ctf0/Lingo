@@ -15,11 +15,18 @@
                     <div class="icon is-small is-left"><icon name="file"/></div>
                 </div>
                 <div v-if="selectedFile" class="control">
+                    <!-- remove -->
                     <button class="button is-danger" @click="removeSelectedFile()">
-                        <span class="icon">
-                            <icon name="trash"/>
-                        </span>
+                        <span class="icon"><icon name="trash"/></span>
                     </button>
+                    <!-- download -->
+                    <form :action="routes.downloadFileRoute" method="get" class="is-inline-block">
+                        <input v-if="hasDirs()" :value="selectedDir" type="hidden" name="dir_name">
+                        <input :value="selectedFile" type="hidden" name="file_name">
+                        <button type="submit" class="button is-outlined">
+                            <span class="icon"><icon name="download"/></span>
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -272,6 +279,9 @@ export default{
     methods: {
         showSection() {
             return this.dirs && this.dirs.length && this.selectedDir || this.files.length
+        },
+        hasDirs() {
+            return this.dirs && this.dirs.length && this.selectedDir
         },
 
         // search

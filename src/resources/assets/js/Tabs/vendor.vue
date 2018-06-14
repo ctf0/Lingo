@@ -11,13 +11,18 @@
                 </div>
                 <div class="icon is-small is-left"><icon name="folder"/></div>
             </div>
-            <!-- remove -->
             <div v-if="selectedDir" class="control">
+                <!-- remove -->
                 <button class="button is-danger" @click="removeSelectedDir()">
-                    <span class="icon">
-                        <icon name="trash"/>
-                    </span>
+                    <span class="icon"><icon name="trash"/></span>
                 </button>
+                <!-- download -->
+                <form :action="routes.downloadVendorRoute" method="get" class="is-inline-block">
+                    <input :value="selectedDir" type="hidden" name="dir_name">
+                    <button type="submit" class="button is-outlined">
+                        <span class="icon"><icon name="download"/></span>
+                    </button>
+                </form>
             </div>
         </div>
     </shared-content>

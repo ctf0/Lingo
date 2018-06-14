@@ -5,7 +5,7 @@
 A file based translation manager, which unlike other Lang managers don't need a database connection to handle the translation.
 
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/7388088/41272760-cb642b86-6e16-11e8-83d9-eaf632179974.png">
+    <img src="https://user-images.githubusercontent.com/7388088/41400224-d9f9c640-6fbc-11e8-872c-c16439117803.png">
 </p>
 
 <br>
@@ -33,9 +33,9 @@ A file based translation manager, which unlike other Lang managers don't need a 
 - install dependencies
 
     ```bash
-    yarn add vue axios animateScrollTo vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome@v2
+    yarn add vue axios vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome@v2
     # or
-    npm install vue axios animateScrollTo vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome@v2 --save
+    npm install vue axios vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome@v2 --save
     ```
 
 - add this one liner to your main js file and run `npm run watch` to compile your `js/css` files.

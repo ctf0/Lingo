@@ -3,7 +3,7 @@ export default {
         scanForMissing() {
             axios.get(this.routes.scanForMissingRoute)
                 .then(({data}) => {
-                    this.showNotif(data.message)
+                    this.showNotif(data.message, 'link', 5)
                     EventHub.fire('scan_complete', {tab: this.activeTab})
                 }).catch((err) => {
                     console.error(err)
