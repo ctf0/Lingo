@@ -1,3 +1,6 @@
+import debounce from 'lodash/debounce'
+import cloneDeep from 'lodash/cloneDeep'
+
 export default {
     data() {
         return {
@@ -9,6 +12,7 @@ export default {
             selectedFileData: '',
             selectedFileDataClone: '',
             dataChanged: false,
+            THeadTop: {'--tHead': 0},
 
             newKeys: '',
             newItemCounter: 0,
@@ -16,7 +20,8 @@ export default {
             copiedItem: '',
             toBeMergedKeys: [],
             mergerName: '',
-            showModal: false
+            showModal: false,
+            orderDirection: 'asc'
         }
     },
     props: [
@@ -58,6 +63,11 @@ export default {
     },
     activated() {
         this.preVisited().then(() => {
+            // get copied item across tabs
+            if (this.$parent.copiedItem) {
+                this.copiedItem = this.$parent.copiedItem
+            }
+
             if (this.$parent.activeTab == this.getTabName()) {
                 this.$parent.dirsList = this.dirs
                 this.$parent.localesList = this.locales
@@ -68,35 +78,42 @@ export default {
     },
     methods: {
         preVisited() {
-            return new Promise((res, rej) => {
+            return new Promise((resolve, rej) => {
                 let ls = this.parentMethod('getLs')
 
                 if (Object.keys(ls).length) {
-                    EventHub.fire('ls-dir', ls.dir)
+                    // vendor
+                    if (this.getTabName().includes('vendor')) {
+                        EventHub.fire('ls-dir', ls.dir)
 
-                    if (ls.tab == this.getTabName()) {
-                        let t = setInterval(() => {
-                            if (this.files.length > 0) {
-                                if (this.files.includes(ls.file) && !this.selectedFile) {
-                                    this.selectedFile = ls.file
-                                }
-                                clearInterval(t)
+                        if (!ls.file) {
+                            this.$parent.filesList = []
+                        }
+
+                        return resolve()
+                    }
+
+                    // normal
+                    let t = setInterval(() => {
+                        if (this.files.length > 0) {
+                            if (this.files.includes(ls.file)) {
+                                this.selectedFile = ls.file
                             }
-                        }, 100)
-                    }
-
-                    if (this.getTabName().includes('vendor') && ls.file == '') {
-                        this.$parent.filesList = []
-                    }
+                            clearInterval(t)
+                            return resolve()
+                        }
+                    }, 100)
                 }
-
-                // get copied item across tabs
-                if (this.$parent.copiedItem) {
-                    this.copiedItem = this.$parent.copiedItem
-                }
-
-                return res()
             })
+        },
+        updateTHead() {
+            this.$nextTick(debounce(() => {
+                let sec = document.querySelector('.sticky-section')
+                let count = sec.clientHeight + parseInt(window.getComputedStyle(sec).getPropertyValue('top')) - 1
+                this.THeadTop = {
+                    '--tHead': `${count}px`
+                }
+            }, 500))
         },
 
         // data
@@ -105,7 +122,6 @@ export default {
                 'file_name': this.selectedFile || null,
                 'dir_name': this.selectedDir || null
             }).then(({data}) => {
-
                 if (!data.success) {
                     return this.resetAll(['selectedFile', 'files'])
                 }
@@ -114,18 +130,8 @@ export default {
                 let all = data.message.all
                 if (all) {
                     this.selectedFileData = all
-                    this.selectedFileDataClone = JSON.parse(JSON.stringify(all))
+                    this.selectedFileDataClone = cloneDeep(all)
                 }
-
-                this.$nextTick(() => {
-                    // copy to clipboard
-                    document.body.onclick = (e) => {
-                        e = window.event ? e.srcElement : e.target
-                        if (e.classList.contains('c2c')) {
-                            this.$copyText(this.keyToCopy)
-                        }
-                    }
-                })
 
             }).catch((err) => {
                 console.error(err)
@@ -176,7 +182,7 @@ export default {
     watch: {
         selectedFileDataClone(val) {
             this.$nextTick(() => {
-                if (Object.keys(val).length == 0) {
+                if (val.length == 0) {
                     this.resetAll(['newKeys'])
                 }
             })
@@ -190,11 +196,11 @@ export default {
             this.resetAll(['newKeys', 'keyToCopy'])
 
             if (val) {
-                if (this.getTabName().includes('vendor') && !this.selectedDirName) {
-                    return
-                }
+                this.updateTHead()
 
-                this.getFileContent()
+                return this.getTabName().includes('vendor') && !this.selectedDir
+                    ? false
+                    : this.getFileContent()
             }
         },
         files(val) {

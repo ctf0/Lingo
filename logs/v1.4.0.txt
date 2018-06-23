@@ -1,0 +1,9 @@
+- better UX all around
+- fix delete locale after switching from vendor to default
+- refactor & cleanups
+- add table sort
+- add copied item locales equalize
+- move add copied item btn to top
+- fix multi requests to get file data, also if a vendor package have more than one file we wont automatically select the first item
+- add new npm dep “fuse.js”
+- now search is fuzzy instead of strict

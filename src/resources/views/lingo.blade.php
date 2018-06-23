@@ -25,7 +25,7 @@
                 {{-- lingo --}}
                 <div class="column">
 
-                    <lingo inline-template
+                    <lingo inline-template v-cloak
                         :translations="{{ $lingo_trans }}"
                         :routes={{ json_encode([
                             'scanForMissingRoute' => route('lingo.scan_for_missing'), 
@@ -203,7 +203,7 @@
                             </div>
 
                             {{-- Tabs --}}
-                            <div class="tabs is-medium is-centered m-t-50">
+                            <div class="tabs is-medium is-centered">
                                 <ul>
                                     <li :class="{'is-active' : activeTabIs('default-tab')}">
                                         <a @click="toggleTab('default-tab')">

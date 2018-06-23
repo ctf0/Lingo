@@ -18,7 +18,7 @@ export default {
             if (!this.$refs.locale.disabled) {
                 axios.post(this.routes.addNewLocaleRoute, {
                     'file_name': this.new_locale,
-                    'dir_name': this.selectedDirName || null
+                    'dir_name': this.vendorCheck() ? this.selectedDirName : null
                 }).then(({data}) => {
 
                     if (!data.success) {

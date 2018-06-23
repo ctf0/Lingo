@@ -72,6 +72,8 @@ export default {
             })
         },
         getFiles() {
+            this.resetAll(['selectedFile'])
+
             return axios.post(this.routes.filesRoute, {
                 'dir_name': this.selectedDir
             }).then(({data}) => {
@@ -80,18 +82,17 @@ export default {
                     this.files = data.message
 
                     if (this.files.length > 0) {
-                        this.selectedFile = this.files[0]
+                        this.files.length > 1
+                            ? false
+                            : this.selectedFile = this.files[0]
                     } else {
                         // when changing dirs with files
-                        this.resetAll(['selectedFile', 'locales'])
+                        this.resetAll(['locales'])
                     }
                 } else {
                     // new vendor / no files
-                    this.resetAll(['selectedFile', 'locales'])
+                    this.resetAll(['locales'])
                 }
-
-                // get file data or avail locales
-                this.getFileContent()
 
             }).catch((err) => {
                 console.error(err)

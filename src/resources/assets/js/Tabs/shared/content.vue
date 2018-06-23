@@ -3,212 +3,235 @@
         <section class="sticky-section">
             <slot/>
 
-            <!-- select file -->
-            <div v-if="showSection()" class="field is-grouped is-grouped-right">
-                <div class="control has-icons-left">
-                    <div class="select">
-                        <select v-model="selectedFile">
-                            <option value="" disabled>{{ trans('select_file') }}</option>
-                            <option v-for="(f, i) in files" :key="i">{{ f }}</option>
-                        </select>
-                    </div>
-                    <div class="icon is-small is-left"><icon name="file"/></div>
+            <div class="level">
+                <!-- add copied -->
+                <div class="level-left">
+                    <transition name="slide-fade">
+                        <div v-if="selectedFile" class="level-item">
+                            <button :disabled="!copiedItem" class="button" @click.prevent="addCopiedItem()">
+                                {{ trans('add_copied') }}
+                            </button>
+                        </div>
+                    </transition>
                 </div>
-                <div v-if="selectedFile" class="control">
-                    <!-- remove -->
-                    <button class="button is-danger" @click="removeSelectedFile()">
-                        <span class="icon"><icon name="trash"/></span>
-                    </button>
-                    <!-- download -->
-                    <form :action="routes.downloadFileRoute" method="get" class="is-inline-block">
-                        <input v-if="hasDirs()" :value="selectedDir" type="hidden" name="dir_name">
-                        <input :value="selectedFile" type="hidden" name="file_name">
-                        <button type="submit" class="button is-outlined">
-                            <span class="icon"><icon name="download"/></span>
-                        </button>
-                    </form>
+
+                <!-- select file -->
+                <div class="level-right">
+                    <transition name="slide-fade">
+                        <div v-if="showSection()" class="field is-grouped is-grouped-right">
+                            <div class="control has-icons-left">
+                                <div class="select">
+                                    <select v-model="selectedFile">
+                                        <option value="" disabled>{{ trans('select_file') }}</option>
+                                        <option v-for="(f, i) in files" :key="i">{{ f }}</option>
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left"><icon name="file"/></div>
+                            </div>
+
+                            <div v-if="selectedFile" class="control">
+                                <!-- remove -->
+                                <button class="button is-danger" @click="removeSelectedFile()">
+                                    <span class="icon"><icon name="trash"/></span>
+                                </button>
+
+                                <!-- download -->
+                                <form :action="routes.downloadFileRoute" method="get" class="is-inline-block">
+                                    <input v-if="hasDirs()" :value="selectedDir" type="hidden" name="dir_name">
+                                    <input :value="selectedFile" type="hidden" name="file_name">
+                                    <button type="submit" class="button is-outlined">
+                                        <span class="icon"><icon name="download"/></span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </transition>
                 </div>
             </div>
 
-            <div v-if="selectedFile" class="level is-mobile is-marginless m-t-40">
-                <!-- items count -->
-                <div class="level-left">
-                    <div class="level-item">
-                        <h4 class="title is-4">"{{ itemsCount }}" {{ trans('items') }}</h4>
+            <transition name="slide-fade">
+                <div v-if="selectedFile && selectedFileDataClone" class="level is-mobile is-marginless m-t-40">
+                    <!-- items count -->
+                    <div class="level-left">
+                        <div class="level-item">
+                            <h4 class="title is-4">"{{ itemsCount }}" {{ trans('items') }}</h4>
+                        </div>
+                        <transition name="slide-fade">
+                            <div v-if="itemsCount" class="level-item">
+                                <scroll/>
+                            </div>
+                        </transition>
                     </div>
-                    <div class="level-item">
-                        <scroll/>
-                    </div>
-                </div>
 
-                <div class="level-right">
-                    <div class="level-item is-marginless">
-                        <!-- search -->
-                        <div class="field has-addons">
-                            <p class="control has-icons-left">
-                                <input v-model="searchFor"
-                                       :placeholder="trans('find')"
-                                       class="input"
-                                       type="text">
-                                <span class="icon is-left">
-                                    <icon name="search"/>
-                                </span>
-                            </p>
-                            <p class="control">
-                                <button :disabled="!searchFor" class="button is-black"
-                                        @click="resetSearch()">
-                                    <span class="icon"><icon name="times"/></span>
-                                </button>
-                            </p>
+                    <div class="level-right">
+                        <div class="level-item is-marginless">
+                            <!-- search -->
+                            <div class="field has-addons">
+                                <p class="control has-icons-left">
+                                    <input ref="search"
+                                           :placeholder="trans('find')"
+                                           class="input"
+                                           type="text"
+                                           @input="debounceInput">
+                                    <span class="icon is-left">
+                                        <icon name="search"/>
+                                    </span>
+                                </p>
+                                <p class="control">
+                                    <button :disabled="!searchFor" class="button is-black"
+                                            @click="resetSearch()">
+                                        <span class="icon"><icon name="times"/></span>
+                                    </button>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </transition>
         </section>
 
         <!-- data -->
-        <section v-if="selectedFile">
-            <!-- table -->
-            <table :style="THeadTop" class="table is-fullwidth is-hoverable is-bordered">
-                <thead>
-                    <tr class="is-unselectable">
-                        <th class="is-link" width="1%">
-                            <div class="field has-addons is-marginless">
-                                <div class="control">
-                                    <button :disabled="toBeMergedKeys.length < 2" class="button is-borderless" @click="toggleModal(true)">
-                                        {{ trans('merge_keys') }}
-                                    </button>
-                                </div>
-                                <div class="control">
-                                    <div class="button is-borderless is-light">
-                                        <input id="all" :checked="toBeMergedKeys.length" type="checkbox" class="cbx-checkbox" @click="wrapAll()">
-                                        <label for="all" class="cbx is-marginless">
-                                            <svg width="14px" height="12px" viewBox="0 0 14 12"><polyline points="1 7.6 5 11 13 1"/></svg>
-                                        </label>
+        <transition name="slide-fade">
+            <section v-if="selectedFile">
+                <!-- table -->
+                <table :style="THeadTop" class="table is-fullwidth is-hoverable is-bordered">
+                    <thead>
+                        <tr class="is-unselectable">
+                            <th class="is-link" width="1%">
+                                <div class="field has-addons is-marginless">
+                                    <div class="control">
+                                        <button :disabled="toBeMergedKeys.length < 2" class="button is-borderless" @click="toggleModal(true)">
+                                            {{ trans('merge_keys') }}
+                                        </button>
+                                    </div>
+
+                                    <div class="control">
+                                        <div class="button is-borderless is-light">
+                                            <input id="all" :checked="toBeMergedKeys.length" type="checkbox" class="cbx-checkbox" @click="wrapAll()">
+                                            <label for="all" class="cbx is-marginless">
+                                                <svg width="14px" height="12px" viewBox="0 0 14 12"><polyline points="1 7.6 5 11 13 1"/></svg>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </th>
-                        <th class="is-link" width="1%">{{ trans('key') }}</th>
-                        <th v-for="(l, i) in locales" :key="i" class="is-link">
-                            <div class="tags has-addons is-marginless">
-                                <span class="tag is-marginless link is-light is-medium">{{ l }}</span>
-                                <span class="tag is-marginless link is-warning is-medium" @click="removeLocale(l)">
-                                    <icon name="trash"/>
-                                </span>
-                            </div>
-                        </th>
-                        <th class="is-link">{{ trans('ops') }}</th>
-                    </tr>
-                </thead>
+                            </th>
+                            <th class="is-link link" width="1%" @click="sortBy('key')">{{ trans('key') }}</th>
+                            <th v-for="(l, i) in locales" :key="i" class="is-link link" @click="sortBy(l)">
+                                <div class="tags has-addons is-marginless">
+                                    <span class="tag is-marginless link is-light is-medium">{{ l }}</span>
+                                    <span class="tag is-marginless link is-warning is-medium" @click="removeLocale(l)">
+                                        <icon name="trash"/>
+                                    </span>
+                                </div>
+                            </th>
+                            <th class="is-link">{{ trans('ops') }}</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    <tr v-for="(mainV, mainK, mainI) in selectedFileDataClone"
-                        v-if="inList(mainK)"
-                        :key="mainI">
+                    <tbody>
+                        <tr v-for="(item, i) in filteredList" :key="i">
 
-                        <!-- merge -->
-                        <td style="text-align: center;">
-                            <input :id="mainK" :value="mainK"
-                                   v-model="toBeMergedKeys"
-                                   type="checkbox"
-                                   class="cbx-checkbox">
-                            <label :for="mainK" class="cbx is-marginless">
-                                <svg width="14px" height="12px" viewBox="0 0 14 12"><polyline points="1 7.6 5 11 13 1"/></svg>
-                            </label>
-                        </td>
+                            <!-- merge -->
+                            <td style="text-align: center;">
+                                <input :id="item.name"
+                                       :value="item.name"
+                                       v-model="toBeMergedKeys"
+                                       type="checkbox"
+                                       class="cbx-checkbox">
+                                <label :for="item.name" class="cbx is-marginless">
+                                    <svg width="14px" height="12px" viewBox="0 0 14 12"><polyline points="1 7.6 5 11 13 1"/></svg>
+                                </label>
+                            </td>
 
-                        <!-- key -->
-                        <td v-tippy="{position : 'right', arrow: true, interactive: true, trigger: 'mouseenter'}" :title="getKey(mainK)" :class="{'nestedKeys' : mainK.includes('.')}"
-                            :data-main-key="mainK"
-                            nowrap
-                            contenteditable
-                            dir="auto"
+                            <!-- key -->
+                            <td v-tippy="{position : 'right', arrow: true, interactive: true, trigger: 'mouseenter'}"
+                                :title="getKey(item.name)"
+                                :class="{'nestedKeys' : item.name && item.name.includes('.')}"
+                                :data-main-key="item.name"
+                                :ref="`td-${item.name}`"
+                                nowrap
+                                contenteditable
+                                dir="auto"
 
-                            data-html="#tippyTemplate"
-                            @mouseenter="keyToCopy = getKey(mainK)"
-                            @keydown.enter.prevent
-                            @input="newEntry()"
-                            @blur="saveNewKey($event)">
-                            {{ mainK }}
-                        </td>
+                                data-html="#tippyTemplate"
+                                @mouseenter="keyToCopy = getKey(item.name)"
+                                @keydown.enter.prevent
+                                @input="newEntry()"
+                                @blur="saveNewKey($event)">
+                                {{ item.name }}
+                            </td>
 
-                        <!-- value -->
-                        <td v-for="(nestV, nestK, nestI) in mainV" :key="nestI"
-                            :data-main-key="mainK" :data-code="nestK"
-                            contenteditable
-                            dir="auto"
-                            @input="newEntry()"
-                            @blur="saveNewValue($event)">
-                            {{ nestV }}
-                        </td>
+                            <!-- value -->
+                            <td v-for="(codeV, codeK) in item.locales" :key="codeK"
+                                :data-main-key="item.name"
+                                :data-code="codeK"
+                                contenteditable
+                                dir="auto"
+                                @input="newEntry()"
+                                @blur="saveNewValue($event)">
+                                {{ codeV }}
+                            </td>
 
-                        <td width="1%">
-                            <!-- del -->
-                            <button v-tippy
-                                    :title="trans('delete')"
-                                    class="button is-danger"
-                                    @click="removeItem(mainK)">
-                                <span class="icon"><icon name="trash"/></span>
+                            <td width="1%">
+                                <!-- del -->
+                                <button v-tippy
+                                        :title="trans('delete')"
+                                        class="button is-danger"
+                                        @click="removeItem(i)">
+                                    <span class="icon"><icon name="trash"/></span>
+                                </button>
+                                <!-- clone -->
+                                <button v-tippy
+                                        :title="trans('copy')"
+                                        class="button is-primary"
+                                        @click="copyItem(item)">
+                                    <span class="icon"><icon name="clone" scale="0.8"/></span>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- nothing found -->
+                        <tr v-if="noData()">
+                            <td :colspan="locales.length + 3" style="text-align: center">
+                                {{ trans('no_data') }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- ops -->
+                <div class="level">
+                    <div class="level-left">
+                        <!-- add new item -->
+                        <div class="level-item">
+                            <button class="button is-link" @click.prevent="addNewItem()">
+                                {{ trans('add_new') }}
                             </button>
-                            <!-- clone -->
-                            <button v-tippy
-                                    :title="trans('copy')"
-                                    class="button is-primary"
-                                    @click="copyItem(mainK, mainV)">
-                                <span class="icon"><icon name="clone" scale="0.8"/></span>
-                            </button>
-                        </td>
-                    </tr>
-
-                    <!-- nothing found -->
-                    <tr v-if="dontHaveData()">
-                        <td :colspan="locales.length + 3" style="text-align: center">
-                            {{ trans('no_data') }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!-- ops -->
-            <div class="level">
-                <div class="level-left">
-                    <!-- add new item -->
-                    <div class="level-item">
-                        <button class="button is-link" @click.prevent="addNewItem()">
-                            {{ trans('add_new') }}
-                        </button>
+                        </div>
                     </div>
 
-                    <!-- add copied -->
-                    <div class="level-item">
-                        <button :disabled="!copiedItem" class="button" @click.prevent="addCopiedItem()">
-                            {{ trans('add_copied') }}
-                        </button>
+                    <div class="level-right">
+                        <!-- save changes -->
+                        <div class="level-item">
+                            <button :disabled="!dataChanged" class="button is-success" @click="submitNewData()">
+                                {{ trans('save') }}
+                            </button>
+                        </div>
+                        <!-- reset -->
+                        <div class="level-item">
+                            <button :disabled="!dataChanged" class="button is-warning" @click="resetData()">
+                                {{ trans('reset') }}
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="level-right">
-                    <!-- save changes -->
-                    <div class="level-item">
-                        <button :disabled="!dataChanged" class="button is-success" @click="submitNewData()">
-                            {{ trans('save') }}
-                        </button>
-                    </div>
-                    <!-- reset -->
-                    <div class="level-item">
-                        <button :disabled="!dataChanged" class="button is-warning" @click="resetData()">
-                            {{ trans('reset') }}
-                        </button>
-                    </div>
+                <!-- tippy template -->
+                <div id="tippyTemplate">
+                    <span class="c2c">{{ keyToCopy }}</span>
                 </div>
-            </div>
-
-            <!-- tippy template -->
-            <div id="tippyTemplate">
-                <span class="c2c">{{ keyToCopy }}</span>
-            </div>
-        </section>
+            </section>
+        </transition>
 
         <!-- modal -->
         <div :class="{'is-active': showModal}"
@@ -248,55 +271,73 @@
 
 <script>
 import Forms from './forms'
-import Scroll from './Scroll.vue'
+import Scroll from './Scroll/btns.vue'
+
+import orderBy from 'lodash/orderBy'
+import debounce from 'lodash/debounce'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default{
     components: {Scroll},
     name: 'shared-content',
     mixins: [Forms],
     data() {
-        return Object.assign(this.$parent.$data, {
-            THeadTop: {'--tHead': 0}
-        })
+        return this.$parent.$data
     },
     mounted() {
+        // copy to clipboard
+        document.body.onclick = (e) => {
+            e = window.event ? e.srcElement : e.target
+            if (e.classList.contains('c2c')) {
+                this.$copyText(this.keyToCopy)
+            }
+        }
     },
     updated() {
         this.tableColumnResize()
-        this.$nextTick(() => {
-            let sec = document.querySelector('.sticky-section')
-            let count = sec.clientHeight + parseInt(window.getComputedStyle(sec).getPropertyValue('top')) - 1
-            return this.THeadTop = {
-                '--tHead': `${count}px`
-            }
-        })
     },
     computed: {
+        keysList() {
+            if (this.itemsCount) {
+                return this.filteredList.map((e) => {
+                    return e.name
+                })
+            }
+
+            return []
+        },
+        filteredList() {
+            let val = this.searchFor
+
+            if (val) {
+                return new Fuse(this.selectedFileDataClone, {
+                    keys: ['name'],
+                    threshold: 0.3
+                }).search(val)
+            }
+
+            return this.selectedFileDataClone || []
+        },
         itemsCount() {
-            return this.filteredList().length
+            return this.filteredList.length
         }
     },
     methods: {
         showSection() {
-            return this.dirs && this.dirs.length && this.selectedDir || this.files.length
+            return this.dirs &&
+                this.dirs.length &&
+                this.selectedDir || this.files.length
         },
         hasDirs() {
             return this.dirs && this.dirs.length && this.selectedDir
         },
 
         // search
-        keysList() {
-            return Object.keys(this.selectedFileDataClone)
-        },
-        filteredList() {
-            return this.keysList().filter((e) => {
-                return e.includes(this.searchFor.toLowerCase())
-            })
-        },
-        inList(key) {
-            return this.filteredList().includes(key)
-        },
+        debounceInput: debounce(function({target}) {
+            this.searchFor = target.value
+        }, 250),
         resetSearch() {
+            this.$refs.search.value = ''
             this.searchFor = ''
         },
 
@@ -334,83 +375,102 @@ export default{
                 el = undefined
             })
         },
+        sortBy(item) {
+            let dir = this.orderDirection == 'asc' ? 'desc' : 'asc'
+
+            if (item == 'key') {
+                this.selectedFileDataClone = orderBy(this.selectedFileDataClone, ['name'], [dir])
+                return this.orderDirection = dir
+            }
+
+            this.selectedFileDataClone = orderBy(this.selectedFileDataClone, [`locales.${item}`], [dir])
+            return this.orderDirection = dir
+        },
 
         // ops
-        copyItem(key, val) {
-            this.copiedItem = {[key]: val}
+        copyItem(item) {
+            this.copiedItem = item
         },
         addCopiedItem() {
-            this.dataChanged = true
+            this.newEntry()
 
-            let item = this.copiedItem
+            let item = cloneDeep(this.copiedItem)
+            let val = item.locales
             let fileData = this.selectedFileDataClone
             let locales = this.locales
-            let key = Object.keys(item)[0]
-            let val = Object.values(item)[0]
 
             // exist
-            if (this.keysList().some((e) => e == key)) {
+            if (fileData.some((e) => e.name == item.name)) {
+                this.searchFor = item.name
+                this.$refs.search.value = item.name
+                this.$refs.search.focus()
                 return this.showNotif(this.trans('copied_key_exist'), 'warning')
             }
 
-            // equalize locales "TEMP RESTRICTION"
-            if (Object.keys(val).length !== locales.length) {
-                return this.showNotif(this.trans('copied_key_length'), 'danger')
-            }
-
             // more to less
-            // issues : old copied item changes after paste & copying a new one
-            //
-            // Object.keys(val).forEach((code) => {
-            //     if (!locales.includes(code)) {
-            //         delete val[code]
-            //     }
-            // })
+            Object.keys(val).forEach((code) => {
+                if (!locales.includes(code)) {
+                    delete val[code]
+                }
+            })
 
             // less to more
-            // issues : wrong render of locales value in table while its correct
-            //
-            // locales.forEach((code) => {
-            //     if (!val.hasOwnProperty(code)) {
-            //         return val[code] = ''
-            //     }
-            // })
+            locales.forEach((code) => {
+                if (!val.hasOwnProperty(code)) {
+                    return val[code] = ''
+                }
+            })
 
-            return this.$set(fileData, key, val)
+            // make sure the locales are in correct order
+            item.locales = Object.keys(val).sort().reduce((r, k) => (r[k] = val[k], r), {})
+
+            fileData.push(item)
+            this.scrollToBottom()
         },
         addNewItem() {
+            this.newEntry()
+            this.resetSearch()
+
             let name = 'newItem' + this.newItemCounter
             let fileData = this.selectedFileDataClone
-
-            this.dataChanged = true
+            let test = this.keysList.includes(name)
 
             // incase we already have a key == name
-            if (fileData.hasOwnProperty(name)) {
+            if (test) {
                 this.newItemCounter++
                 return this.addNewItem()
             }
 
-            this.locales.forEach((code) => {
-                // name not added yet
-                if (!fileData.hasOwnProperty(name)) {
-                    this.$set(fileData, name, {[code]: ''})
-                }
-                // name is added but not the code
-                else {
-                    this.$set(fileData[name], code, '')
-                }
+            let lc = {}
+            this.locales.forEach((e) => {
+                lc[e] = ''
+            })
+
+            fileData.push({
+                name: name,
+                locales: lc
+            })
+
+            this.$nextTick(() => {
+                this.scrollToBottom()
             })
 
             this.newItemCounter++
         },
-        removeItem(item) {
-            this.dataChanged = true
-            this.$delete(this.selectedFileDataClone, item)
+        removeItem(index) {
+            this.newEntry()
+            this.selectedFileDataClone.splice(index, 1)
         },
         resetData() {
             this.dataChanged = false
             this.newItemCounter = 0
-            this.selectedFileDataClone = JSON.parse(JSON.stringify(this.selectedFileData))
+
+            // because any changes in DOM are not reseted
+            this.selectedFileDataClone = {}
+            this.$nextTick(() => {
+                this.selectedFileDataClone = cloneDeep(this.selectedFileData)
+            })
+
             this.parentMethod('resetAll', ['keyToCopy', 'newKeys'])
         },
 
@@ -420,9 +480,7 @@ export default{
                 return this.toBeMergedKeys = []
             }
 
-            this.toBeMergedKeys = this.searchFor
-                ? this.filteredList()
-                : this.keysList()
+            this.toBeMergedKeys = this.keysList
         },
         mergeKeys() {
             this.toBeMergedKeys.map((old_key) => {
@@ -456,7 +514,7 @@ export default{
         },
         newKeyOps(old_key, new_key) {
             if (old_key !== new_key) {
-                this.dataChanged = true
+                this.newEntry()
 
                 if (this.newKeys) {
                     return this.newKeys[old_key] = new_key
@@ -468,44 +526,23 @@ export default{
         saveNewValue(e) {
             let code = e.target.dataset.code
             let key = e.target.dataset.mainKey
-            let text = e.target.innerText = e.target.innerText.replace(/\n/g, '<br>')
-            let value = text
+            let value = e.target.innerText = e.target.innerText.replace(/\n/g, '<br>')
+            let fileData = this.selectedFileDataClone
 
-            if (this.selectedFileDataClone[key][code] !== value) {
-                this.dataChanged = true
-                this.$set(this.selectedFileDataClone[key], code, value)
-            }
-        },
-        formatData() {
-            let main = this.selectedFileDataClone
-            let newData = this.newKeys
-
-            let main_keys = Object.keys(main)
-            let newData_keys = Object.keys(newData)
-
-            // replace changed keys
-            if (newData_keys.length) {
-                main_keys.map((old_key) => {
-                    if (newData_keys.includes(old_key)) {
-                        let new_key = newData[old_key]
-
-                        Object.defineProperty(
-                            main,
-                            new_key,
-                            Object.getOwnPropertyDescriptor(main, old_key)
-                        )
-
-                        delete main[old_key]
-                    }
-                })
-            }
-
-            return main
+            fileData.some((e, i) => {
+                if (e.name == key && e.locales[code] !== value) {
+                    this.newEntry()
+                    fileData[i].locales[code] = value
+                }
+            })
         },
 
         // other
-        dontHaveData() {
-            return Object.keys(this.selectedFileDataClone).length == 0
+        noData() {
+            return this.itemsCount == 0
+        },
+        scrollToBottom() {
+            document.querySelector('.toDown').click()
         },
 
         // parent

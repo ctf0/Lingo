@@ -37,13 +37,9 @@ class LingoController extends Controller
      */
     public function getFiles(Request $request)
     {
-        $vendor = (bool) $request->dir_name;
-
-        $dir_name = $vendor
-            ? "{$this->lang_path}/vendor/{$request->dir_name}"
-            : $this->lang_path;
-
-        $def_dir = $this->getDefaultLangDir($dir_name, $vendor);
+        $vendor   = $request->dir_name;
+        $dir_name = $this->getPath($vendor);
+        $def_dir  = $this->getDefaultLangDir($dir_name, $vendor);
 
         // new vendor / no files
         if (!$def_dir) {
@@ -97,12 +93,9 @@ class LingoController extends Controller
     public function getFileData(Request $request)
     {
         $file_name = $request->file_name;
-        $vendor    = $request->dir_name ? true : false;
-        $dir_name  = $vendor
-            ? "{$this->lang_path}/vendor/{$request->dir_name}"
-            : $this->lang_path;
-
-        $locales = $this->getLocales($dir_name, $vendor);
+        $vendor    = $request->dir_name;
+        $dir_name  = $this->getPath($vendor);
+        $locales   = $this->getLocales($dir_name, $vendor);
 
         // new vendor / no locales
         if (!$locales) {
@@ -120,11 +113,10 @@ class LingoController extends Controller
         $res           = [];
 
         // no files to extract keys
-        // fuck javascript
         if (empty($def_file_keys)) {
             return $this->goodResponse([
                 'locales'=> $locales,
-                'all'    => (object) $res,
+                'all'    => $res,
             ]);
         }
 
@@ -148,7 +140,12 @@ class LingoController extends Controller
 
         return $this->goodResponse([
             'locales'=> $locales,
-            'all'    => $res,
+            'all'    => collect($res)->map(function ($v, $k) {
+                return [
+                    'name'   => $k,
+                    'locales'=> $v,
+                ];
+            })->values(),
         ]);
     }
 
@@ -187,13 +184,10 @@ class LingoController extends Controller
     public function addNewLocale(Request $request)
     {
         $code     = $request->file_name;
-        $vendor   = $request->dir_name ? true : false;
-        $dir_name = $vendor
-            ? "{$this->lang_path}/vendor/{$request->dir_name}"
-            : $this->lang_path;
-
-        $def_dir = $this->getDefaultLangDir($dir_name, $vendor);
-        $new_dir = "$dir_name/$code";
+        $vendor   = $request->dir_name;
+        $dir_name = $this->getPath($vendor);
+        $def_dir  = $this->getDefaultLangDir($dir_name, $vendor);
+        $new_dir  = "$dir_name/$code";
 
         if ($this->file->exists($new_dir)) {
             return $this->badResponse("'$new_dir'" . trans('Lingo::messages.already_exist'));
@@ -221,10 +215,7 @@ class LingoController extends Controller
     {
         $file_name = $request->file_name;
         $dir_name  = $request->dir_name;
-
-        $dirs = $dir_name
-            ? $this->file->directories("{$this->lang_path}/vendor/$dir_name")
-            : $this->langDirs;
+        $dirs      = $this->getLangDirs($dir_name);
 
         foreach ($dirs as $locale) {
             if (!$dir_name && ends_with($locale, 'vendor')) {
@@ -239,8 +230,8 @@ class LingoController extends Controller
         }
 
         return $dir_name
-            ? $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$dir_name/../$file_name'", 'state'=>'Created']))
-            : $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'lang/../$file_name'", 'state'=>'Created']));
+            ? $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$dir_name/*/$file_name'", 'state'=>'Created']))
+            : $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'lang/*/$file_name'", 'state'=>'Created']));
     }
 
     /**
@@ -276,12 +267,8 @@ class LingoController extends Controller
     {
         $file_name = $request->file_name;
         $dir_name  = $request->dir_name;
-
-        $dirs = $dir_name
-            ? $this->file->directories("{$this->lang_path}/vendor/$dir_name")
-            : $this->langDirs;
-
-        $success = true;
+        $dirs      = $this->getLangDirs($dir_name);
+        $success   = true;
 
         foreach ($dirs as $locale) {
             if (!$dir_name && ends_with($locale, 'vendor')) {
@@ -292,14 +279,16 @@ class LingoController extends Controller
         }
 
         return $success == true
-            ? $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$file_name'", 'state'=>'Deleted']))
+            ? $dir_name
+                ? $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$dir_name/*/$file_name'", 'state'=>'Deleted']))
+                : $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$file_name'", 'state'=>'Deleted']))
             : $this->badResponse();
     }
 
     public function download(Request $request)
     {
-        $file_name  = $request->file_name;
-        $dir_name   = $request->dir_name;
+        $file_name = $request->file_name;
+        $dir_name  = $request->dir_name;
 
         // vendor only
         if (!$file_name && $dir_name) {
@@ -311,15 +300,15 @@ class LingoController extends Controller
 
         // vendor file
         if ($file_name && $dir_name) {
-            $path   = "{$this->lang_path}/vendor/$dir_name";
+            $path = "{$this->lang_path}/vendor/$dir_name";
         }
 
         // file only
         if ($file_name && !$dir_name) {
-            $path   = $this->lang_path;
+            $path = $this->lang_path;
         }
 
-        return $this->zipAndDownload($file_name, $path, (bool) $dir_name);
+        return $this->zipAndDownload($file_name, $path, $dir_name);
     }
 
     /**
@@ -333,13 +322,12 @@ class LingoController extends Controller
     {
         $locale   = $request->locale;
         $dir_name =  $request->dir_name;
-
-        $path = $dir_name
-            ? "{$this->lang_path}/vendor/$dir_name"
-            : $this->lang_path;
+        $path     = $this->getPath($dir_name);
 
         return $this->file->deleteDirectory("$path/$locale")
-            ? $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$locale'", 'state'=>'Deleted']))
+            ? $dir_name
+                ? $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$dir_name/$locale'", 'state'=>'Deleted']))
+                : $this->goodResponse(trans('Lingo::messages.success', ['attr'=>"'$locale'", 'state'=>'Deleted']))
             : $this->badResponse();
     }
 
@@ -371,7 +359,9 @@ class LingoController extends Controller
     {
         $dir_name  = $request->dir_name;
         $file_name = $request->file_name;
-        $data      = $request->data;
+        $data      = collect($request->data)->map(function ($v, $k) {
+            return [$v['name'] => $v['locales']];
+        })->values();
 
         if ($this->saveToFile($file_name, $data, $dir_name)) {
             return $dir_name

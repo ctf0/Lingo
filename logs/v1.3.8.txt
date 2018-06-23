@@ -1,5 +1,0 @@
-- you can now download vendor/files
-- add new composer dep “maennchen/zipstream-php”
-- return the “scan for missing translation” cmnd output instead of generic msg
-- add the missing keys for trans
-- temp solution for showing the steps numbers too early

@@ -1,3 +1,5 @@
+import cloneDeep from 'lodash/cloneDeep'
+
 export default {
     methods: {
         removeSelectedFile() {
@@ -64,10 +66,28 @@ export default {
                 })
             }
         },
+
+        // save
+        formatData() {
+            let main = this.selectedFileDataClone
+            let newData = this.newKeys
+            let newData_keys = Object.keys(newData)
+
+            // replace changed keys
+            if (newData_keys.length) {
+                main.map((item, i) => {
+                    if (newData_keys.includes(item.name)) {
+                        return main[i].name = newData[item.name]
+                    }
+                })
+            }
+
+            return main
+        },
         submitNewData() {
             let formatData = this.formatData()
 
-            if (this.dontHaveData()) {
+            if (this.noData()) {
                 this.showNotif(this.trans('empty_file'), 'warning')
             }
 
@@ -84,8 +104,9 @@ export default {
                 this.dataChanged = false
                 this.newKeys = ''
                 this.newItemCounter = 0
-                this.selectedFileData = Object.assign({}, formatData)
+                this.selectedFileData = cloneDeep(formatData)
                 this.showNotif(data.message)
+                this.resetSearch()
 
             }).catch((err) => {
                 console.error(err)

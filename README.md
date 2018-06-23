@@ -5,7 +5,7 @@
 A file based translation manager, which unlike other Lang managers don't need a database connection to handle the translation.
 
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/7388088/41400224-d9f9c640-6fbc-11e8-872c-c16439117803.png">
+    <img src="https://user-images.githubusercontent.com/7388088/41813078-257e4b6c-772f-11e8-9661-14636218d029.png">
 </p>
 
 <br>
@@ -33,9 +33,9 @@ A file based translation manager, which unlike other Lang managers don't need a 
 - install dependencies
 
     ```bash
-    yarn add vue axios vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome@v2
+    yarn add vue vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome@v2 axios fuse.js
     # or
-    npm install vue axios vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome@v2 --save
+    npm install vue vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome@v2 axios fuse.js --save
     ```
 
 - add this one liner to your main js file and run `npm run watch` to compile your `js/css` files.
@@ -54,15 +54,16 @@ A file based translation manager, which unlike other Lang managers don't need a 
 ## Features
 
 - filter by keys.
+- sort table by keys or by values.
 - add/remove "vendor/locale/file/item".
 - show guiding steps while adding new vendor for better UX.
 - validate for "vendor/locale/file" existence on the fly.
 - use localeStorage to remember opened "tab/vendor/files/copy-format".
 - support up to 3 levels deep on nested keys.
 - support all laravel different translation key formats.
-- directly copy translation key by clicking on the tool-tip.
+- directly copy translation key useing tool-tips.
 - show/hide different elements to avoid noise & keep the user focused.
-- copy/paste items.
+- copy/paste items from one file to another.
 - merge multiple items under new key.
 - download vendor/file
 

@@ -1,6 +1,7 @@
 /*                Libs                */
 window.Vue = require('vue')
 window.EventHub = require('vuemit')
+window.Fuse = require('fuse.js')
 Vue.use(require('vue-clipboard2'))
 Vue.use(require('vue-ls'))
 

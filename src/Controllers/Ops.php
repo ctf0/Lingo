@@ -8,13 +8,26 @@ use ZipStream\Option\Archive;
 trait Ops
 {
     /**
-     * [getDefaultLangDir description].
+     * [getPath description].
      *
-     * @param mixed $dir
-     * @param mixed $vendor
+     * @param mixed $package_name
      *
      * @return [type] [description]
      */
+    protected function getPath($package_name)
+    {
+        return $package_name
+           ? "{$this->lang_path}/vendor/$package_name"
+           : $this->lang_path;
+    }
+
+    protected function getLangDirs($package_name)
+    {
+        return $package_name
+           ? $this->file->directories("{$this->lang_path}/vendor/$package_name")
+           : $this->langDirs;
+    }
+
     protected function getDefaultLangDir($dir, $vendor = false)
     {
         $locales = $this->getLocales($dir, $vendor);
@@ -63,17 +76,16 @@ trait Ops
      */
     protected function saveToFile($file, $data, $package_name = null)
     {
+        $dir_name   = $this->getPath($package_name);
         $pre_format = [];
 
-        foreach ($data as $key => $locales) {
-            foreach ($locales as $code => $v) {
-                $pre_format = $this->recSave($pre_format, $key, $code, $v);
+        foreach ($data as $item) {
+            foreach ($item as $key => $locales) {
+                foreach ($locales as $code => $v) {
+                    $pre_format = $this->recSave($pre_format, $key, $code, $v);
+                }
             }
         }
-
-        $dir_name = $package_name
-            ? "{$this->lang_path}/vendor/$package_name"
-            : $this->lang_path;
 
         foreach ($pre_format as $locale => $value) {
             $dir = "$dir_name/$locale";

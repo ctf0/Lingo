@@ -1,12 +1,12 @@
 <template>
     <div class="tags has-addons is-marginless">
-        <span class="tag is-marginless link is-dark is-medium" @click="scrollTop()"><icon name="arrow-up"/></span>
-        <span class="tag is-marginless link is-dark is-medium" @click="scrollBottom()"><icon name="arrow-down"/></span>
+        <span class="tag is-marginless link is-dark is-medium toUp" @click="scrollTop()"><icon name="arrow-up"/></span>
+        <span class="tag is-marginless link is-dark is-medium toDown" @click="scrollBottom()"><icon name="arrow-down"/></span>
     </div>
 </template>
 
 <script>
-const animateScrollTo = require('./animated-scroll-to')
+import animateScrollTo from './animated-scroll-to'
 
 export default {
     methods: {
