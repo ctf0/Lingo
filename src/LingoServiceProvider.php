@@ -95,7 +95,7 @@ class LingoServiceProvider extends ServiceProvider
         $search   = 'Lingo';
 
         if ($this->checkExist($mix_file, $search)) {
-            $data = "\n// Lingo\nmix.sass('resources/assets/vendor/Lingo/style.scss', 'public/assets/vendor/Lingo/style.css').version();";
+            $data = "\n// Lingo\nmix.sass('resources/assets/vendor/Lingo/sass/style.scss', 'public/assets/vendor/Lingo/style.css')";
 
             $this->file->append($mix_file, $data);
         }

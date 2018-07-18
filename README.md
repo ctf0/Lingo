@@ -70,5 +70,6 @@ A file based translation manager, which unlike other Lang managers don't need a 
 <br>
 
 ## Usage
+> [Demo](https://github.com/ctf0/demos/tree/lingo)
 
 - visit `localhost:8000/lingo`

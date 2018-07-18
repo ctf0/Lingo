@@ -20,7 +20,7 @@
             <my-notification></my-notification>
         </div>
 
-        <div class="container is-fluid is-marginless">
+        <div class="container">
             <div class="columns">
                 {{-- lingo --}}
                 <div class="column">
