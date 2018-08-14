@@ -1,6 +1,6 @@
 # Lingo
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/ctf0/lingo.svg)](https://packagist.org/packages/ctf0/lingo) [![Total Downloads](https://img.shields.io/packagist/dt/ctf0/lingo.svg)](https://packagist.org/packages/ctf0/lingo) [![Donate with Bitcoin](https://en.cryptobadges.io/badge/micro/16ri7Hh848bw7vxbEevKHFuHXLmsV8Vc9L)](https://en.cryptobadges.io/donate/16ri7Hh848bw7vxbEevKHFuHXLmsV8Vc9L)
+[![Latest Stable Version](https://img.shields.io/packagist/v/ctf0/lingo.svg)](https://packagist.org/packages/ctf0/lingo) [![Total Downloads](https://img.shields.io/packagist/dt/ctf0/lingo.svg)](https://packagist.org/packages/ctf0/lingo)
 
 A file based translation manager, which unlike other Lang managers don't need a database connection to handle the translation.
 
@@ -42,12 +42,23 @@ A file based translation manager, which unlike other Lang managers don't need a 
     - if you are having issues [Check](https://ctf0.wordpress.com/2017/09/12/laravel-mix-es6/)
 
     ```js
+    // app.js
+
+    window.Vue = require('vue')
+
     require('../vendor/Lingo/js/manager')
 
     new Vue({
         el: '#app'
     })
     ```
+
+<br>
+
+> ### Upgrading to v1.4.x<br>
+> because code was refactored you'll need to republish the package files<br>
+> `php artisan vendor:publish --provider="ctf0\Lingo\LingoServiceProvider" --tag="assets" --force`<br>
+> `php artisan vendor:publish --provider="ctf0\Lingo\LingoServiceProvider" --tag="views" --force`
 
 <br>
 

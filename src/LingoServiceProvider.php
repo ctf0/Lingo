@@ -16,11 +16,25 @@ class LingoServiceProvider extends ServiceProvider
         $this->file = $this->app['files'];
 
         $this->packagePublish();
+        $this->registerMacro();
 
         // append extra data
         if (!$this->app['cache']->store('file')->has('ct-lingo')) {
             $this->autoReg();
         }
+    }
+
+    protected function registerMacro()
+    {
+        $this->app['router']->macro('setGroupNamespace', function ($namesapce = null) {
+            $lastGroupStack = array_pop($this->groupStack);
+            if ($lastGroupStack !== null) {
+                array_set($lastGroupStack, 'namespace', $namesapce);
+                $this->groupStack[] = $lastGroupStack;
+            }
+
+            return $this;
+        });
     }
 
     /**

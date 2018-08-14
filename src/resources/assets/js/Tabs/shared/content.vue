@@ -70,6 +70,7 @@
                                 <p class="control has-icons-left">
                                     <input ref="search"
                                            :placeholder="trans('find')"
+                                           :value="searchFor"
                                            class="input"
                                            type="text"
                                            @input="debounceInput">
