@@ -149,11 +149,9 @@
                                 :title="getKey(item.name)"
                                 :class="{'nestedKeys' : item.name && item.name.includes('.')}"
                                 :data-main-key="item.name"
-                                :ref="`td-${item.name}`"
                                 nowrap
                                 contenteditable
                                 dir="auto"
-
                                 data-html="#tippyTemplate"
                                 @mouseenter="keyToCopy = getKey(item.name)"
                                 @keydown.enter.prevent
@@ -178,7 +176,7 @@
                                 <button v-tippy
                                         :title="trans('delete')"
                                         class="button is-danger"
-                                        @click="removeItem(i)">
+                                        @click="removeItem(item.name, i)">
                                     <span class="icon"><icon name="trash"/></span>
                                 </button>
                                 <!-- clone -->
@@ -298,15 +296,6 @@ export default{
         this.tableColumnResize()
     },
     computed: {
-        keysList() {
-            if (this.itemsCount) {
-                return this.filteredList.map((e) => {
-                    return e.name
-                })
-            }
-
-            return []
-        },
         filteredList() {
             let val = this.searchFor
 
@@ -321,6 +310,15 @@ export default{
         },
         itemsCount() {
             return this.filteredList.length
+        },
+        keysList() {
+            if (this.itemsCount) {
+                return this.filteredList.map((e) => {
+                    return e.name
+                })
+            }
+
+            return []
         }
     },
     methods: {
@@ -458,8 +456,17 @@ export default{
 
             this.newItemCounter++
         },
-        removeItem(index) {
+        removeItem(name, index) {
             this.newEntry()
+
+            if (this.searchFor) {
+                return this.selectedFileDataClone.some((e, i) => {
+                    if (e.name == name) {
+                        this.selectedFileDataClone.splice(i, 1)
+                    }
+                })
+            }
+
             this.selectedFileDataClone.splice(index, 1)
         },
         resetData() {
