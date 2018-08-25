@@ -16,11 +16,11 @@ export default {
 
             newKeys: '',
             newItemCounter: 0,
-            keyToCopy: '',
             copiedItem: '',
-            toBeMergedKeys: [],
+            keysToBeMerged: [],
             mergerName: '',
             showModal: false,
+            useReplace: false,
             orderDirection: 'asc'
         }
     },
@@ -193,7 +193,8 @@ export default {
         selectedFile(val) {
             this.$parent.selectedFileName = val
             this.dataChanged = false
-            this.resetAll(['newKeys', 'keyToCopy'])
+            this.keysToBeMerged = []
+            this.resetAll(['newKeys'])
 
             if (val) {
                 this.updateTHead()

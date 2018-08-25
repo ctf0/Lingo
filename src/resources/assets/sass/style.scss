@@ -1,4 +1,12 @@
+// mixin
+@mixin media($amount, $point) {
+    @media screen and (#{$amount}-width: #{$point}px) {
+        @content;
+    }
+}
+
 @import './checkbox';
+@import './switcher';
 @import './animate';
 
 td,
@@ -24,6 +32,10 @@ th,
     background-color: #363636 !important;
 }
 
+.form-switcher {
+    height: 25px;
+}
+
 // util
 .m-t-40 {
     margin-top: 40px;
@@ -43,29 +55,6 @@ th,
 
 .is-borderless {
     border: none;
-}
-
-// animation
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-    transition: all 0.4s;
-}
-
-.slide-fade-enter,
-.slide-fade-leave-to {
-    transform: translateX(10px);
-    opacity: 0;
-}
-
-.comp-fade-enter-active,
-.comp-fade-leave-active {
-    transition: all 0.4s;
-}
-
-.comp-fade-enter,
-.comp-fade-leave-to {
-    transform: translateX(-30px);
-    opacity: 0;
 }
 
 // bulma
@@ -94,4 +83,8 @@ th,
 
 .icon {
     vertical-align: sub;
+}
+
+.modal-card-foot {
+    background-color: white;
 }

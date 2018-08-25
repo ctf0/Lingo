@@ -135,7 +135,8 @@ export default {
         },
         selectedDir(val) {
             this.$parent.selectedDirName = val
-            this.resetAll(['newKeys', 'keyToCopy'])
+            this.keysToBeMerged = []
+            this.resetAll(['newKeys'])
 
             if (val) {
                 this.newItemCounter = 0

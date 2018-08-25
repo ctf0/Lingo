@@ -1,0 +1,5 @@
+- add new option so you can merge / destruct keys with dynamic preview
+- cleanup & fixes
+- add support for copying the item along with placeholders if were avail
+- add support for clicking the whole checkbox cell + the default behavior
+- updated all resources “plz republish”

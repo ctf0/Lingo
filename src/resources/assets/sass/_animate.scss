@@ -1,3 +1,24 @@
+$list: (slide-fade, comp-fade);
+
+@each $class in $list {
+    .#{$class}-enter-active,
+    .#{$class}-leave-active {
+        transition: all 0.4s;
+    }
+}
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+
+.comp-fade-enter,
+.comp-fade-leave-to {
+    transform: translateX(-30px);
+    opacity: 0;
+}
+
 .mm-animated {
     animation-duration: 600ms;
     animation-timing-function: cubic-bezier(1, 0, 0, 1);
