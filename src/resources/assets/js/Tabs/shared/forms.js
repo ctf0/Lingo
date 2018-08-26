@@ -106,7 +106,7 @@ export default {
                 this.newItemCounter = 0
                 this.selectedFileData = cloneDeep(formatData)
                 this.showNotif(data.message)
-                this.resetSearch()
+                // this.resetSearch()
 
             }).catch((err) => {
                 console.error(err)

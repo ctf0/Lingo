@@ -145,7 +145,7 @@
                             </td>
 
                             <!-- key -->
-                            <td v-tippy="{position : 'right', arrow: true, interactive: true}"
+                            <td v-tippy="{position: 'right', arrow: true, interactive: true}"
                                 :title="getTTC(getKey(item.name), item.locales)"
                                 :class="{'nestedKeys' : item.name && item.name.includes('.')}"
                                 :data-main-key="item.name"
@@ -310,16 +310,15 @@ export default{
         return this.$parent.$data
     },
     mounted() {
-        document.addEventListener('click', (e) => {
-            let item = e.target
-
-            if (item.classList.contains('c2c')) {
-                this.$copyText(item.innerHTML)
-            }
-        })
+        document.addEventListener('click', this.onClick)
+        document.addEventListener('keydown', this.onKeydown)
     },
     updated() {
         this.tableColumnResize()
+    },
+    beforeDestroy() {
+        document.removeEventListener('click', this.onClick)
+        document.removeEventListener('keydown', this.onKeydown)
     },
     computed: {
         filteredList() {
@@ -351,31 +350,10 @@ export default{
         }
     },
     methods: {
-        getTTC(key, val) {
-            let k = key
-
-            // place holders
-            let v = Object.values(val)[0]
-            let test = v.match(new RegExp(/:\w+/g))
-
-            if (test) {
-                let str = ', ['
-                test.forEach((e) => {
-                    str += `'${e.replace(':', '')}' => '', `
-                })
-                str += ']'
-                str = str.replace(', ]', '])')
-
-                k = k.replace(new RegExp(/[\)$]/g), str)
-                return `<span style="cursor: pointer" class="c2c">${k}</span>`
-            }
-
-            return `<span style="cursor: pointer" class="c2c">${k}</span>`
-        },
         showSection() {
             return this.dirs &&
                 this.dirs.length &&
-                this.selectedDir || this.files.length
+                (this.selectedDir || this.files.length)
         },
         hasDirs() {
             return this.dirs && this.dirs.length && this.selectedDir
@@ -570,7 +548,7 @@ export default{
                 })
             }
 
-            this.mergerName = ''
+            // this.mergerName = ''
             this.useReplace = false
             this.submitNewData()
             this.wrapAll()
@@ -583,6 +561,7 @@ export default{
             this.keysToBeMerged = this.keysList
         },
         toggleModal(val = false) {
+            // save changed data first
             if (val && this.dataChanged) {
                 return this.showNotif(this.trans('merge_warning'), 'warning')
             }
@@ -597,16 +576,13 @@ export default{
         newEntry() {
             this.dataChanged = true
         },
-        saveNewKey(e) {
-            let text = e.target.innerText = e.target.innerText.toLowerCase().replace(/\s/g, '_')
-            let old_key = e.target.dataset.mainKey
-            let new_key = text
-
-            this.newKeyOps(old_key, new_key)
-        },
-        newKeyOps(old_key, new_key) {
+        newKeyOps(old_key, new_key, item = null) {
             if (old_key !== new_key) {
                 this.newEntry()
+
+                if (item) {
+                    this.HLChanged(item)
+                }
 
                 if (this.newKeys) {
                     return this.newKeys[old_key] = new_key
@@ -615,15 +591,27 @@ export default{
                 this.newKeys = {[old_key]: new_key}
             }
         },
+        saveNewKey(e) {
+            let target = e.target
+
+            let text = target.innerText = target.innerText.toLowerCase().replace(/\s/g, '_')
+            let old_key = target.dataset.mainKey
+            let new_key = text
+
+            this.newKeyOps(old_key, new_key, target)
+        },
         saveNewValue(e) {
-            let code = e.target.dataset.code
-            let key = e.target.dataset.mainKey
-            let value = e.target.innerText = e.target.innerText.replace(/\n/g, '<br>')
+            let target = e.target
+
+            let code = target.dataset.code
+            let key = target.dataset.mainKey
+            let value = target.innerText = target.innerText.replace(/\n/g, '<br>')
             let fileData = this.selectedFileDataClone
 
             fileData.some((e, i) => {
                 if (e.name == key && e.locales[code] !== value) {
                     this.newEntry()
+                    this.HLChanged(target)
                     fileData[i].locales[code] = value
                 }
             })
@@ -635,6 +623,56 @@ export default{
         },
         scrollToBottom() {
             document.querySelector('.toDown').click()
+        },
+        getTTC(key, val) {
+            let k = key
+
+            // place holders
+            let v = Object.values(val)[0]
+            let test = v.match(new RegExp(/:\w+/g))
+
+            if (test) {
+                let str = ', ['
+                test.forEach((e) => {
+                    str += `'${e.replace(':', '')}' => '', `
+                })
+                str += ']'
+                str = str.replace(', ]', '])')
+
+                k = k.replace(new RegExp(/[)$]/g), str)
+                return `<span style="cursor: pointer" class="c2c">${k}</span>`
+            }
+
+            return `<span style="cursor: pointer" class="c2c">${k}</span>`
+        },
+        HLChanged(item) {
+            item.classList.remove('nestedKeys')
+            item.classList.add('changedKeys')
+        },
+
+        // events
+        onClick(e) {
+            let item = e.target
+
+            if (item.classList.contains('c2c')) {
+                this.$copyText(item.innerHTML)
+            }
+        },
+        onKeydown(e) {
+            let esc = e.keyCode == '27'
+
+            if (esc) {
+                if (this.showModal) {
+                    this.showModal = false
+                }
+
+                if (this.isFocused('search', e)) {
+                    this.resetSearch()
+                }
+            }
+        },
+        isFocused(item, e) {
+            return this.$refs[item].contains(e.target)
         },
 
         // parent
