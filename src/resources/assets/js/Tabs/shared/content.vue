@@ -6,7 +6,7 @@
             <div class="level">
                 <!-- add copied -->
                 <div class="level-left">
-                    <transition name="slide-fade">
+                    <transition name="lin-slide-fade">
                         <div v-if="selectedFile" class="level-item">
                             <button :disabled="!copiedItem" class="button" @click.prevent="addCopiedItem()">
                                 {{ trans('add_copied') }}
@@ -17,7 +17,7 @@
 
                 <!-- select file -->
                 <div class="level-right">
-                    <transition name="slide-fade">
+                    <transition name="lin-slide-fade">
                         <div v-if="showSection()" class="field is-grouped is-grouped-right">
                             <div class="control has-icons-left">
                                 <div class="select">
@@ -49,14 +49,14 @@
                 </div>
             </div>
 
-            <transition name="slide-fade">
+            <transition name="lin-slide-fade">
                 <div v-if="selectedFile && selectedFileDataClone" class="level is-mobile is-marginless m-t-40">
                     <!-- items count -->
                     <div class="level-left">
                         <div class="level-item">
                             <h4 class="title is-4">"{{ itemsCount }}" {{ trans('items') }}</h4>
                         </div>
-                        <transition name="slide-fade">
+                        <transition name="lin-slide-fade">
                             <div v-if="itemsCount" class="level-item">
                                 <scroll/>
                             </div>
@@ -92,7 +92,7 @@
         </section>
 
         <!-- data -->
-        <transition name="slide-fade">
+        <transition name="lin-slide-fade">
             <section v-if="selectedFile">
                 <!-- table -->
                 <table :style="THeadTop" class="table is-fullwidth is-hoverable is-bordered">
@@ -227,9 +227,9 @@
 
         <!-- modal -->
         <div :class="{'is-active': showModal}"
-             class="modal animated fadeIn">
+             class="modal lin-animated fadeIn">
             <div class="modal-background link" @click="toggleModal()"/>
-            <div class="modal-card animated fadeInDown">
+            <div class="modal-card lin-animated fadeInDown">
                 <header class="modal-card-head">
                     <p class="modal-card-title"><span>{{ trans('update') }}</span></p>
                     <button type="button" class="delete" @click="toggleModal()"/>
@@ -351,9 +351,13 @@ export default{
     },
     methods: {
         showSection() {
-            return this.dirs &&
-                this.dirs.length &&
-                (this.selectedDir || this.files.length)
+            if (this.dirs) {
+                return this.dirs &&
+                    this.dirs.length &&
+                    (this.selectedDir || this.files.length)
+            }
+
+            return this.files.length
         },
         hasDirs() {
             return this.dirs && this.dirs.length && this.selectedDir
@@ -570,6 +574,9 @@ export default{
         },
 
         // util
+        arryFilter(arr) {
+            return arr.filter((e) => e)
+        },
         clickOnCkBox(id) {
             document.querySelector(`#${id}`).click()
         },
@@ -628,19 +635,21 @@ export default{
             let k = key
 
             // place holders
-            let v = Object.values(val)[0]
-            let test = v.match(new RegExp(/:\w+/g))
+            let arr = this.arryFilter(Object.values(val))
+            if (arr.length) {
+                let test = arr[0].match(new RegExp(/:\w+/g))
 
-            if (test) {
-                let str = ', ['
-                test.forEach((e) => {
-                    str += `'${e.replace(':', '')}' => '', `
-                })
-                str += ']'
-                str = str.replace(', ]', '])')
+                if (test) {
+                    let str = ', ['
+                    test.forEach((e) => {
+                        str += `'${e.replace(':', '')}' => '', `
+                    })
+                    str += ']'
+                    str = str.replace(', ]', '])')
 
-                k = k.replace(new RegExp(/[)$]/g), str)
-                return `<span style="cursor: pointer" class="c2c">${k}</span>`
+                    k = k.replace(new RegExp(/[)$]/g), str)
+                    return `<span style="cursor: pointer" class="c2c">${k}</span>`
+                }
             }
 
             return `<span style="cursor: pointer" class="c2c">${k}</span>`
@@ -672,7 +681,7 @@ export default{
             }
         },
         isFocused(item, e) {
-            return this.$refs[item].contains(e.target)
+            return this.$refs[item] && this.$refs[item].contains(e.target)
         },
 
         // parent

@@ -38,17 +38,17 @@
                             'deleteLocaleRoute' => route('lingo.delete_locale'), 
                             'saveFileRoute' => route('lingo.save_file_data'), 
                             'downloadVendorRoute' => route('lingo.download_dir'), 
-                            'downloadFileRoute' => route('lingo.download_file'), 
+                            'downloadFileRoute' => route('lingo.download_file')
                         ]) }}>
                         <div>
 
-                            <transition-group tag="ul" name="comp-fade" mode="out-in">
+                            <transition-group tag="ul" name="lin-comp-fade" mode="out-in">
                                 {{-- add new vendor --}}
                                 <li :key="1" class="columns" v-if="activeTabIs('vendor-tab')">
                                     <div class="column is-3">
                                         <p class="title is-marginless">
                                             {{-- steps --}}
-                                            <transition name="slide-fade">
+                                            <transition name="lin-slide-fade">
                                                 <span v-if="newVendor() && !selectedDirName" class="title has-text-success">1.</span>
                                             </transition>
 
@@ -77,7 +77,7 @@
                                             </p>
                                         </div>
 
-                                        <transition name="slide-fade">
+                                        <transition name="lin-slide-fade">
                                             <p class="help is-danger" v-if="dirExist">{{ trans('Lingo::messages.already_exist') }}</p>
                                         </transition>
                                     </div>
@@ -88,7 +88,7 @@
                                     <div class="column is-3">
                                         <p class="title is-marginless">
                                             {{-- steps --}}
-                                            <transition name="slide-fade">
+                                            <transition name="lin-slide-fade">
                                                 <span v-if="newVendor() && localesList.length == 0" class="title has-text-success">2.</span>
                                             </transition>
 
@@ -117,7 +117,7 @@
                                             </p>
                                         </div>
 
-                                        <transition name="slide-fade">
+                                        <transition name="lin-slide-fade">
                                             <p class="help is-danger" v-if="localeExist">{{ trans('Lingo::messages.already_exist') }}</p>
                                         </transition>
                                     </div>
@@ -128,7 +128,7 @@
                                     <div class="column is-3">
                                         <p class="title is-marginless">
                                             {{-- steps --}}
-                                            <transition name="slide-fade">
+                                            <transition name="lin-slide-fade">
                                                 <span v-if="newVendor()" class="title has-text-success">3.</span>
                                             </transition>
 
@@ -157,7 +157,7 @@
                                             </p>
                                         </div>
 
-                                        <transition name="slide-fade">
+                                        <transition name="lin-slide-fade">
                                             <p class="help is-danger" v-if="fileExist">{{ trans('Lingo::messages.already_exist') }}</p>
                                         </transition>
                                     </div>
@@ -222,7 +222,7 @@
                             </div>
 
                             {{-- Tabs Toggle --}}
-                            <transition name="comp-fade" mode="out-in">
+                            <transition name="lin-comp-fade" mode="out-in">
                                 <keep-alive>
                                     <component :is="activeTab"
                                         dirs-route="{{ route('lingo.vendor_dirs') }}"

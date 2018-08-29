@@ -1,0 +1,28 @@
+$list: (lin-slide-fade, lin-comp-fade);
+
+@each $class in $list {
+    .#{$class}-move,
+    .#{$class}-enter-active,
+    .#{$class}-leave-active {
+        transition: all 0.4s;
+    }
+
+    .#{$class}-enter,
+    .#{$class}-leave-to {
+        opacity: 0;
+    }
+
+    .#{$class}-leave-active {
+        position: absolute;
+    }
+}
+
+.lin-slide-fade-enter,
+.lin-slide-fade-leave-to {
+    transform: translateX(10px);
+}
+
+.lin-comp-fade-enter,
+.lin-comp-fade-leave-to {
+    transform: translateX(-30px);
+}
