@@ -11,10 +11,6 @@ $list: (lin-slide-fade, lin-comp-fade);
     .#{$class}-leave-to {
         opacity: 0;
     }
-
-    .#{$class}-leave-active {
-        position: absolute;
-    }
 }
 
 .lin-slide-fade-enter,

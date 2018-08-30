@@ -129,8 +129,8 @@
                         </tr>
                     </thead>
 
-                    <tbody>
-                        <tr v-for="(item, i) in filteredList" :key="i">
+                    <transition-group tag="tbody" name="lin-slide-fade" mode="out-in">
+                        <tr v-for="(item, i) in filteredList" :key="item.name">
 
                             <!-- merge -->
                             <td style="text-align: center;" class="link" @click="clickOnCkBox(`item-${i}`)">
@@ -188,12 +188,12 @@
                         </tr>
 
                         <!-- nothing found -->
-                        <tr v-if="noData()">
+                        <tr v-if="noData()" key="noData">
                             <td :colspan="locales.length + 3" style="text-align: center">
                                 {{ trans('no_data') }}
                             </td>
                         </tr>
-                    </tbody>
+                    </transition-group>
                 </table>
 
                 <!-- ops -->

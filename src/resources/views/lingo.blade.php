@@ -42,15 +42,13 @@
                         ]) }}>
                         <div>
 
-                            <transition-group tag="ul" name="lin-comp-fade" mode="out-in">
-                                {{-- add new vendor --}}
-                                <li :key="1" class="columns" v-if="activeTabIs('vendor-tab')">
+                            {{-- add new vendor --}}
+                            <transition name="lin-comp-fade">
+                                <li class="columns" v-if="activeTabIs('vendor-tab')">
                                     <div class="column is-3">
                                         <p class="title is-marginless">
                                             {{-- steps --}}
-                                            <transition name="lin-slide-fade">
-                                                <span v-if="newVendor() && !selectedDirName" class="title has-text-success">1.</span>
-                                            </transition>
+                                            <span v-if="newVendor() && !selectedDirName" class="title has-text-success">1.</span>
 
                                             <span class="icon"><icon name="archive" scale="2"></icon></span>
                                             <span>{{ trans('Lingo::messages.new_vendor') }}</span>
@@ -82,15 +80,15 @@
                                         </transition>
                                     </div>
                                 </li>
+                            </transition>
 
-                                {{-- add new lang --}}
-                                <li :key="2" class="columns" v-if="localesList.length || newVendor()">
+                            {{-- add new lang --}}
+                            <transition name="lin-comp-fade">
+                                <li class="columns" v-if="localesList.length || newVendor()">
                                     <div class="column is-3">
                                         <p class="title is-marginless">
                                             {{-- steps --}}
-                                            <transition name="lin-slide-fade">
-                                                <span v-if="newVendor() && localesList.length == 0" class="title has-text-success">2.</span>
-                                            </transition>
+                                            <span v-if="newVendor() && localesList.length == 0" class="title has-text-success">2.</span>
 
                                             <span class="icon"><icon name="globe" scale="2"></icon></span>
                                             <span>{{ trans('Lingo::messages.new_locale') }}</span>
@@ -122,15 +120,15 @@
                                         </transition>
                                     </div>
                                 </li>
+                            </transition>
 
-                                {{-- add new file --}}
-                                <li :key="3" class="columns" v-if="filesList.length || newVendor()">
+                            {{-- add new file --}}
+                            <transition name="lin-comp-fade">
+                                <li class="columns" v-if="filesList.length || newVendor()">
                                     <div class="column is-3">
                                         <p class="title is-marginless">
                                             {{-- steps --}}
-                                            <transition name="lin-slide-fade">
-                                                <span v-if="newVendor()" class="title has-text-success">3.</span>
-                                            </transition>
+                                            <span v-if="newVendor()" class="title has-text-success">3.</span>
 
                                             <span class="icon"><icon name="file-o" scale="2"></icon></span>
                                             <span>{{ trans('Lingo::messages.new_file') }}</span>
@@ -162,7 +160,7 @@
                                         </transition>
                                     </div>
                                 </li>
-                            </transition-group>
+                            </transition>
 
                             {{-- utils --}}
                             <div class="level m-t-10">
@@ -176,9 +174,7 @@
                                                     <select v-model="selectedKeyFormat">
                                                         <option value="" disabled><span>{{ trans('Lingo::messages.key_format') }}</span></option>
                                                         <option value="clear">Non</option>
-                                                        <option v-for="(item, index) in copyKeyFormat" :key="index">
-                                                            @{{ item }}
-                                                        </option>
+                                                        <option v-for="(item, index) in copyKeyFormat" :key="index">@{{ item }}</option>
                                                     </select>
                                                 </div>
                                                 <div class="icon is-medium is-left has-text-black-ter">
