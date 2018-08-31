@@ -42,6 +42,15 @@ th,
 }
 
 // util
+.static-cell {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.full-width {
+    width: 100%;
+}
+
 .m-t-40 {
     margin-top: 40px;
 }

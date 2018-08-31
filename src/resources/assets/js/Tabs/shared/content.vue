@@ -98,7 +98,7 @@
                 <table :style="THeadTop" class="table is-fullwidth is-hoverable is-bordered">
                     <thead>
                         <tr class="is-unselectable">
-                            <th class="is-link" width="1%">
+                            <th class="is-link static-cell">
                                 <div class="field has-addons is-marginless">
                                     <div class="control">
                                         <button :disabled="mergerKeysCount < 2" class="button is-borderless" @click="toggleModal(true)">
@@ -116,7 +116,7 @@
                                     </div>
                                 </div>
                             </th>
-                            <th class="is-link link" width="1%" @click="sortBy('key')">{{ trans('key') }}</th>
+                            <th class="is-link link static-cell" @click="sortBy('key')">{{ trans('key') }}</th>
                             <th v-for="(l, i) in locales" :key="i" class="is-link link" @click="sortBy(l)">
                                 <div class="tags has-addons is-marginless">
                                     <span class="tag is-marginless link is-light is-medium">{{ l }}</span>
@@ -133,7 +133,7 @@
                         <tr v-for="(item, i) in filteredList" :key="item.name">
 
                             <!-- merge -->
-                            <td style="text-align: center;" class="link" @click="clickOnCkBox(`item-${i}`)">
+                            <td class="has-text-centered link" @click="clickOnCkBox(`item-${i}`)">
                                 <input :id="`item-${i}`"
                                        :value="item.name"
                                        v-model="keysToBeMerged"
@@ -149,7 +149,7 @@
                                 :title="getTTC(getKey(item.name), item.locales)"
                                 :class="{'nestedKeys' : item.name && item.name.includes('.')}"
                                 :data-main-key="item.name"
-                                nowrap
+                                class="static-cell"
                                 contenteditable
                                 dir="auto"
                                 @keydown.enter.prevent
@@ -169,7 +169,7 @@
                                 {{ codeV }}
                             </td>
 
-                            <td width="1%">
+                            <td class="static-cell">
                                 <!-- del -->
                                 <button v-tippy
                                         :title="trans('delete')"
@@ -189,7 +189,7 @@
 
                         <!-- nothing found -->
                         <tr v-if="noData()" key="noData">
-                            <td :colspan="locales.length + 3" style="text-align: center">
+                            <td :colspan="locales.length + 3" class="has-text-centered">
                                 {{ trans('no_data') }}
                             </td>
                         </tr>
@@ -249,7 +249,7 @@
                 </section>
 
                 <footer class="modal-card-foot">
-                    <div class="level" style="width: 100%">
+                    <div class="level full-width">
                         <div class="level-left">
                             <div class="level-item">
                                 <div class="form-switcher">
