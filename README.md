@@ -72,12 +72,13 @@ A file based translation manager, which unlike other Lang managers don't need a 
 - use localeStorage to remember opened "tab/vendor/files/copy-format".
 - support up to 3 levels deep on nested keys.
 - support all laravel translation key formats.
-- directly copy translation key along with placeholders through tool-tips.
-- show/hide different elements to avoid noise & keep the user focused.
+- directly copy translation key along with placeholders through tool-tips<br>
+  ex.`trans('Vendor::file.key', ['attr'=>''])`.
 - copy/paste items from one file to another.
 - merge/destruct multiple items.
 - highlight changed key/value.
 - download vendor/file.
+- show/hide different elements to avoid noise & keep the user focused.
 - shortcuts
 
     |             operation             | keyboard |
