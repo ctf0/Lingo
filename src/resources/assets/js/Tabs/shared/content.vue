@@ -664,7 +664,7 @@ export default{
             let item = e.target
 
             if (item.classList.contains('c2c')) {
-                this.$copyText(item.innerHTML)
+                this.$copyText(item.textContent)
             }
         },
         onKeydown(e) {
