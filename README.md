@@ -1,6 +1,8 @@
-# Lingo
-
-[![Latest Stable Version](https://img.shields.io/packagist/v/ctf0/lingo.svg)](https://packagist.org/packages/ctf0/lingo) [![Total Downloads](https://img.shields.io/packagist/dt/ctf0/lingo.svg)](https://packagist.org/packages/ctf0/lingo)
+<h1 align="center">
+    Lingo
+    <br>
+    <a href="https://packagist.org/packages/ctf0/lingo"><img src="https://img.shields.io/packagist/v/ctf0/lingo.svg" alt="Latest Stable Version" /></a> <a href="https://packagist.org/packages/ctf0/lingo"><img src="https://img.shields.io/packagist/dt/ctf0/lingo.svg" alt="Total Downloads" /></a>
+</h1>
 
 A file based translation manager, which unlike other Lang managers don't need a database connection to handle the translation.
 
