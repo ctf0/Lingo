@@ -50,8 +50,8 @@ import 'vue-awesome/icons/arrow-up'
 import 'vue-awesome/icons/arrow-down'
 import 'vue-awesome/icons/arrow-right'
 import 'vue-awesome/icons/download'
-Vue.component('icon', require('vue-awesome/components/Icon'))
+Vue.component('icon', require('vue-awesome/components/Icon').default)
 
 /*                Components                */
-Vue.component('Lingo', require('./Main/container'))
-Vue.component('MyNotification', require('vue-notif'))
+Vue.component('Lingo', require('./Main/container').default)
+Vue.component('MyNotification', require('vue-notif').default)
