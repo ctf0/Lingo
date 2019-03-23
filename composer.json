@@ -20,7 +20,7 @@
     ],
     "require": {
         "php" : "~7.0",
-        "illuminate/support": ">=5.4 <5.9",
+        "illuminate/support": "5.4 - 5.8",
         "themsaid/laravel-langman": "*",
         "maennchen/zipstream-php": "~1.0",
         "ctf0/package-changelog": "*"
