@@ -7,11 +7,15 @@ use Illuminate\Support\ServiceProvider;
 
 class LingoServiceProvider extends ServiceProvider
 {
+    protected $file;
+    
     /**
      * Perform post-registration booting of services.
      */
     public function boot()
     {
+        $this->file = $this->app['files'];
+        
         $this->packagePublish();
         $this->registerMacro();
         $this->command();
