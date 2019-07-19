@@ -28,7 +28,7 @@ A file based translation manager, which unlike other Lang managers don't need a 
 
     `php artisan vendor:publish --provider="ctf0\Lingo\LingoServiceProvider"`
 
-- after installation, run php artisan `lingo:setup` to add
+- after installation, run `php artisan lingo:setup` to add
     + package routes to `routes/web.php`
     + package assets compiling to `webpack.mix.js`
 
