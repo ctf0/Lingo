@@ -59,8 +59,7 @@ A file based translation manager, which unlike other Lang managers don't need a 
 
 > ### Upgrading to v1.4.x<br>
 > because code was refactored you'll need to republish the package files<br>
-> `php artisan vendor:publish --provider="ctf0\Lingo\LingoServiceProvider" --tag="assets" --force`<br>
-> `php artisan vendor:publish --provider="ctf0\Lingo\LingoServiceProvider" --tag="views" --force`
+> `php artisan vendor:publish --provider="ctf0\Lingo\LingoServiceProvider" --force`
 
 <br>
 
