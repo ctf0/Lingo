@@ -70,7 +70,7 @@ A file based translation manager, which unlike other Lang managers don't need a 
 - add/remove "vendor/locale/file/item".
 - show guiding steps while adding new vendor for better UX.
 - validate for "vendor/locale/file" existence on the fly.
-- use localeStorage to remember opened "tab/vendor/files/copy-format".
+- use localStorage to remember opened "tab/vendor/files/copy-format".
 - support up to 3 levels deep on nested keys.
 - support all laravel translation key formats.
 - directly copy translation key along with placeholders through tool-tips<br>
