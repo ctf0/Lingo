@@ -2,20 +2,21 @@
 
 namespace ctf0\Lingo;
 
+use Illuminate\Support\Arr;
 use ctf0\Lingo\Commands\PackageSetup;
 use Illuminate\Support\ServiceProvider;
 
 class LingoServiceProvider extends ServiceProvider
 {
     protected $file;
-    
+
     /**
      * Perform post-registration booting of services.
      */
     public function boot()
     {
         $this->file = $this->app['files'];
-        
+
         $this->packagePublish();
         $this->registerMacro();
         $this->command();
@@ -27,7 +28,7 @@ class LingoServiceProvider extends ServiceProvider
             $lastGroupStack = array_pop($this->groupStack);
 
             if ($lastGroupStack !== null) {
-                array_set($lastGroupStack, 'namespace', $namesapce);
+                Arr::set($lastGroupStack, 'namespace', $namesapce);
                 $this->groupStack[] = $lastGroupStack;
             }
 

@@ -3,6 +3,8 @@
 namespace ctf0\Lingo\Controllers;
 
 use ZipStream\ZipStream;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use ZipStream\Option\Archive;
 
 trait Ops
@@ -50,7 +52,7 @@ trait Ops
         $locales = [];
 
         foreach ($this->file->directories($dir) as $dir) {
-            if (!$vendor && str_contains($dir, 'vendor')) {
+            if (!$vendor && Str::contains($dir, 'vendor')) {
                 continue;
             }
 
@@ -70,7 +72,7 @@ trait Ops
      *
      * @param [type]     $file         [description]
      * @param [type]     $data         [description]
-     * @param null|mixed $package_name
+     * @param mixed|null $package_name
      *
      * @return [type] [description]
      */
@@ -111,7 +113,7 @@ trait Ops
             }
 
             // set value to last key
-            array_set($assoc, $key, $v);
+            Arr::set($assoc, $key, $v);
 
             // get root key
             $first_key = strtok($key, '.');
@@ -148,11 +150,11 @@ trait Ops
      */
     protected function zipAndDownload($file_name, $path, $vendor)
     {
-        $list =  collect($this->getLocales($path, $vendor))->map(function ($locale) use ($file_name, $path) {
+        $list = collect($this->getLocales($path, $vendor))->map(function ($locale) use ($file_name, $path) {
             return [
-                'locale'=> $locale,
-                'name'  => "$file_name",
-                'path'  => "$path/$locale/$file_name",
+                'locale' => $locale,
+                'name'   => "$file_name",
+                'path'   => "$path/$locale/$file_name",
             ];
         });
 
@@ -175,6 +177,7 @@ trait Ops
 
             foreach ($list as $file) {
                 $filePath = $file->getRealPath();
+
                 if (!is_dir($filePath)) {
                     $zip->addFileFromPath(substr($filePath, $length + 1), $filePath);
                 }
@@ -206,8 +209,8 @@ trait Ops
     protected function goodResponse($msg)
     {
         return response()->json([
-            'success'   => true,
-            'message'   => $msg,
+            'success' => true,
+            'message' => $msg,
         ]);
     }
 
