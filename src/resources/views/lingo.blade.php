@@ -28,16 +28,15 @@
                     <lingo inline-template v-cloak
                         :translations="{{ $lingo_trans }}"
                         :routes={{ json_encode([
-                            'scanForMissingRoute' => route('lingo.scan_for_missing'), 
-                            'addNewLocaleRoute' => route('lingo.add_new_locale'), 
-                            'addNewFileRoute' => route('lingo.add_new_file'), 
-                            'addNewVendorRoute' => route('lingo.add_new_vendor'), 
-                            'filesRoute' => route('lingo.get_files'), 
-                            'selectedFileDataRoute' => route('lingo.get_file_data'), 
-                            'deleteFileRoute' => route('lingo.delete_file'), 
-                            'deleteLocaleRoute' => route('lingo.delete_locale'), 
-                            'saveFileRoute' => route('lingo.save_file_data'), 
-                            'downloadVendorRoute' => route('lingo.download_dir'), 
+                            'addNewLocaleRoute' => route('lingo.add_new_locale'),
+                            'addNewFileRoute' => route('lingo.add_new_file'),
+                            'addNewVendorRoute' => route('lingo.add_new_vendor'),
+                            'filesRoute' => route('lingo.get_files'),
+                            'selectedFileDataRoute' => route('lingo.get_file_data'),
+                            'deleteFileRoute' => route('lingo.delete_file'),
+                            'deleteLocaleRoute' => route('lingo.delete_locale'),
+                            'saveFileRoute' => route('lingo.save_file_data'),
+                            'downloadVendorRoute' => route('lingo.download_dir'),
                             'downloadFileRoute' => route('lingo.download_file')
                         ]) }}>
                         <div>
@@ -180,18 +179,6 @@
                                                 <div class="icon is-medium is-left has-text-black-ter">
                                                     <icon name="keyboard-o"></icon>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {{-- scan for missing trans --}}
-                                    <div class="level-item">
-                                        <div class="field">
-                                            <div class="control">
-                                                <button @click="scanForMissing()" class="button is-link">
-                                                    <span class="icon"><icon name="qrcode"></icon></span>
-                                                    <span>{{ trans('Lingo::messages.scan') }}</span>
-                                                </button>
                                             </div>
                                         </div>
                                     </div>

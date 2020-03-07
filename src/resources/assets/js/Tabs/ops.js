@@ -12,7 +12,7 @@ export default {
             selectedFileData: '',
             selectedFileDataClone: '',
             dataChanged: false,
-            THeadTop: {'--tHead': 0},
+            THeadTop: { '--tHead': 0 },
 
             newKeys: '',
             newItemCounter: 0,
@@ -29,12 +29,6 @@ export default {
         'deleteVendorRoute'
     ],
     mounted() {
-        EventHub.listen('scan_complete', (data) => {
-            if (data.tab == this.getTabName() && this.selectedFile !== '') {
-                this.getFileContent()
-            }
-        })
-
         EventHub.listen('new_locale_added', (data) => {
             if (data.tab == this.getTabName()) {
                 this.getFileContent()
@@ -100,6 +94,7 @@ export default {
                                 this.selectedFile = ls.file
                             }
                             clearInterval(t)
+
                             return resolve()
                         }
                     }, 100)
@@ -121,13 +116,14 @@ export default {
             axios.post(this.routes.selectedFileDataRoute, {
                 'file_name': this.selectedFile || null,
                 'dir_name': this.selectedDir || null
-            }).then(({data}) => {
+            }).then(({ data }) => {
                 if (!data.success) {
                     return this.resetAll(['selectedFile', 'files'])
                 }
 
                 this.locales = data.message.locales
                 let all = data.message.all
+
                 if (all) {
                     this.selectedFileData = all
                     this.selectedFileDataClone = cloneDeep(all)

@@ -1,0 +1,3 @@
+- remove scan for missing keys which depend on `themsaid/laravel-langman` as its abondaned
+- update v-tippy to v2
+- update laravel to v7

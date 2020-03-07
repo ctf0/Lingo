@@ -1,15 +1,5 @@
 export default {
     methods: {
-        scanForMissing() {
-            axios.get(this.routes.scanForMissingRoute)
-                .then(({data}) => {
-                    this.showNotif(data.message, 'link', 5)
-                    EventHub.fire('scan_complete', {tab: this.activeTab})
-                }).catch((err) => {
-                    console.error(err)
-                    this.failedAjax()
-                })
-        },
         addNewLocale() {
             if (!this.new_locale) {
                 return this.missingVal()
@@ -19,7 +9,7 @@ export default {
                 axios.post(this.routes.addNewLocaleRoute, {
                     'file_name': this.new_locale,
                     'dir_name': this.vendorCheck() ? this.selectedDirName : null
-                }).then(({data}) => {
+                }).then(({ data }) => {
 
                     if (!data.success) {
                         return this.showNotif(data.message, 'danger')
@@ -27,7 +17,7 @@ export default {
 
                     this.showNotif(data.message)
                     this.resetAll(['new_locale'])
-                    EventHub.fire('new_locale_added', {tab: this.activeTab})
+                    EventHub.fire('new_locale_added', { tab: this.activeTab })
 
                 }).catch((err) => {
                     console.error(err)
@@ -50,7 +40,7 @@ export default {
                 axios.post(this.routes.addNewFileRoute, {
                     'file_name': file_name,
                     'dir_name': this.selectedDirName || null
-                }).then(({data}) => {
+                }).then(({ data }) => {
 
                     if (!data.success) {
                         return this.showNotif(data.message, 'danger')
@@ -80,7 +70,7 @@ export default {
 
                 axios.post(this.routes.addNewVendorRoute, {
                     'dir_name': vendor_name
-                }).then(({data}) => {
+                }).then(({ data }) => {
 
                     if (!data.success) {
                         return this.showNotif(data.message, 'danger')

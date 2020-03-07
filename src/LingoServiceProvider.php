@@ -103,7 +103,6 @@ class LingoServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register(\Themsaid\Langman\LangmanServiceProvider::class);
         $this->app->register(\ctf0\PackageChangeLog\PackageChangeLogServiceProvider::class);
     }
 }

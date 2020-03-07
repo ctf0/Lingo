@@ -3,10 +3,10 @@
 namespace ctf0\Lingo\Controllers;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Artisan;
 
 class LingoController extends Controller
 {
@@ -68,7 +68,7 @@ class LingoController extends Controller
         $all_dirs = '';
 
         foreach ($this->langDirs as $dir) {
-            if (ends_with($dir, 'vendor')) {
+            if (Str::endsWith($dir, 'vendor')) {
                 $all_dirs = $this->file->directories($dir);
 
                 break;
@@ -166,18 +166,6 @@ class LingoController extends Controller
     }
 
     /**
-     * [scanForMissing description].
-     *
-     * @return [type] [description]
-     */
-    public function scanForMissing()
-    {
-        Artisan::call('langman:sync');
-
-        return $this->goodResponse(Artisan::output());
-    }
-
-    /**
      * [addNewTrans description].
      *
      * @param Request $request [description]
@@ -219,7 +207,7 @@ class LingoController extends Controller
         $dirs      = $this->getLangDirs($dir_name);
 
         foreach ($dirs as $locale) {
-            if (!$dir_name && ends_with($locale, 'vendor')) {
+            if (!$dir_name && Str::endsWith($locale, 'vendor')) {
                 continue;
             }
 
@@ -272,7 +260,7 @@ class LingoController extends Controller
         $success   = true;
 
         foreach ($dirs as $locale) {
-            if (!$dir_name && ends_with($locale, 'vendor')) {
+            if (!$dir_name && Str::endsWith($locale, 'vendor')) {
                 continue;
             }
 

@@ -35,9 +35,7 @@ A file based translation manager, which unlike other Lang managers don't need a 
 - install dependencies
 
     ```bash
-    yarn add vue vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome@v2 axios fuse.js
-    # or
-    npm install vue vue-ls vue-notif vue-clipboard2 vue-tippy@v1 vue-awesome@v2 axios fuse.js --save
+    yarn add vue vue-ls vue-notif vue-clipboard2 vue-tippy@v2 vue-awesome@v2 axios fuse.js
     ```
 
 - add this one liner to your main js file and run `npm run watch` to compile your `js/css` files.
@@ -82,14 +80,15 @@ A file based translation manager, which unlike other Lang managers don't need a 
 - show/hide different elements to avoid noise & keep the user focused.
 - shortcuts
 
-    |             operation             | keyboard |
-    |-----------------------------------|----------|
-    | reset search ***"when focused"*** | esc      |
-    | hide modal                        | esc      |
+| operation                         | keyboard |
+|-----------------------------------|----------|
+| reset search ***"when focused"*** | esc      |
+| hide modal                        | esc      |
 
 <br>
 
 ## Usage
+
 > [Demo](https://github.com/ctf0/demos/tree/lingo)
 
 - visit `localhost:8000/lingo`

@@ -14,7 +14,6 @@ class LingoRoutes
 
             // main
             app('router')->get('/', 'LingoController@index')->name('index');
-            app('router')->get('scan-for-missing', 'LingoController@scanForMissing')->name('scan_for_missing');
 
             // get
             app('router')->get('vendor-dirs', 'LingoController@getVendorDirs')->name('vendor_dirs');

@@ -145,7 +145,7 @@
                             </td>
 
                             <!-- key -->
-                            <td v-tippy="{position: 'right', arrow: true, interactive: true}"
+                            <td v-tippy="{placement: 'right', arrow: true, interactive: true}"
                                 :title="getTTC(getKey(item.name), item.locales)"
                                 :class="{'nestedKeys' : item.name && item.name.includes('.')}"
                                 :data-main-key="item.name"
