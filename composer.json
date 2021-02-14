@@ -43,5 +43,11 @@
         "post-package-install": [
             "@php artisan vendor:publish --provider=\"ctf0\\Lingo\\LingoServiceProvider\""
         ]
-    }
+    },
+    "funding": [
+        {
+            "type": "patreon",
+            "url": "https://www.patreon.com/ctf0"
+        }
+    ]
 }
