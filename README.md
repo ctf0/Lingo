@@ -86,3 +86,9 @@ A file based translation manager, which unlike other Lang managers don't need a 
 > [Demo](https://github.com/ctf0/demos/tree/lingo)
 
 - visit `localhost:8000/lingo`
+
+<br>
+
+### Security
+
+If you discover any security-related issues, please email [ctf0-dev@protonmail.com](mailto:ctf0-dev@protonmail.com).
