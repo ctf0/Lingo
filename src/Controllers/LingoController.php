@@ -47,12 +47,15 @@ class LingoController extends Controller
             return $this->badResponse('NaN');
         }
 
-        $files = $this->file->files($def_dir);
+        $files = collect($this->file->files($def_dir));
+        $namespacedFiles = collect($this->file->directories($def_dir))
+            ->map(fn (string $dirPath) => $this->file->files($dirPath));
+        $files = $files->merge($namespacedFiles->collapse());
 
         $res = [];
 
         foreach ($files as $key) {
-            $res[] = substr($key, strrpos($key, '/') + 1);
+            $res[] = Str::remove("$def_dir/", $key);
         }
 
         return $this->goodResponse($res);
