@@ -2,6 +2,7 @@
 
 namespace ctf0\Lingo\Controllers;
 
+use Illuminate\Support\Collection;
 use ZipStream\ZipStream;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -101,40 +102,21 @@ trait Ops
         return true;
     }
 
-    protected function recSave($pre_format, $key, $code, $v)
+    private static function explodeTranlsationKey(string $nestedTranslationKey, string|null $value): array
     {
-        if (strpos($key, '.')) {
-            $assoc = [];
-            $exp   = explode('.', $key);
+        $doneSplitting = !Str::contains($nestedTranslationKey, '.');
 
-            // convert array dot to associative
-            while (!empty($exp)) {
-                $assoc = [array_pop($exp) => $assoc];
-            }
+        if ($doneSplitting) return [$nestedTranslationKey => $value];
 
-            // set value to last key
-            Arr::set($assoc, $key, $v);
+        $currentLevel = collect(explode('#', Str::replaceFirst('.', '#', $nestedTranslationKey)));
+        $collection = collect([$currentLevel[0] => self::explodeTranlsationKey($currentLevel[1], $value)]);
+        return $collection->toArray();
+    }
 
-            // get root key
-            $first_key = strtok($key, '.');
-
-            // hacky fix to avoid indexed nesting
-            $final = array_pop($assoc);
-            $a     = key($final);
-            $b     = current($final);
-
-            // 3rd level deep
-            if (is_array($b)) {
-                $c = key($b);
-                $d = current($b);
-
-                $pre_format[$code][$first_key][$a][$c] = $d;
-            } else {
-                $pre_format[$code][$first_key][$a] = $b;
-            }
-        } else {
-            $pre_format[$code][$key] = $v;
-        }
+    protected function recSave(array $pre_format, string $key, string $code, string|null $v)
+    {
+        $codeContent = collect($pre_format)->get($code, []);
+        $pre_format[$code] = collect($codeContent)->mergeRecursive(self::explodeTranlsationKey($key, $v))->toArray();
 
         return $pre_format;
     }
